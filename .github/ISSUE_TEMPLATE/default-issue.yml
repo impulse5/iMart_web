@@ -1,5 +1,6 @@
 name: Form para criação de uma nova issue de feature!
 description: Use este formulário para criar uma nova tarefa de forma mais simples. 🥳
+projects: ["impulse5/i-mart"]
 title: "🚀 Feature | "
 body:
   - type: markdown
