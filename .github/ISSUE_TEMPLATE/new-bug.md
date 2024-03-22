@@ -1,9 +1,9 @@
 ---
-name: Template Task
-about: Um template para facilitar a criação de Issues
-title: ''
+name: Nova Bug Issue! 🐞
+about: Um template para facilitar a criação de Issues de bug. 🤔
+title: '🐞 Bug | '
 labels: ''
-assignees: dev-Gois
+projects: ['impulse5/2']
 
 ---
 
