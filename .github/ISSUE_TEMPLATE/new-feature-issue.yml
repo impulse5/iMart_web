@@ -8,8 +8,20 @@ body:
       value: |
         Preencha o formulário abaixo para criar uma nova tarefa de feature! 🚀
   - type: input
-    id: contact
+    id: description
     attributes:
-      label: Descrição da feature
-      description: Descreva aqui sobre a descrição desta feature 🤔
+      label: Descrição
+      description: Descreva aqui sobre esta feature 🤔 *Coloque entre underlines
       placeholder: _Criar um novo botão..._
+      value: _Coloque entre underlines._
+    validations:
+      required: true
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependências
+      description: Quais são as dependências desta feature? 📦 Coloque da seguinte forma = - [ ] #numero da issue
+      value: "- [ ] #1"
+    validations:
+      required: false
+  
