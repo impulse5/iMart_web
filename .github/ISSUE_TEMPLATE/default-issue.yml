@@ -6,3 +6,9 @@ body:
     attributes:
       value: |
         Preencha o formulário abaixo para criar uma nova tarefa de feature! 🚀
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
