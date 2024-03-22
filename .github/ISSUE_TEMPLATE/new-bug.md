@@ -3,7 +3,6 @@ name: Nova Bug Issue! 🐞
 about: Um template para facilitar a criação de Issues de bug. 🤔
 title: '🐞 Bug | '
 labels: ''
-projects: ['impulse5/2']
 
 ---
 

@@ -3,7 +3,6 @@ name: Nova Feature Issue! 🚀
 about: Um template para facilitar a criação de Issues de feature. 🥳
 title: '🚀 Feature | '
 labels: ''
-projects: ['impulse5/2']
 
 ---
 
