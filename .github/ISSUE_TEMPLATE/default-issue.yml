@@ -1,22 +1,8 @@
 name: Form para criação de uma nova issue de feature!
 description: Use este formulário para criar uma nova tarefa de forma mais simples. 🥳
 title: "🚀 Feature | "
-body: 
-- type: markdown
-  attributes:
-    value: |
-      ## Descrição
-      Descreva a tarefa que você deseja realizar.
-
-      ## Critérios de aceitação
-      - [ ] Critério 1
-      - [ ] Critério 2
-      - [ ] Critério 3
-
-      ## Tarefas
-      - [ ] Tarefa 1
-      - [ ] Tarefa 2
-      - [ ] Tarefa 3
-
-      ## Observações
-      Adicione informações adicionais que você achar necessário.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Preencha o formulário abaixo para criar uma nova tarefa de feature! 🚀
