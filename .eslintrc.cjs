@@ -1,59 +1,38 @@
+// eslint-disable-next-line no-undef
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    jest: true,
-  },
   extends: [
+    // By extending from a plugin config, we can get recommended rules without having to add them manually.
+    'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'standard',
-    'plugin:prettier/recommended',
+    'plugin:import/recommended',
+    'plugin:jsx-a11y/recommended',
+    // This disables the formatting rules in ESLint that Prettier is going to be responsible for handling.
+    // Make sure it's always the last config, so it gets the chance to override other configs.
+    'eslint-config-prettier',
   ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    ecmaVersion: 'latest',
-    sourceType: 'module'
-  },
-  plugins: [
-    'react',
-    'jsx-a11y',
-  ],
-  rules: {
-    "react/self-closing-comp": "error",
-    'prettier/prettier': ["error", {
-      'printWidth': 80,
-      'tabWidth': 2,
-      'singleQuote': true,
-      'trailingComma': 'all',
-      'arrowParens': 'always',
-      'semi': false,
-      'endOfLine': 'auto',
-    }],
-    'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
-    'jsx-a11y/alt-text': [
-      'warn',
-      {
-        elements: ['img'],
-        img: ['Image'],
-      },
-    ],
-    'jsx-a11y/aria-props': 'warn',
-    'jsx-a11y/aria-proptypes': 'warn',
-    'jsx-a11y/aria-unsupported-elements': 'warn',
-    'jsx-a11y/role-has-required-aria-props': 'warn',
-    'jsx-a11y/role-supports-aria-props': 'warn',
-    'react/no-unknown-property': 'error',
-  },
   settings: {
     react: {
+      // Tells eslint-plugin-react to automatically detect the version of React to use.
       version: 'detect',
     },
+    // Tells eslint how to resolve imports
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
-  ignorePatterns: [
-    'node_modules'
-  ]
-}
+  "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "react/react-in-jsx-scope": "off"
+  }
+};
