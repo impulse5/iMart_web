@@ -1,10 +1,12 @@
-import { MainRoutes } from "./routes/router";
-import "./index.css";
-import { BrowserRouter as Routes } from "react-router-dom";
-export function App() {
+import { AppRoutes } from "./routes/app.routes";
+import { Routes } from "react-router";
+
+function App() {
   return (
     <Routes>
-      <MainRoutes />
+      <AppRoutes />
     </Routes>
-  );
+  )
 }
+
+export default App;
