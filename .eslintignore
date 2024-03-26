@@ -3,3 +3,5 @@ dist/
 .prettierrc.js
 .eslintrc.js
 env.d.ts
+*.test.*
+*.spec.*

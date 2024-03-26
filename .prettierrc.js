@@ -1,8 +1,9 @@
-module.exports = {
+export default {
   "trailingComma": "all",
   "tabWidth": 2,
   "semi": true,
   "singleQuote": true,
   "printWidth": 120,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "prettier.useTabs": true
 }
