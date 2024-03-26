@@ -3,9 +3,13 @@ import { Routes } from 'react-router';
 
 function App() {
   return (
-    <Routes>
-      <AppRoutes />
-    </Routes>
+    // <Routes>
+    //   <AppRoutes />
+    // </Routes>
+
+    <div>
+      <h1 className="text-success">Minha pagina</h1>
+    </div>
   );
 }
 
