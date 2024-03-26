@@ -23,16 +23,17 @@ module.exports = {
       },
     },
   },
-  "rules": {
-    "no-unused-vars": [
-      "error",
+  rules: {
+    'react/prop-types': 'off',
+    'no-unused-vars': [
+      'error',
       {
-        "vars": "all",
-        "args": "after-used",
-        "ignoreRestSiblings": true,
-        "argsIgnorePattern": "^_"
-      }
+        vars: 'all',
+        args: 'after-used',
+        ignoreRestSiblings: true,
+        argsIgnorePattern: '^_',
+      },
     ],
-    "react/react-in-jsx-scope": "off"
-  }
+    'react/react-in-jsx-scope': 'off',
+  },
 };
