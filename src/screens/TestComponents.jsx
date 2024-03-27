@@ -1,9 +1,9 @@
-import { ButtonComponent } from '../components/Button/index';
+import { Button } from '@/components/ui/button';
 
 export default function TestComponents() {
   return (
     <div>
-      <ButtonComponent />
+      <Button>Teste!</Button>
     </div>
   );
 }
