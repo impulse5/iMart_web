@@ -10,6 +10,8 @@ module.exports = {
     // Make sure it's always the last config, so it gets the chance to override other configs.
     'eslint-config-prettier',
     'eslint-import-resolver-node',
+    'react-app',
+    'react-app/jest',
   ],
   settings: {
     react: {
