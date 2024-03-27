@@ -1,4 +1,4 @@
-import { ButtonComponent } from '@/components/Button';
+import { ButtonComponent } from '../components/Button/index';
 
 export default function TestComponents() {
   return (
