@@ -1,5 +1,4 @@
-
-import { HeaderRegister } from '@/components/HeaderRegister';
+import { HeaderRegister } from '../components/HeaderRegister';
 import { Button } from '../components/ui/Button/button';
 import { useToast } from '../components/ui/Toast/use-toast';
 import { Toaster } from '../components/ui/Toast/toaster';
