@@ -1,4 +1,4 @@
-import { LogoBlack } from '@/assets/imart_logo_black';
+import { LogoBlack } from '../../assets/imart_logo_black';
 
 export const HeaderRegister = ({ height, width }) => {
   return (

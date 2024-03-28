@@ -3,6 +3,7 @@ export const LogoBlack = ({ width, height }) => {
     <svg
       width={width ? width : 150}
       height={height ? height : 55}
+      data-testid="logo-black"
       viewBox="0 0 552 206"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
