@@ -4,7 +4,7 @@ import { cn } from "../../../lib/utils"
 const Input = React.forwardRef(({ className, type, label, ...props }, ref) => {
   return (
     <div>
-      {label && <label className="font-semibold">{label}</label>}
+      {label && <label className="font-medium">{label}</label>}
       <input
         type={type}
         className={cn(
