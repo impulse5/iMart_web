@@ -1,3 +1,4 @@
+import { Input } from '../components/ui/Input/input';
 import { HeaderRegister } from '../components/HeaderRegister';
 import { Button } from '../components/ui/Button/button';
 import { useToast } from '../components/ui/Toast/use-toast';
@@ -19,6 +20,7 @@ export default function TestComponents() {
       <div>
         <Button onClick={handleClick}>Abrir notificação</Button>
         <HeaderRegister />
+        <Input placeholder="teste" type="password" label="Teste Label" />
       </div>
       <Toaster position="down-left" />
     </>
