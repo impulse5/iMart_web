@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button/button';
 import { HeaderRegister } from '@/components/HeaderRegister';
 
 export default function TestComponents() {
