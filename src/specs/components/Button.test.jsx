@@ -1,5 +1,5 @@
 import { fireEvent, getByText, render } from "@testing-library/react";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../components/ui/Button/button";
 
 test('render button correctly', () => {
     const { getByText } = render(<Button>Button</Button>)

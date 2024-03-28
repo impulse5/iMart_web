@@ -1,12 +1,28 @@
-import { Button } from '@/components/ui/button';
 import { Input } from '../components/ui/Input/input';
+import { HeaderRegister } from '../components/HeaderRegister';
+import { Button } from '../components/ui/Button/button';
+import { useToast } from '../components/ui/Toast/use-toast';
+import { Toaster } from '../components/ui/Toast/toaster';
 
 export default function TestComponents() {
-  return (
-    <div>
-      <Button>Teste!</Button>
+  const { toast } = useToast();
 
-      <Input placeholder="teste" type="password" label="Teste Label" />
-    </div>
+  const handleClick = () => {
+    toast({
+      title: 'Notificação',
+      description: 'Esta é uma notificação de teste',
+      duration: 1000,
+    });
+  };
+
+  return (
+    <>
+      <div>
+        <Button onClick={handleClick}>Abrir notificação</Button>
+        <HeaderRegister />
+        <Input placeholder="teste" type="password" label="Teste Label" />
+      </div>
+      <Toaster position="down-left" />
+    </>
   );
 }
