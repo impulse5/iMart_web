@@ -9,7 +9,7 @@ import {
 import { useToast } from "../Toast/use-toast"
 import { positionTranslate } from "./positionTranslate";
 
-export function Toaster({ position = "down-left"}) {
+export function Toaster({ position = "down-right"}) {
   const { toasts } = useToast()
 
   return (
