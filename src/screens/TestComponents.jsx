@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button/button';
-import { useToast } from '@/components/ui/Toast/use-toast';
-import { Toaster } from '@/components/ui/Toast/toaster';
+import { Button } from '../components/ui/Button/button';
+import { useToast } from '../components/ui/Toast/use-toast';
+import { Toaster } from '../components/ui/Toast/toaster';
 export default function TestComponents() {
   const { toast } = useToast();
 

@@ -5,8 +5,8 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/ui/Toast/toast"
-import { useToast } from "@/components/ui/Toast/use-toast"
+} from "../Toast/toast"
+import { useToast } from "../Toast/use-toast"
 import { positionTranslate } from "./positionTranslate";
 
 export function Toaster({ position = "down-left"}) {
@@ -28,7 +28,7 @@ export function Toaster({ position = "down-left"}) {
           </Toast>)
         );
       })}
-      <ToastViewport className={`${positionTranslate[position]}`} />
+      <ToastViewport className={`${positionTranslate[position]}`}  data-testid="toast-viewport" />
     </ToastProvider>)
   );
 }
