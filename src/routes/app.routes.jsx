@@ -7,7 +7,7 @@ export function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/test-components" element={<TestComponents />} />
-      <Route path="merchant-registration" element={<MerchantRegistration />} />
+      <Route path="/cadastre-se/dados-empresariais" element={<MerchantRegistration />} />
     </Routes>
   );
 }
