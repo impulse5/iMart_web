@@ -3,12 +3,20 @@ import { HeaderRegister } from '../../components/HeaderRegister';
 import { Button } from '../../components/ui/Button/button';
 import { SectionDescription } from '../../components/SectionDescription';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
+import { useNavigate } from 'react-router-dom';
 export function EnterpriseData() {
+  const navigate = useNavigate();
+
   const breadcrumbItems = [
     { text: 'Dados empresariais', current: true },
     { text: 'Endereço', current: false },
     { text: 'Acesso', current: false },
   ];
+
+  const handleNextStep = () => {
+    navigate('/cadastre-se/endereco');
+  };
+
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
       <div className="flex justify-center items-center ">
@@ -39,7 +47,9 @@ export function EnterpriseData() {
             <div className="mt-4 mb-1 text-nowrap">
               <Breadcrumb items={breadcrumbItems} />
             </div>
-            <Button className="w-full">Proxíma etapa</Button>
+            <Button onClick={handleNextStep} className="w-full">
+              Proxíma etapa
+            </Button>
             <p className="mt-2 text-nowrap text-sm">
               Sua empresa já foi cadastrada?{' '}
               <span className="font-bold cursor-pointer hover:text-tertiary text-sm">Faça login aqui!</span>
