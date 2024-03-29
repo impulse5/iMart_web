@@ -4,11 +4,22 @@ import { Input } from '../../components/ui/Input/input';
 import { Button } from '../../components/ui/Button/button';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+import { useEffect } from 'react';
 
 export function EnterpriseAddress() {
   const navigate = useNavigate();
+  const { successEnterpriseData, enterpriseAddress, setEnterpriseAddress, setSuccessEnterpriseAddress } =
+    useRegisterMarket();
+
+  useEffect(() => {
+    if (!successEnterpriseData) {
+      navigate('/cadastre-se/dados-empresariais');
+    }
+  }, [successEnterpriseData]);
 
   const handleNextStep = () => {
+    setSuccessEnterpriseAddress(true);
     navigate('/cadastre-se/acesso');
   };
 
@@ -34,29 +45,53 @@ export function EnterpriseAddress() {
           </div>
           <div className="flex flex-col mt-8 mx-16 gap-4">
             <div>
-              <Input type="text" placeholder="12 de fevereiro" label="Rua" />
+              <Input
+                type="text"
+                value={enterpriseAddress.street}
+                onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, street: e.target.value })}
+                placeholder="12 de fevereiro"
+                label="Rua"
+              />
             </div>
             <div>
-              <Input placeholder="Passaré" type="text" label="Bairro" />
+              <Input
+                placeholder="Passaré"
+                value={enterpriseAddress.neighborhood}
+                onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, neighborhood: e.target.value })}
+                type="text"
+                label="Bairro"
+              />
             </div>
           </div>
           <div className="flex justify-center mt-4">
             <div className="grid grid-cols-2 gap-16 w-screen mx-16">
               <div className="flex flex-col">
-                <Input type="number" placeholder="1547" label="Número" />
+                <Input
+                  type="number"
+                  placeholder="1547"
+                  value={enterpriseAddress.number}
+                  onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, number: e.target.value })}
+                  label="Número"
+                />
               </div>
               <div className="flex flex-col">
-                <Input type="number" placeholder="00000-000" label="CEP" />
+                <Input
+                  type="number"
+                  placeholder="00000-000"
+                  value={enterpriseAddress.zipcode}
+                  onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, zipcode: e.target.value })}
+                  label="CEP"
+                />
               </div>
             </div>
           </div>
 
           <div className="flex flex-col mt-6 mx-16 gap-4 ">
             <div>
-              <Input placeholder="Preencha o CEP para exibir a cidade" disabled />
+              <Input placeholder="Preencha o CEP para exibir a cidade" value={enterpriseAddress.city} disabled />
             </div>
             <div>
-              <Input placeholder="Preencha o CEP para exibir o estado" disabled />
+              <Input placeholder="Preencha o CEP para exibir o estado" value={enterpriseAddress.state} disabled />
             </div>
           </div>
           <div className="my-10 mx-16 flex flex-col items-center">
