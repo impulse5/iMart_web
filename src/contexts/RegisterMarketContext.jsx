@@ -6,7 +6,7 @@ export const RegisterMarketProvider = ({ children }) => {
   const [enterpriseData, setEnterpriseData] = useState({
     name: '',
     cnpj: '',
-    phone: '',
+    cellphone: '',
   });
 
   const [enterpriseAddress, setEnterpriseAddress] = useState({
@@ -22,6 +22,7 @@ export const RegisterMarketProvider = ({ children }) => {
     name: '',
     email: '',
     password: '',
+    password_confirmation: '',
   });
 
   const [successEnterpriseData, setSuccessEnterpriseData] = useState(false);
