@@ -1,16 +1,16 @@
 import { Input } from '../components/ui/Input/input';
 import { HeaderRegister } from '../components/HeaderRegister';
 import { Button } from '../components/ui/Button/button';
-
+import { SectionDescription } from '../components/SectionDescription';
 export function MerchantRegistration() {
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
       <div className="flex justify-center items-center ">
         <div className="w-[26rem]">
-          {/* <SectionDescription
+          <SectionDescription
             title="Dados Empresariais"
             subTitle="Que tal facilitar o seu gerenciamento de mercado e ainda alavancar suas vendas? Vem com a iMart! 🤩"
-          /> */}
+          />
         </div>
       </div>
       <div>
