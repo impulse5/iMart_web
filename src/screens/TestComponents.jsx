@@ -9,13 +9,31 @@ import { SectionDescription } from '../components/SectionDescription';
 export default function TestComponents() {
   const { toast } = useToast();
 
-  const handleClick = () => {
+  const handleClickInfo = () => {
     toast({
+      title: 'Sua admissão está sendo analisada!',
+      description: 'Estamos preparando tudo para sua chegada no iMart. 🥳 ',
+      duration: 1000,
+    });
+  };
+
+  const handleClickSuccess = () => {
+    toast({
+      variant: 'success',
+      title: 'Sua admissão está sendo analisada!',
+      description: 'Estamos preparando tudo para sua chegada no iMart. 🥳 ',
+      duration: 1000,
+    });
+  };
+  const handleClickError = () => {
+    toast({
+      variant: 'error',
       title: 'Notificação',
       description: 'Esta é uma notificação de teste',
       duration: 1000,
     });
   };
+
   const breadcrumbItems = [
     { text: 'Dados empresarias', link: '/', current: false },
     { text: 'Endereço', link: '/test-components', current: false },
@@ -25,7 +43,9 @@ export default function TestComponents() {
   return (
     <>
       <div className="bg-neutral-700">
-        <Button onClick={handleClick}>Abrir notificação</Button>
+        <Button onClick={handleClickInfo}>Abrir notificação info</Button>
+        <Button onClick={handleClickSuccess}>Abrir notificação sucesso</Button>
+        <Button onClick={handleClickError}>Abrir notificação error</Button>
         <HeaderRegister />
         <Input placeholder="teste" type="password" label="Teste Label" />
         <Breadcrumb items={breadcrumbItems} />
