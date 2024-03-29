@@ -4,8 +4,12 @@ import { Button } from '../../components/ui/Button/button';
 import { SectionDescription } from '../../components/SectionDescription';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+
 export function EnterpriseData() {
   const navigate = useNavigate();
+
+  const { enterpriseData, setEnterpriseData, setSuccessEnterpriseData } = useRegisterMarket();
 
   const breadcrumbItems = [
     { text: 'Dados empresariais', current: true },
@@ -14,6 +18,7 @@ export function EnterpriseData() {
   ];
 
   const handleNextStep = () => {
+    setSuccessEnterpriseData(true);
     navigate('/cadastre-se/endereco');
   };
 
@@ -34,13 +39,31 @@ export function EnterpriseData() {
           </div>
           <div className="flex flex-col mt-20 mx-16 gap-4">
             <div>
-              <Input type="text" placeholder="Supermercado iMart LTDA" label="Nome da empresa" />
+              <Input
+                value={enterpriseData.name}
+                onChange={(e) => setEnterpriseData({ ...enterpriseData, name: e.target.value })}
+                type="text"
+                placeholder="Supermercado iMart LTDA"
+                label="Nome da empresa"
+              />
             </div>
             <div>
-              <Input placeholder="00.000.000/0000-00" type="text" label="CNPJ" />
+              <Input
+                value={enterpriseData.cnpj}
+                onChange={(e) => setEnterpriseData({ ...enterpriseData, cnpj: e.target.value })}
+                placeholder="00.000.000/0000-00"
+                type="text"
+                label="CNPJ"
+              />
             </div>
             <div>
-              <Input placeholder="+55 99 99999-9999" type="tel" label="Telefone" />
+              <Input
+                value={enterpriseData.cellphone}
+                onChange={(e) => setEnterpriseData({ ...enterpriseData, cellphone: e.target.value })}
+                placeholder="+55 99 99999-9999"
+                type="tel"
+                label="Telefone"
+              />
             </div>
           </div>
           <div className="my-16 mx-16 flex flex-col items-center">

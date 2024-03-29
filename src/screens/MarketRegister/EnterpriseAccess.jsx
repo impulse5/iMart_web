@@ -8,7 +8,8 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function EnterpriseAccess() {
-  const { successEnterpriseData, successEnterpriseAddress } = useRegisterMarket();
+  const { successEnterpriseData, successEnterpriseAddress, enterpriseAccess, setEnterpriseAccess } =
+    useRegisterMarket();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,16 +40,40 @@ export function EnterpriseAccess() {
           </div>
           <div className="flex flex-col mt-10 mx-16 gap-4">
             <div>
-              <Input type="text" placeholder="Jonh Doe" label="Nome" />
+              <Input
+                type="text"
+                placeholder="Jonh Doe"
+                value={enterpriseAccess.name}
+                onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, name: e.target.value })}
+                label="Nome"
+              />
             </div>
             <div>
-              <Input placeholder="seu@email.com" type="email" label="Email" />
+              <Input
+                placeholder="seu@email.com"
+                type="email"
+                value={enterpriseAccess.email}
+                onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, email: e.target.value })}
+                label="Email"
+              />
             </div>
             <div>
-              <Input placeholder="*********" type="password" label="Senha" />
+              <Input
+                placeholder="*********"
+                type="password"
+                value={enterpriseAccess.password}
+                onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, password: e.target.value })}
+                label="Senha"
+              />
             </div>
             <div>
-              <Input placeholder="*********" type="password" label="Confirme sua senha" />
+              <Input
+                placeholder="*********"
+                type="password"
+                value={enterpriseAccess.password_confirmation}
+                onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, password_confirmation: e.target.value })}
+                label="Confirme sua senha"
+              />
             </div>
           </div>
           <div className="my-10 mx-16 flex flex-col items-center">
