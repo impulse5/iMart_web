@@ -2,7 +2,13 @@ import { Input } from '../components/ui/Input/input';
 import { HeaderRegister } from '../components/HeaderRegister';
 import { Button } from '../components/ui/Button/button';
 import { SectionDescription } from '../components/SectionDescription';
+import { Breadcrumb } from '../components/ui/Breadcrumb/breadcrumb';
 export function MerchantRegistration() {
+  const breadcrumbItems = [
+    { text: 'Dados empresarias', link: '/cadastre-se/dados-empresariais', current: true },
+    { text: 'Endereço', link: '/test-components', current: false },
+    { text: 'Acesso', link: '/acesso', current: false },
+  ];
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
       <div className="flex justify-center items-center ">
@@ -30,15 +36,10 @@ export function MerchantRegistration() {
             </div>
           </div>
           <div className="my-16 mx-16 flex flex-col items-center">
-            {/* Component Breadcrumb */}
             <div className="mt-4 mb-1 text-nowrap">
-              <span className="font-bold">Dados Empresariais</span>
-              {' > '}
-              <span className="font-semibold">Endereço</span> {' > '}
-              <span className="font-semibold">Acesso</span>
+              <Breadcrumb items={breadcrumbItems} />
             </div>
             <Button className="w-full">Proxíma etapa</Button>
-
             <p className="mt-2 text-nowrap text-sm">
               Sua empresa já foi cadastrada?{' '}
               <span className="font-bold cursor-pointer hover:text-tertiary text-sm">Faça login aqui!</span>
