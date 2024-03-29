@@ -1,13 +1,13 @@
-import { Input } from '../components/ui/Input/input';
-import { HeaderRegister } from '../components/HeaderRegister';
-import { Button } from '../components/ui/Button/button';
-import { SectionDescription } from '../components/SectionDescription';
-import { Breadcrumb } from '../components/ui/Breadcrumb/breadcrumb';
-export function MerchantRegistration() {
+import { Input } from '../../components/ui/Input/input';
+import { HeaderRegister } from '../../components/HeaderRegister';
+import { Button } from '../../components/ui/Button/button';
+import { SectionDescription } from '../../components/SectionDescription';
+import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
+export function EnterpriseData() {
   const breadcrumbItems = [
-    { text: 'Dados empresarias', link: '/cadastre-se/dados-empresariais', current: true },
-    { text: 'Endereço', link: '/test-components', current: false },
-    { text: 'Acesso', link: '/acesso', current: false },
+    { text: 'Dados empresariais', current: true },
+    { text: 'Endereço', current: false },
+    { text: 'Acesso', current: false },
   ];
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
