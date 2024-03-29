@@ -3,7 +3,15 @@ import { HeaderRegister } from '../../components/HeaderRegister';
 import { Input } from '../../components/ui/Input/input';
 import { Button } from '../../components/ui/Button/button';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
+import { useNavigate } from 'react-router-dom';
+
 export function EnterpriseAddress() {
+  const navigate = useNavigate();
+
+  const handleNextStep = () => {
+    navigate('/cadastre-se/acesso');
+  };
+
   const breadcrumbItems = [
     { text: 'Dados empresariais', link: '/cadastre-se/dados-empresariais', current: false },
     { text: 'Endereço', current: true },
@@ -55,7 +63,9 @@ export function EnterpriseAddress() {
             <div className="mt-4 mb-1 text-nowrap">
               <Breadcrumb items={breadcrumbItems} />
             </div>
-            <Button className="w-full">Proxíma etapa</Button>
+            <Button className="w-full" onClick={handleNextStep}>
+              Proxíma etapa
+            </Button>
             <p className="mt-2 text-nowrap text-sm">
               Sua empresa já foi cadastrada?{' '}
               <span className="font-bold cursor-pointer hover:text-tertiary text-sm">Faça login aqui!</span>
