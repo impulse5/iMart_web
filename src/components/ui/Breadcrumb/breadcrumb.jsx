@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
-import { useLocation } from "react-router-dom"
 import { cn } from "../../../lib/utils"
 
 const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
@@ -12,7 +11,6 @@ const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
 Breadcrumb.displayName = "Breadcrumb"
 
 const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) => {
-  const location = useLocation();
 
   return (
     <ol
@@ -29,7 +27,7 @@ const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) =>
             <BreadcrumbLink
               href={item.link}
               className={cn("transition-colors hover:text-foreground", {
-                "font-bold ": location.pathname === item.link
+                "font-bold": item.current,
               })}
             >
               {item.text}
