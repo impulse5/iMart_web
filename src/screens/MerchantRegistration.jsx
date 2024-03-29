@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button/button';
 
 export function MerchantRegistration() {
   return (
-    <main className="bg-primary grid grid-cols-custom w-full h-screen">
+    <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
       <div className="flex justify-center items-center ">
         <div className="w-[26rem]">
           {/* <SectionDescription
@@ -18,7 +18,7 @@ export function MerchantRegistration() {
           <div className="flex items-center flex-col">
             <HeaderRegister subTitle="Gerencie de forma inteligente o seu mercado com a gente!" />
           </div>
-          <div className="flex flex-col mt-12 mx-16 gap-4">
+          <div className="flex flex-col mt-20 mx-16 gap-4">
             <div>
               <Input type="text" placeholder="Supermercado iMart LTDA" label="Nome da empresa" />
             </div>
@@ -29,7 +29,7 @@ export function MerchantRegistration() {
               <Input placeholder="+55 99 99999-9999" type="tel" label="Telefone" />
             </div>
           </div>
-          <div className="my-14 mx-16 flex flex-col items-center">
+          <div className="my-16 mx-16 flex flex-col items-center">
             {/* Component Breadcrumb */}
             <div className="mt-4 mb-1 text-nowrap">
               <span className="font-bold">Dados Empresariais</span>
