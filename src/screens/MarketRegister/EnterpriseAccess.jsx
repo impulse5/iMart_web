@@ -3,7 +3,20 @@ import { HeaderRegister } from '../../components/HeaderRegister';
 import { Button } from '../../components/ui/Button/button';
 import { SectionDescription } from '../../components/SectionDescription';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
+import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 export function EnterpriseAccess() {
+  const { successEnterpriseData, successEnterpriseAddress } = useRegisterMarket();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!successEnterpriseData || !successEnterpriseAddress) {
+      navigate('/cadastre-se/dados-empresariais');
+    }
+  }, [successEnterpriseData, successEnterpriseAddress]);
+
   const breadcrumbItems = [
     { text: 'Dados empresariais', link: '/cadastre-se/dados-empresariais', current: false },
     { text: 'Endereço', link: '/cadastre-se/endereco', current: false },

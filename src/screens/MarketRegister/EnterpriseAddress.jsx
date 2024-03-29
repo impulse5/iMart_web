@@ -4,9 +4,18 @@ import { Input } from '../../components/ui/Input/input';
 import { Button } from '../../components/ui/Button/button';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
 import { useNavigate } from 'react-router-dom';
+import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+import { useEffect } from 'react';
 
 export function EnterpriseAddress() {
   const navigate = useNavigate();
+  const { successEnterpriseData } = useRegisterMarket();
+
+  useEffect(() => {
+    if (!successEnterpriseData) {
+      navigate('/cadastre-se/dados-empresariais');
+    }
+  }, [successEnterpriseData]);
 
   const handleNextStep = () => {
     navigate('/cadastre-se/acesso');
