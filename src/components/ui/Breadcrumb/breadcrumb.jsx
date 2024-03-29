@@ -4,19 +4,31 @@ import { ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "../../../lib/utils"
 
-const Breadcrumb = React.forwardRef(
-  ({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />
-)
+const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
+  <nav ref={ref} aria-label="breadcrumb" {...props}>
+    <BreadcrumbList items={items} />
+  </nav>
+))
 Breadcrumb.displayName = "Breadcrumb"
 
-const BreadcrumbList = React.forwardRef(({ className, ...props }, ref) => (
+const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) => (
   <ol
     ref={ref}
     className={cn(
       "flex flex-wrap items-center font-medium text-primary  gap-1.5 break-words text-sm sm:gap-2.5",
       className
     )}
-    {...props} />
+    {...props} >
+      {items.map((item, index) => (
+      <React.Fragment key={index}>
+        <BreadcrumbItem current={item.current}>
+          <BreadcrumbLink href={item.link}>{item.text}</BreadcrumbLink>
+        </BreadcrumbItem>
+        {index < items.length - 1 && <BreadcrumbSeparator />}
+      </React.Fragment>
+    ))}
+  </ol>
+    
 ))
 BreadcrumbList.displayName = "BreadcrumbList"
 
