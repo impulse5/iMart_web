@@ -17,7 +17,7 @@ export default function TestComponents() {
   };
   const breadcrumbItems = [
     { text: 'Dados empresarias', link: '/', current: false },
-    { text: 'Endereço', link: '/endereco', current: false },
+    { text: 'Endereço', link: '/test-components', current: false },
     { text: 'Acesso', link: '/acesso', current: true },
   ];
 

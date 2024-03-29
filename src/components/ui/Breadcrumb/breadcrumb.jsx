@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
-
+import { useLocation } from "react-router-dom"
 import { cn } from "../../../lib/utils"
 
 const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
@@ -11,25 +11,36 @@ const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
 ))
 Breadcrumb.displayName = "Breadcrumb"
 
-const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) => (
-  <ol
-    ref={ref}
-    className={cn(
-      "flex flex-wrap items-center font-medium text-primary  gap-1.5 break-words text-sm sm:gap-2.5",
-      className
-    )}
-    {...props} >
+const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) => {
+  const location = useLocation();
+
+  return (
+    <ol
+      ref={ref}
+      className={cn(
+        "flex flex-wrap items-center font-normal text-primary gap-1.5 break-words text-sm sm:gap-2.5",
+        className
+      )}
+      {...props}
+    >
       {items.map((item, index) => (
-      <React.Fragment key={index}>
-        <BreadcrumbItem current={item.current}>
-          <BreadcrumbLink href={item.link}>{item.text}</BreadcrumbLink>
-        </BreadcrumbItem>
-        {index < items.length - 1 && <BreadcrumbSeparator />}
-      </React.Fragment>
-    ))}
-  </ol>
-    
-))
+        <React.Fragment key={index}>
+          <BreadcrumbItem current={item.current}>
+            <BreadcrumbLink
+              href={item.link}
+              className={cn("transition-colors hover:text-foreground", {
+                "font-bold ": location.pathname === item.link
+              })}
+            >
+              {item.text}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          {index < items.length - 1 && <BreadcrumbSeparator />}
+        </React.Fragment>
+      ))}
+    </ol>
+  );
+})
 BreadcrumbList.displayName = "BreadcrumbList"
 
 const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => (
