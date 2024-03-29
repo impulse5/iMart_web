@@ -52,7 +52,7 @@ export function EnterpriseData() {
             </Button>
             <p className="mt-2 text-nowrap text-sm">
               Sua empresa já foi cadastrada?{' '}
-              <span className="font-bold cursor-pointer hover:text-tertiary text-sm">Faça login aqui!</span>
+              <span className="font-bold cursor-pointer hover:text-tertiary text-sm underline">Faça login aqui!</span>
             </p>
           </div>
         </form>
