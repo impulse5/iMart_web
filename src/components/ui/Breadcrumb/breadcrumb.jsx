@@ -2,6 +2,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
 import { cn } from "../../../lib/utils"
+import { Link } from "react-router-dom"
 
 const Breadcrumb = React.forwardRef(({ items, ...props }, ref) => (
   <nav ref={ref} aria-label="breadcrumb" {...props}>
@@ -23,14 +24,13 @@ const BreadcrumbList = React.forwardRef(({ items, className, ...props }, ref) =>
     >
       {items.map((item, index) => (
         <React.Fragment key={index}>
-          <BreadcrumbItem current={item.current}>
+          <BreadcrumbItem  current={item.current}>
             <BreadcrumbLink
-              href={item.link}
               className={cn("transition-colors hover:text-foreground", {
                 "font-bold": item.current,
               })}
             >
-              {item.text}
+              {item.link ? <Link to={item.link}>{item.text}</Link> : item.text} 
             </BreadcrumbLink>
           </BreadcrumbItem>
           {index < items.length - 1 && <BreadcrumbSeparator />}
