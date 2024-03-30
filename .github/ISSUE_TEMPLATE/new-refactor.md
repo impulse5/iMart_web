@@ -1,7 +1,7 @@
 ---
-name: Nova Bug Issue! 🐞
-about: Um template para facilitar a criação de Issues de bug. 🤔
-title: '🐞 Bug | '
+name: Nova Issue de Refactor! 🛠️
+about: Um template para facilitar a criação de Issues de Refactor. 🛠️
+title: '🛠️ Refactor | '
 labels: ''
 
 ---
