@@ -4,10 +4,10 @@ import { Button } from '../../components/ui/Button/button';
 import { SectionDescription } from '../../components/SectionDescription';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+import { useRegisterMarket } from '../../contexts/RegisterMarketContext';
+import { useToast } from '../../components/ui/Toast/use-toast';
+import { Toaster } from '../../components/ui/Toast/toaster';
 import { z } from 'zod';
-import { useToast } from '@/components/ui/Toast/use-toast';
-import { Toaster } from '@/components/ui/Toast/toaster';
 
 const EnterpriseDataSchema = z.object({
   name: z
@@ -41,7 +41,7 @@ export function EnterpriseData() {
     e.preventDefault();
     const requiredFields = ['cellphone', 'cnpj', 'name'];
     const emptyFields = requiredFields.filter((field) => !enterpriseData[field]);
-    
+
     if (emptyFields.length > 0) {
       toast({
         variant: 'error',
@@ -90,7 +90,6 @@ export function EnterpriseData() {
         });
       });
     }
-    
   };
 
   return (
@@ -111,6 +110,7 @@ export function EnterpriseData() {
           <div className="flex flex-col mt-20 mx-16 gap-4">
             <div>
               <Input
+                id="Nome da empresa"
                 name="name"
                 value={enterpriseData.name}
                 onChange={(e) => setEnterpriseData({ ...enterpriseData, name: e.target.value })}
@@ -121,6 +121,7 @@ export function EnterpriseData() {
             </div>
             <div>
               <Input
+                id="CNPJ"
                 name="cnpj"
                 value={enterpriseData.cnpj}
                 onChange={(e) => setEnterpriseData({ ...enterpriseData, cnpj: e.target.value })}
@@ -131,6 +132,7 @@ export function EnterpriseData() {
             </div>
             <div>
               <Input
+                id="Telefone"
                 name="cellphone"
                 value={enterpriseData.cellphone}
                 onChange={(e) => setEnterpriseData({ ...enterpriseData, cellphone: e.target.value })}
