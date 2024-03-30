@@ -136,7 +136,7 @@ export function EnterpriseData() {
                 name="cellphone"
                 value={enterpriseData.cellphone}
                 onChange={(e) => setEnterpriseData({ ...enterpriseData, cellphone: e.target.value })}
-                placeholder="+55 99 99999-9999"
+                placeholder="99 99999-9999"
                 type="tel"
                 label="Telefone"
               />
