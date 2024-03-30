@@ -7,7 +7,7 @@ labels: ''
 ---
 
 # Titulo
-_Descrição_
+_Dado que..._
 
 ### Dependências:
 - [ ] Exemplo ( referencie uma issue com o "#")
@@ -16,6 +16,6 @@ _Descrição_
 
 > Coloque uma imagem aqui se necessário! 
 
-**Critérios de Aceitação:**
+**Orientações:**
 - Critério 1
   - Subcritério
