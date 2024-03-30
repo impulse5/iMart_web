@@ -16,7 +16,7 @@ const EnterpriseDataSchema = z.object({
   cnpj: z.string().regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, {
     message: ' O CNPJ cadastrado é invalido!',
   }),
-  cellphone: z.string().regex(/^\+\d{2} \d{2} \d{5}(?:-?\d{4})?$/, { message: ' O telefone é inválido.' }),
+  cellphone: z.string().regex(/^\d{2} \d{5}(?:-?\d{4})?$/, { message: ' O telefone é inválido.' }),
 });
 
 export function EnterpriseData() {
