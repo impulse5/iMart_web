@@ -170,8 +170,15 @@ export function EnterpriseAddress() {
                   type="text"
                   placeholder="00000-000"
                   value={enterpriseAddress.zipcode}
-                  onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, zipcode: e.target.value })}
+                  onChange={(e) => {
+                    let formattedCep = e.target.value.replace(/\D/g, '');
+                    if (formattedCep.length >= 5 && formattedCep.length <= 9) {
+                      formattedCep = `${formattedCep.substr(0, 5)}-${formattedCep.substr(5)}`;
+                    }
+                    setEnterpriseAddress({ ...enterpriseAddress, zipcode: formattedCep });
+                  }}
                   label="CEP"
+                  maxLength={9}
                 />
               </div>
             </div>
@@ -179,10 +186,20 @@ export function EnterpriseAddress() {
 
           <div className="flex flex-col mt-6 mx-16 gap-4 ">
             <div>
-              <Input placeholder="Preencha o CEP para exibir a cidade" value={enterpriseAddress.city} disabled />
+              <Input
+                placeholder="Preencha o CEP para exibir a cidade"
+                value={enterpriseAddress.city}
+                className="pointer-events-none"
+                disabled={enterpriseAddress.city == ''}
+              />
             </div>
             <div>
-              <Input placeholder="Preencha o CEP para exibir o estado" value={enterpriseAddress.state} disabled />
+              <Input
+                placeholder="Preencha o CEP para exibir o estado"
+                value={enterpriseAddress.state}
+                className="pointer-events-none"
+                disabled={enterpriseAddress.city == ''}
+              />
             </div>
           </div>
           <div className="my-10 mx-16 flex flex-col items-center">
