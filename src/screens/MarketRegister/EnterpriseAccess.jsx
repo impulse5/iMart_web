@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Toaster } from '../../components/ui/Toast/toaster';
 import { useToast } from '../../components/ui/Toast/use-toast';
 import { z } from 'zod';
+import { Loader2 } from 'lucide-react';
 
 const EnterpriseAccessSchema = z.object({
   name: z
@@ -25,8 +26,16 @@ const EnterpriseAccessSchema = z.object({
 });
 
 export function EnterpriseAccess() {
-  const { successEnterpriseData, successEnterpriseAddress, enterpriseAccess, setEnterpriseAccess } =
-    useRegisterMarket();
+  const {
+    successEnterpriseData,
+    successEnterpriseAddress,
+    enterpriseAccess,
+    setEnterpriseAccess,
+    registerMarket,
+    registerSuccess,
+    registerMarketError,
+    registerMarketLoading,
+  } = useRegisterMarket();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,6 +77,7 @@ export function EnterpriseAccess() {
     }
     try {
       EnterpriseAccessSchema.parse(enterpriseAccess);
+      registerMarket();
     } catch (error) {
       const fieldErrors = error.formErrors.fieldErrors;
       if (fieldErrors.hasOwnProperty('name')) {
@@ -113,6 +123,23 @@ export function EnterpriseAccess() {
       });
     }
   };
+
+  useEffect(() => {
+    if (registerMarketError) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao cadastrar',
+        description: registerMarketError.response.data.message,
+        duration: 5000,
+      });
+    }
+  }, [registerMarketError]);
+
+  useEffect(() => {
+    if (registerSuccess) {
+      navigate('/cadastre-se/submissao-enviada');
+    }
+  }, [registerSuccess]);
 
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
@@ -183,7 +210,8 @@ export function EnterpriseAccess() {
             <div className="mt-4 mb-1 text-nowrap">
               <Breadcrumb items={breadcrumbItems} />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={registerMarketLoading}>
+              {registerMarketLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Finalizar Cadastro
             </Button>
             <Toaster position="top-center" />
