@@ -40,6 +40,13 @@ export function EnterpriseData() {
   const handleValidation = (e) => {
     e.preventDefault();
     const requiredFields = ['cellphone', 'cnpj', 'name'];
+
+    Object.keys(enterpriseData).forEach(key => {
+      if (typeof enterpriseData[key] === 'string') {
+        enterpriseData[key] = enterpriseData[key].trim();
+      }
+    });
+
     const emptyFields = requiredFields.filter((field) => !enterpriseData[field]);
 
     if (emptyFields.length > 0) {
@@ -147,7 +154,7 @@ export function EnterpriseData() {
               <Breadcrumb items={breadcrumbItems} />
             </div>
             <Button type="submit" className="w-full">
-              Proxíma etapa
+            Próxima etapa
             </Button>
             <Toaster position="top-center" />
             <p className="mt-2 text-nowrap text-sm">
