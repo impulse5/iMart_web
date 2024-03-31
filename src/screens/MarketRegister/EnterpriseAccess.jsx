@@ -21,7 +21,7 @@ const EnterpriseAccessSchema = z.object({
     message:
       'A senha deve ter pelo menos 6 caracteres, uma letra maiúscula, uma letra minúscula, um caractere especial, e um número.',
   }),
-  password_confirmation: z.string().min(6, { message: 'A senha deve ter no mínimo 6 caracteres.' }),
+  password_confirmation: z.string().min(6),
 });
 
 export function EnterpriseAccess() {
@@ -139,6 +139,7 @@ export function EnterpriseAccess() {
                 value={enterpriseAccess.name}
                 onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, name: e.target.value })}
                 label="Nome"
+                data-testid="name-input"
               />
             </div>
             <div>
@@ -150,6 +151,7 @@ export function EnterpriseAccess() {
                 value={enterpriseAccess.email}
                 onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, email: e.target.value })}
                 label="Email"
+                data-testid="Email"
               />
             </div>
             <div>
@@ -161,6 +163,7 @@ export function EnterpriseAccess() {
                 value={enterpriseAccess.password}
                 onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, password: e.target.value })}
                 label="Senha"
+                data-testid="Password"
               />
             </div>
             <div>
@@ -172,6 +175,7 @@ export function EnterpriseAccess() {
                 value={enterpriseAccess.password_confirmation}
                 onChange={(e) => setEnterpriseAccess({ ...enterpriseAccess, password_confirmation: e.target.value })}
                 label="Confirme sua senha"
+                data-testid="Password_confirmation"
               />
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import  {EnterpriseData}  from '../../../../screens/MarketRegister/EnterpriseData'; 
 import { MemoryRouter } from 'react-router-dom'
@@ -18,7 +17,6 @@ describe('EnterpriseData form validation', () => {
       fireEvent.change(getByLabelText('CNPJ'), { target: { value: '12.345.678/0001-90' } });
       fireEvent.change(getByLabelText('Telefone'), { target: { value: '+55 11 12345-6789' } });
   
-      // Envie o formulário
       fireEvent.submit(getByText('Proxíma etapa'));
 
       await waitFor(() => {
@@ -26,3 +24,5 @@ describe('EnterpriseData form validation', () => {
       });
     });
   });
+
+ 
