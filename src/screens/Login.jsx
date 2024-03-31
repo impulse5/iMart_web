@@ -6,15 +6,17 @@ import { Toaster } from '../components/ui/Toast/toaster';
 import { useToast } from '../components/ui/Toast/use-toast';
 import { useState } from 'react';
 import { z } from 'zod';
+import { useNavigate } from 'react-router-dom';
 
 const EnterpriseLoginSchema = z.object({
   email: z
     .string()
-    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, { message: ' verifique se o email está correto.' }),
+    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, { message: 'O email inserido está incorreto!' }),
   password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-    message: 'A senha está incorreta!',
+    message: 'A senha inserida está incorreta!',
   }),
 });
+
 export function Login() {
   const { toast } = useToast();
   const [enterpriseLogin, setEnterpriseLogin] = useState({ email: '', password: '' });
@@ -22,6 +24,8 @@ export function Login() {
     const { name, value } = e.target;
     setEnterpriseLogin({ ...enterpriseLogin, [name]: value });
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,47 +42,47 @@ export function Login() {
       });
       return;
     }
-  try {
-    EnterpriseLoginSchema.parse(enterpriseLogin);
-  } catch (error) {
-    const fieldErrors = error.errors.reduce((acc, err) => {
-      if (err.path[0] === 'email') {
-        acc.emailError = err.message;
-      } else if (err.path[0] === 'password') {
-        acc.passwordError = err.message;
-      }
-      return acc;
-    }, {});
+    try {
+      EnterpriseLoginSchema.parse(enterpriseLogin);
+    } catch (error) {
+      const fieldErrors = error.errors.reduce((acc, err) => {
+        if (err.path[0] === 'email') {
+          acc.emailError = err.message;
+        } else if (err.path[0] === 'password') {
+          acc.passwordError = err.message;
+        }
+        return acc;
+      }, {});
 
-    if (fieldErrors.emailError || fieldErrors.passwordError) {
-      if (fieldErrors.emailError) {
+      if (fieldErrors.emailError || fieldErrors.passwordError) {
+        if (fieldErrors.emailError) {
+          toast({
+            variant: 'error',
+            title: 'Erro no login',
+            description: fieldErrors.emailError,
+            duration: 5000,
+          });
+        }
+        if (fieldErrors.passwordError) {
+          toast({
+            variant: 'error',
+            title: 'Erro no login',
+            description: fieldErrors.passwordError,
+            duration: 5000,
+          });
+        }
+      } else {
+        const allFieldErrors = error.errors.map((err) => err.message).join(', ');
         toast({
           variant: 'error',
-          title: 'Erro no email',
-          description: fieldErrors.emailError,
+          title: 'Erro no formulário',
+          description: allFieldErrors,
           duration: 5000,
         });
       }
-      if (fieldErrors.passwordError) {
-        toast({
-          variant: 'error',
-          title: 'Erro na senha',
-          description: fieldErrors.passwordError,
-          duration: 5000,
-        });
-      }
-    } else {
-      const allFieldErrors = error.errors.map((err) => err.message).join(', ');
-      toast({
-        variant: 'error',
-        title: 'Erro no formulário',
-        description: allFieldErrors,
-        duration: 5000,
-      });
+      return;
     }
-    return;
-  }
-};
+  };
 
   return (
     <main className="bg-primary grid grid-cols-login w-full h-screen overflow-hidden">
@@ -119,7 +123,10 @@ export function Login() {
             <Toaster position="top-center" />
             <p className="mt-2 text-nowrap text-sm text-center">
               Sua empresa ainda não possui cadastro?{' '}
-              <span className="font-bold cursor-pointer hover:text-tertiary text-sm underline">
+              <span
+                className="font-bold cursor-pointer hover:text-tertiary text-sm underline"
+                onClick={() => navigate('/cadastre-se/dados-empresariais')}
+              >
                 Cadastre-se <br /> aqui!
               </span>
             </p>

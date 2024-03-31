@@ -189,7 +189,12 @@ export function EnterpriseAccess() {
             <Toaster position="top-center" />
             <p className="mt-2 text-nowrap text-sm">
               Sua empresa já foi cadastrada?{' '}
-              <span className="font-bold cursor-pointer hover:text-tertiary text-sm underline">Faça login aqui!</span>
+              <span
+                className="font-bold cursor-pointer hover:text-tertiary text-sm underline"
+                onClick={() => navigate('/login')}
+              >
+                Faça login aqui!
+              </span>
             </p>
           </div>
         </form>

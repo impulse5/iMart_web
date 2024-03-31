@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP } from '@/constants/api_routes';
+import { GET_CITY_STATE_BY_CEP } from '../constants/api_routes';
 import axios from 'axios';
 
 export const RegisterMarketContext = createContext();
