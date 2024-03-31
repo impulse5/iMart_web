@@ -129,7 +129,7 @@ export function EnterpriseAccess() {
       toast({
         variant: 'error',
         title: 'Erro ao cadastrar',
-        description: 'Ocorreu um erro ao cadastrar a sua empresa. Tente novamente!',
+        description: registerMarketError.response.data.message,
         duration: 5000,
       });
     }
