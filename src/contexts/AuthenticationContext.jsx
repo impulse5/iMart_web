@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect } from 'react';
+import { useContext, createContext, useState } from 'react';
 import api from '../services/api';
 import { POST_USER_LOGIN } from '../constants/api_routes';
 
@@ -18,7 +18,6 @@ export const AuthenticationProvider = ({ children }) => {
           password: password,
         },
       });
-      console.log(response);
       setLoginLoading(false);
       setLoginSuccess(true);
     } catch (error) {
