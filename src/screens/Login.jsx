@@ -4,9 +4,11 @@ import { Input } from '../components/ui/Input/input';
 import { Button } from '../components/ui/Button/button';
 import { Toaster } from '../components/ui/Toast/toaster';
 import { useToast } from '../components/ui/Toast/use-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
+import { useAuthentication } from '@/contexts/AuthenticationContext';
+import { Loader2 } from 'lucide-react';
 
 const EnterpriseLoginSchema = z.object({
   email: z
@@ -18,6 +20,7 @@ const EnterpriseLoginSchema = z.object({
 });
 
 export function Login() {
+  const { Login, loginLoading, loginError, loginSuccess } = useAuthentication();
   const { toast } = useToast();
   const [enterpriseLogin, setEnterpriseLogin] = useState({ email: '', password: '' });
   const handleChange = (e) => {
@@ -44,6 +47,7 @@ export function Login() {
     }
     try {
       EnterpriseLoginSchema.parse(enterpriseLogin);
+      Login(enterpriseLogin.email, enterpriseLogin.password);
     } catch (error) {
       const fieldErrors = error.errors.reduce((acc, err) => {
         if (err.path[0] === 'email') {
@@ -84,6 +88,28 @@ export function Login() {
     }
   };
 
+  useEffect(() => {
+    if (loginError) {
+      toast({
+        variant: 'error',
+        title: 'Erro no login',
+        description: 'Email ou senha incorretos!',
+        duration: 5000,
+      });
+    }
+  }, [loginError]);
+
+  useEffect(() => {
+    if (loginSuccess) {
+      toast({
+        variant: 'success',
+        title: 'Login realizado com sucesso!',
+        description: 'Seja bem vindo!',
+        duration: 5000,
+      });
+    }
+  }, [loginSuccess]);
+
   return (
     <main className="bg-primary grid grid-cols-login w-full h-screen overflow-hidden">
       <div>
@@ -117,7 +143,8 @@ export function Login() {
           </div>
           <div className="my-24 mx-16 flex flex-col items-center">
             <div className="mt-4 mb-1 text-nowrap"></div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loginLoading}>
+              {loginLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Entrar
             </Button>
             <Toaster position="top-center" />
