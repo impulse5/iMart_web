@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom'
-import { RegisterMarketProvider } from '../../../../../contexts/RegisterMarketContext';
-import { EnterpriseAccess } from '../../../../../screens/MarketRegister/EnterpriseAccess';
+import { RegisterMarketProvider } from '../../../../contexts/RegisterMarketContext';
+import { EnterpriseAccess } from '../../../../screens/MarketRegister/EnterpriseAccess';
 
 
 describe('EnterpriseAccess form validation', () => {
