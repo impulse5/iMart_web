@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP, POST_CREATE_MARKET } from '@/constants/api_routes';
+import { GET_CITY_STATE_BY_CEP, POST_CREATE_MARKET } from '../constants/api_routes';
 import axios from 'axios';
 import api from '../services/api';
 
