@@ -14,7 +14,7 @@ const EnterpriseAddressSchema = z.object({
   street: z.string().min(3, { message: 'O nome da rua deve ter no mínimo 3 caracteres.' }),
   neighborhood: z.string().min(3, { message: 'O nome do bairro deve ter no mínimo 3 caracteres.' }),
   number: z.string().min(1, { message: 'O número do endereço deve ser preenchido.' }),
-  zipcode: z.string().min(8, { message: 'Não encontramos o CEP informado. 🥺' }),
+  zipcode: z.string().regex(/^\d{5}-\d{3}$/, { message: 'O CEP inserido é inválido!' }),
 });
 
 export function EnterpriseAddress() {
@@ -46,12 +46,12 @@ export function EnterpriseAddress() {
     e.preventDefault();
     const requiredFields = ['street', 'neighborhood', 'number', 'zipcode'];
 
-    Object.keys(enterpriseAddress).forEach(key => {
+    Object.keys(enterpriseAddress).forEach((key) => {
       if (typeof enterpriseAddress[key] === 'string') {
         enterpriseAddress[key] = enterpriseAddress[key].trim();
       }
     });
-    
+
     const emptyFields = requiredFields.filter((field) => !enterpriseAddress[field]);
 
     if (emptyFields.length > 0) {
@@ -167,7 +167,7 @@ export function EnterpriseAddress() {
                 <Input
                   id="CEP"
                   name="zipcode"
-                  type="number"
+                  type="text"
                   placeholder="00000-000"
                   value={enterpriseAddress.zipcode}
                   onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, zipcode: e.target.value })}
