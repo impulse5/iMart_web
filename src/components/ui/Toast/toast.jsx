@@ -25,8 +25,8 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border bg-primary text-secondary",
-        success: "border bg-success text-secondary",
+        default: "border-none bg-primary text-secondary",
+        success: "border-none bg-success text-secondary",
         error:
           "border-none bg-error text-secondary  ",
       },

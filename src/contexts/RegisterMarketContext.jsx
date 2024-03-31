@@ -1,6 +1,7 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP } from '@/constants/api_routes';
+import { GET_CITY_STATE_BY_CEP, POST_CREATE_MARKET } from '@/constants/api_routes';
 import axios from 'axios';
+import api from '../services/api';
 
 export const RegisterMarketContext = createContext();
 
@@ -30,6 +31,9 @@ export const RegisterMarketProvider = ({ children }) => {
   const [successEnterpriseData, setSuccessEnterpriseData] = useState(false);
   const [successEnterpriseAddress, setSuccessEnterpriseAddress] = useState(false);
   const [successEnterpriseAccess, setSuccessEnterpriseAccess] = useState(false);
+  const [registerMarketLoading, setRegisterMarketLoading] = useState(false);
+  const [registerMarketError, setRegisterMarketError] = useState(null);
+  const [registerSuccess, setRegisterSuccess] = useState(false);
 
   const getCityAndState = async () => {
     const response = await axios(GET_CITY_STATE_BY_CEP(enterpriseAddress.zipcode));
@@ -39,6 +43,30 @@ export const RegisterMarketProvider = ({ children }) => {
       city: data.localidade,
       state: data.uf,
     }));
+  };
+
+  const registerMarket = async () => {
+    try {
+      setRegisterMarketLoading(true);
+      const response = await api.post(POST_CREATE_MARKET, {
+        market: {
+          ...enterpriseData,
+        },
+        address: {
+          ...enterpriseAddress,
+        },
+        user: {
+          name: enterpriseAccess.name,
+          email: enterpriseAccess.email,
+          password: enterpriseAccess.password,
+        },
+      });
+      setRegisterMarketLoading(false);
+      setRegisterSuccess(true);
+    } catch (error) {
+      setRegisterMarketLoading(false);
+      setRegisterMarketError(error);
+    }
   };
 
   useEffect(() => {
@@ -62,6 +90,11 @@ export const RegisterMarketProvider = ({ children }) => {
         setSuccessEnterpriseAddress,
         successEnterpriseAccess,
         setSuccessEnterpriseAccess,
+        setRegisterSuccess,
+        registerMarket,
+        registerSuccess,
+        registerMarketError,
+        registerMarketLoading,
       }}
     >
       {children}
