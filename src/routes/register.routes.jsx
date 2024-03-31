@@ -13,7 +13,7 @@ export function RegisterRoutes() {
         <Route path="/cadastre-se/dados-empresariais" element={<EnterpriseData />} />
         <Route path="/cadastre-se/acesso" element={<EnterpriseAccess />} />
         <Route path="/cadastre-se/endereco" element={<EnterpriseAddress />} />
-        <Route path="/cadastre-se/submissão-enviada" element={<EnterpriseSubmission/>}/>
+        <Route path="/cadastre-se/submissao-enviada" element={<EnterpriseSubmission/>}/>
         <Route path="/" element={<Redirect route="/cadastre-se/dados-empresariais" />} />
       </Routes>
     </RegisterMarketProvider>
