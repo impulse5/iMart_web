@@ -1,4 +1,6 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
+import { GET_CITY_STATE_BY_CEP } from '@/constants/api_routes';
+import axios from 'axios';
 
 export const RegisterMarketContext = createContext();
 
@@ -28,6 +30,22 @@ export const RegisterMarketProvider = ({ children }) => {
   const [successEnterpriseData, setSuccessEnterpriseData] = useState(false);
   const [successEnterpriseAddress, setSuccessEnterpriseAddress] = useState(false);
   const [successEnterpriseAccess, setSuccessEnterpriseAccess] = useState(false);
+
+  const getCityAndState = async () => {
+    const response = await axios(GET_CITY_STATE_BY_CEP(enterpriseAddress.zipcode));
+    const data = response.data;
+    setEnterpriseAddress((prevState) => ({
+      ...prevState,
+      city: data.localidade,
+      state: data.uf,
+    }));
+  };
+
+  useEffect(() => {
+    if (/^\d{5}-\d{3}$/.test(enterpriseAddress.zipcode)) {
+      getCityAndState();
+    }
+  }, [enterpriseAddress]);
 
   return (
     <RegisterMarketContext.Provider
