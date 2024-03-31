@@ -4,7 +4,7 @@ import { Input } from '../../components/ui/Input/input';
 import { Button } from '../../components/ui/Button/button';
 import { Breadcrumb } from '../../components/ui/Breadcrumb/breadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
+import { useRegisterMarket } from '../../contexts/RegisterMarketContext';
 import { useToast } from '../../components/ui/Toast/use-toast';
 import { Toaster } from '../../components/ui/Toast/toaster';
 import { useEffect } from 'react';
@@ -45,7 +45,7 @@ export function EnterpriseAddress() {
   const handleValidation = (e) => {
     e.preventDefault();
     const requiredFields = ['street', 'neighborhood', 'number', 'zipcode'];
-    
+
     Object.keys(enterpriseAddress).forEach(key => {
       if (typeof enterpriseAddress[key] === 'string') {
         enterpriseAddress[key] = enterpriseAddress[key].trim();
@@ -129,6 +129,8 @@ export function EnterpriseAddress() {
           <div className="flex flex-col mt-8 mx-16 gap-4">
             <div>
               <Input
+                name="street"
+                id="Rua"
                 type="text"
                 value={enterpriseAddress.street}
                 onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, street: e.target.value })}
@@ -138,6 +140,8 @@ export function EnterpriseAddress() {
             </div>
             <div>
               <Input
+                name="neighborhood"
+                id="Bairro"
                 placeholder="Passaré"
                 value={enterpriseAddress.neighborhood}
                 onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, neighborhood: e.target.value })}
@@ -151,6 +155,8 @@ export function EnterpriseAddress() {
               <div className="flex flex-col">
                 <Input
                   type="number"
+                  name="number"
+                  id="Número"
                   placeholder="1547"
                   value={enterpriseAddress.number}
                   onChange={(e) => setEnterpriseAddress({ ...enterpriseAddress, number: e.target.value })}
@@ -184,7 +190,7 @@ export function EnterpriseAddress() {
               <Breadcrumb items={breadcrumbItems} />
             </div>
             <Button type="submit" className="w-full">
-              Proxíma etapa
+              Próxima etapa
             </Button>
             <Toaster position="top-center" />
             <p className="mt-2 text-nowrap text-sm">
