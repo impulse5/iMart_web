@@ -153,7 +153,7 @@ export function EnterpriseData() {
             <div className="mt-4 mb-1 text-nowrap">
               <Breadcrumb items={breadcrumbItems} />
             </div>
-            <Button type="submit" className="w-full">
+            <Button data-testid="button" type="submit" className="w-full">
               Próxima etapa
             </Button>
             <Toaster position="top-center" />

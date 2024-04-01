@@ -1,23 +1,27 @@
 import React from 'react';
-import { render, fireEvent, screen  } from '@testing-library/react';
-import TestComponents from '../../screens/TestComponents';
-import { positionTranslate } from '../../components/ui/Toast/positionTranslate';
-import { Toaster } from '../../components/ui/Toast/toaster';
-
-test('display a notification when clicking the button "Abrir notificação"', () => {
-    const { getByText} = render(<TestComponents />); 
-    const openNotificationButton = getByText('Abrir notificação'); 
-    fireEvent.click(openNotificationButton); 
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import {EnterpriseData} from '../../screens/MarketRegister/EnterpriseData'; 
+import { RegisterMarketProvider } from '../../contexts/RegisterMarketContext';// Substitua pelo caminho correto do seu componente
+import { MemoryRouter } from 'react-router-dom';
+describe('Teste do Toast', () => {
+    test('Exibição do Toast de erro ao enviar formulário com campos vazios', async () => {
+      const { getByTestId, getByText } = render(
+        <MemoryRouter>
+            <RegisterMarketProvider>
+          <EnterpriseData />
+          </RegisterMarketProvider>
+        </MemoryRouter>
+      );
+      
+      // Simula o envio do formulário com campos vazios
+      fireEvent.submit(getByTestId('button'));
   
-    const notificationTitle = getByText('Notificação');
-    const notificationDescription = getByText('Esta é uma notificação de teste');
+      // Aguarda a exibição do toast de erro
+      await waitFor(() => {
+        expect(getByText('Erro no formulário')).toBeInTheDocument();
+        expect(getByText('Preencha todos os campos obrigatórios!')).toBeInTheDocument();
+      });
+    });
   
-    expect(notificationTitle).toBeInTheDocument(); 
-    expect(notificationDescription).toBeInTheDocument();
-  });
-  test('Toaster renders with correct position', () => {
-    const position = 'down-left';  
-    render(<Toaster position={position} />);
-    const viewportElement = screen.getByTestId('toast-viewport');
-    expect(viewportElement).toHaveClass(positionTranslate[position]);
+    // Você pode adicionar mais testes para outros cenários, se necessário
   });
