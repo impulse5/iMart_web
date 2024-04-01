@@ -1,23 +1,21 @@
 import React from 'react';
-import { render, fireEvent, screen  } from '@testing-library/react';
-import TestComponents from '../../screens/TestComponents';
-import { positionTranslate } from '../../components/ui/Toast/positionTranslate';
-import { Toaster } from '../../components/ui/Toast/toaster';
-
-test('display a notification when clicking the button "Abrir notificação"', () => {
-    const { getByText} = render(<TestComponents />); 
-    const openNotificationButton = getByText('Abrir notificação'); 
-    fireEvent.click(openNotificationButton); 
-  
-    const notificationTitle = getByText('Notificação');
-    const notificationDescription = getByText('Esta é uma notificação de teste');
-  
-    expect(notificationTitle).toBeInTheDocument(); 
-    expect(notificationDescription).toBeInTheDocument();
-  });
-  test('Toaster renders with correct position', () => {
-    const position = 'down-left';  
-    render(<Toaster position={position} />);
-    const viewportElement = screen.getByTestId('toast-viewport');
-    expect(viewportElement).toHaveClass(positionTranslate[position]);
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import {EnterpriseData} from '../../screens/MarketRegister/EnterpriseData'; 
+import { RegisterMarketProvider } from '../../contexts/RegisterMarketContext';
+import { MemoryRouter } from 'react-router-dom';
+describe('test toast', () => {
+    test('Toast displays error when submitting form with empty fields', async () => {
+      const { getByTestId, getByText } = render(
+        <MemoryRouter>
+            <RegisterMarketProvider>
+          <EnterpriseData />
+          </RegisterMarketProvider>
+        </MemoryRouter>
+      );
+      fireEvent.submit(getByTestId('button')); 
+      await waitFor(() => {
+        expect(getByText('Erro no formulário')).toBeInTheDocument();
+        expect(getByText('Preencha todos os campos obrigatórios!')).toBeInTheDocument();
+      });
+    });
   });
