@@ -10,7 +10,7 @@
 <h3 align="center">iMart - Web</h3>
 
   <p align="center">
-    Gerencie de forma inteligente o seu mercado com a gente!
+    Gerencie de forma inteligente o seu mercado com a gente! 🥳
     <br />
     <a href="https://github.com/orgs/impulse5/discussions"><strong>Explore nossas discussions »</strong></a>
     <br />
@@ -42,20 +42,20 @@
         <li><a href="#instalação">Instalação</a></li>
       </ul>
     </li>
-    <li><a href="#contact">Contato</a></li>
+    <li><a href="#conhecimentos gerais">Conhecimentos gerais</a></li>
   </ol>
 </details>
 
 
 
 <!-- ABOUT THE PROJECT -->
-## Sobre o projeto
+## Sobre o projeto ℹ️
 
 - A ideia do iMart é construir uma solução atualizada e que auxilie na visualização de dados para os mercados em geral, atualmente tal demanda é vigente no mercado, visando isso, construimos este projeto.
 
 <p align="right">(<a href="#readme-top">Voltar para o topo</a>)</p>
 
-### Tecnologias
+### Tecnologias 💻
 
 * [![Typescript][Typescript.label]][Typescript-url]
 * [![Vite][Vite.label]][Vite-url]
@@ -68,21 +68,21 @@
 * [![Jest][Jest.label]][Jest-url]
 * [![TestingLibrary][TestingLibrary.label]][TestingLibrary-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">Voltar para o topo</a>)</p>
 
 <!-- GETTING STARTED -->
-## Rodando o projeto
+## Rodando o projeto 🚀
 
 * Para executar o projeto siga as orientações descritas abaixo:
   - Ou simplesmente acesse nosso [deploy](https://imart-web.onrender.com/cadastre-se/dados-empresariais)!
 
-### Pre-requisitos
+### Pre-requisitos 📦
 
 - Para rodar o projeto tenha em mente que você precisará dos seguintes pre-requisitos:
   - Ter o node-js instalado na versão 20.11.0
   - Ter o node package manager instalado.
 
-### Instalação
+### Instalação 🗂️
 
 1. Primeiramente você precisará clonar o projeto:
 ```bash
@@ -103,7 +103,7 @@ npm run dev
 ```
 
 
-**ℹ️ Opcionais:**
+**Opcionais: ❗️**
 * Caso queira rodar os testes do Jest, simplesmente rode:
 ```bash
 npm run test
@@ -122,7 +122,7 @@ npm run test
   }
   ```
 
-### Conhecimentos Gerais
+### Conhecimentos Gerais 🧠
 
 - Caso você esteja tendo problemas ao rodar o projeto no linux, instale essa biblioteca:
 ```bash 
