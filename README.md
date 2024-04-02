@@ -15,7 +15,7 @@
     <a href="https://github.com/orgs/impulse5/discussions"><strong>Explore nossas discussions »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">Experimente nosso site!</a>
+    <a href="https://imart-web.onrender.com/">Experimente nosso site!</a>
     ·
     <a href="https://github.com/impulse5/iMart_web/issues/new?assignees=&labels=&projects=&template=new-bug.md&title=%F0%9F%90%9E+Bug+%7C+">Reportar um bug</a>
     ·
@@ -74,7 +74,7 @@
 ## Rodando o projeto
 
 * Para executar o projeto siga as orientações descritas abaixo:
-  - Ou simplesmente acesse nosso [deploy](https://imart-web.onrender.com/cadastre-se/dados-empresariais)!
+  - Ou simplesmente acesse nosso [deploy-url]
 
 ### Pre-requisitos
 
@@ -154,3 +154,4 @@ npm i @rollup/rollup-linux-x64-gnu
 [Vite-url]: https://vitejs.dev/
 [Tailwind.label]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
 [Tailwind-url]: https://tailwindcss.com/
+[deploy-url]: https://imart-web.onrender.com/
