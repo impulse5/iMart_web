@@ -49,13 +49,13 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## Sobre o projeto ℹ️
+## Sobre o projeto
 
 - A ideia do iMart é construir uma solução atualizada e que auxilie na visualização de dados para os mercados em geral, atualmente tal demanda é vigente no mercado, visando isso, construimos este projeto.
 
 <p align="right">(<a href="#readme-top">Voltar para o topo</a>)</p>
 
-### Tecnologias 💻
+### Tecnologias
 
 * [![Typescript][Typescript.label]][Typescript-url]
 * [![Vite][Vite.label]][Vite-url]
@@ -71,18 +71,18 @@
 <p align="right">(<a href="#readme-top">Voltar para o topo</a>)</p>
 
 <!-- GETTING STARTED -->
-## Rodando o projeto 🚀
+## Rodando o projeto
 
 * Para executar o projeto siga as orientações descritas abaixo:
   - Ou simplesmente acesse nosso [deploy](https://imart-web.onrender.com/cadastre-se/dados-empresariais)!
 
-### Pre-requisitos 📦
+### Pre-requisitos
 
 - Para rodar o projeto tenha em mente que você precisará dos seguintes pre-requisitos:
   - Ter o node-js instalado na versão 20.11.0
   - Ter o node package manager instalado.
 
-### Instalação 🗂️
+### Instalação
 
 1. Primeiramente você precisará clonar o projeto:
 ```bash
@@ -122,7 +122,7 @@ npm run test
   }
   ```
 
-### Conhecimentos Gerais 🧠
+### Conhecimentos Gerais
 
 - Caso você esteja tendo problemas ao rodar o projeto no linux, instale essa biblioteca:
 ```bash 
