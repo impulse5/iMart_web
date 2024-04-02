@@ -19,10 +19,15 @@ const EnterpriseLoginSchema = z.object({
   }),
 });
 
+interface EnterpriseLoginType {
+  email: string;
+  password: string;
+}
+
 export function Login() {
   const { Login, loginLoading, loginError, loginSuccess } = useAuthentication();
   const { toast } = useToast();
-  const [enterpriseLogin, setEnterpriseLogin] = useState({ email: '', password: '' });
+  const [enterpriseLogin, setEnterpriseLogin] = useState<EnterpriseLoginType>({ email: '', password: '' });
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setEnterpriseLogin({ ...enterpriseLogin, [name]: value });
@@ -34,13 +39,12 @@ export function Login() {
     e.preventDefault();
 
     const requiredFields = ['email', 'password'];
-    const emptyFields = requiredFields.filter((field) => !enterpriseLogin[field]);
+    const emptyFields = requiredFields.filter((field) => !enterpriseLogin[field as keyof EnterpriseLoginType]);
 
     if (emptyFields.length > 0) {
       toast({
         variant: 'error',
         title: 'Erro no formulário',
-        description: 'Preencha todos os campos obrigatórios!',
         duration: 5000,
       });
       return;

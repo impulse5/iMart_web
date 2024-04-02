@@ -16,7 +16,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
   const Login = async (email: string, password: string) => {
     try {
       setLoginLoading(true)
-      const response = await api.post(POST_USER_LOGIN, {
+      await api.post(POST_USER_LOGIN, {
         user: {
           email,
           password,
