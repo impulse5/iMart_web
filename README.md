@@ -134,10 +134,6 @@ npm i @rollup/rollup-linux-x64-gnu
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[issues-shield]: https://img.shields.io/github/issues/impulse5/iMart_web.svg?style=for-the-badge
-[issues-url]: https://github.com/impulse5/iMart_web/issues
-[license-shield]: https://img.shields.io/github/license/impulse5/iMart_web.svg?style=for-the-badge
-[license-url]: https://github.com/impulse5/iMart_web/blob/main/LICENSE.txt
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Axios.label]: https://img.shields.io/badge/Axios-%23FFFFFF.svg?style=for-the-badge&logo=axios&logoColor=purple
@@ -150,7 +146,7 @@ npm i @rollup/rollup-linux-x64-gnu
 [Zod-url]: https://zod.dev/
 [Jest.label]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
 [Jest-url]: https://jestjs.io/pt-BR/
-[TestingLibrary.label]: https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white
+[TestingLibrary.label]: https://img.shields.io/badge/-Testing_Library-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white
 [TestingLibrary-url]: https://testing-library.com/
 [Shadcn.label]: https://img.shields.io/badge/shadcn--ui-000000.svg?style=for-the-badge&logo=shadcnui&logoColor=white
 [Shadcn-url]: https://ui.shadcn.com/
