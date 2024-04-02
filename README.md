@@ -30,19 +30,19 @@
   <summary>Tópicos</summary>
   <ol>
     <li>
-      <a href="#Sobre-o-projeto-ℹ️">Sobre o projeto</a>
+      <a href="#Sobre-o-projeto">Sobre o projeto</a>
       <ul>
-        <li><a href="#Tecnologias 💻">Tecnologias</a></li>
+        <li><a href="#Tecnologias">Tecnologias</a></li>
       </ul>
     </li>
     <li>
-      <a href="#Rodando-o-projeto 🚀">Rodando o Projeto</a>
+      <a href="#Rodando-o-projeto">Rodando o Projeto</a>
       <ul>
-        <li><a href="#Pre-requisitos 📦">Pre-requisitos</a></li>
-        <li><a href="#Instalação 🗂️">Instalação</a></li>
+        <li><a href="#Pre-requisitos">Pre-requisitos</a></li>
+        <li><a href="#Instalação">Instalação</a></li>
       </ul>
     </li>
-    <li><a href="#Conhecimentos-Gerais 🧠">Conhecimentos gerais</a></li>
+    <li><a href="#Conhecimentos-Gerais">Conhecimentos gerais</a></li>
   </ol>
 </details>
 
