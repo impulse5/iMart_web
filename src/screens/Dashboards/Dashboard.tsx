@@ -2,10 +2,10 @@ import { BarChartBig, CircleUserRound, TicketCheck } from "lucide-react";
 
 export function Dashboard() {
   return (
-<main className="p-6 w-full h-screen bg-primary rounded-dashboard">
-    <header className="flex justify-between">
+<main className="px-10 pt-4 w-full h-screen bg-primary rounded-dashboard">
+    <header className="flex justify-between items-center mt-6">
         <div>
-            <h1 className="text-3xl text-neutral-400 px-10 pt-4 font-bold">DASHBOARD</h1>
+            <h1 className="text-3xl text-neutral-400 font-bold">DASHBOARD</h1>
         </div>
         <nav>
             <CircleUserRound className="text-neutral-400 size-12"/>
