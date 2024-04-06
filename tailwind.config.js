@@ -69,6 +69,7 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
         form: '20px 0px 0px 0px',
         login: '0px 20px 0px 0px',
+        dashboard: '40px 0px 0px 40px',
       },
       keyframes: {
         'accordion-down': {
@@ -87,6 +88,7 @@ module.exports = {
       gridTemplateColumns: {
         custom: ['1fr 35%'],
         login: ['35% 1fr'],
+        dashboard: ['20% 1fr'],
       },
     },
   },
