@@ -1,4 +1,4 @@
-import { DashboardsRoutes } from './routes/dashboards.routers'
+import { DashboardRoutes } from './routes/dashboard.routes'
 import { RegisterRoutes } from './routes/register.routes'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ function App() {
   return (
     <BrowserRouter>
       <RegisterRoutes />
-      <DashboardsRoutes/>
+      <DashboardRoutes />
     </BrowserRouter>
   )
 }

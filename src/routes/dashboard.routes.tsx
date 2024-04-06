@@ -3,7 +3,7 @@ import { Sidebar } from '../screens/Dashboards/Sidebar'
 
 import { Dashboard } from '../screens/Dashboards/Dashboard'
 
-export function DashboardsRoutes() {
+export function DashboardRoutes() {
   return (
     <Routes>
         <Route element={<Sidebar/>}>
