@@ -15,6 +15,7 @@ export type AuthContextType = {
   user: User | null;
   token: string | null;
   authenticate: () => boolean;
+  logout: () => boolean;
 }
 
 export const AuthenticationProvider = ({ children }: Props) => {
@@ -64,6 +65,17 @@ export const AuthenticationProvider = ({ children }: Props) => {
     return true
   }
 
+  const logout = () => {
+    try {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      return true;
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+      return false;
+    }
+  }
+
   return (
     <AuthenticationContext.Provider
       value={{
@@ -75,6 +87,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
         user,
         token,
         authenticate,
+        logout
       }}
     >
       {children}
