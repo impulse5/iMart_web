@@ -1,6 +1,7 @@
 import { BarChartBig, CircleUserRound, TicketCheck } from "lucide-react";
 
 export function Dashboard() {
+
   return (
 <main className="p-6 w-full h-screen bg-primary rounded-dashboard">
     <header className="flex justify-between">
