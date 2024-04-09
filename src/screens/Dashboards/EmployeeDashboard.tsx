@@ -15,11 +15,15 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog/dialog"
-import { TableCell } from "@/components/ui/Table/tableCell";
-import { TableHeader } from "@/components/ui/Table/tableHeader";
+import { TableCell } from "@/components/Table/tableCell";
+import { TableHeader } from "@/components/Table/tableHeader";
+
+
+
 
 
 export function EmployeeDashboard() {
@@ -51,18 +55,18 @@ export function EmployeeDashboard() {
                   <div className="flex flex-col gap-5 items-center">
                     <div className="flex flex-col">
                         <label htmlFor="name">Nome</label>
-                        <input type="text" id="name" placeholder="Willam" className="py-1.5 px-3 outline-none bg-tertiary rounded-md" />
+                        <input type="text" id="name" placeholder="Willam" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md" />
                     </div>
                     <div>
                         <label className="flex flex-col" htmlFor="email">Email</label>
-                        <input type="email" id="email" placeholder="seu@email.com" className="py-1.5 px-3 outline-none bg-tertiary rounded-md"/>
+                        <input type="email" id="email" placeholder="seu@email.com" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md"/>
                     </div>
                     <div>
                         <label className="flex flex-col" htmlFor="password">Senha</label>
-                        <input type="password" id="password" placeholder="*******" className="py-1.5 px-3 outline-none bg-tertiary rounded-md"/>
+                        <input type="password" id="password" placeholder="*******" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md"/>
                     </div>
                     <div className="mt-3 mb-2">
-                        <select  className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-56">
+                        <select  className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80">
                         <option disabled selected>       
                             Selecione o cargo
                         </option>
@@ -99,36 +103,96 @@ export function EmployeeDashboard() {
             </tr>
           </thead>
           <tbody>
-                {Array.from({ length: 20 }).map((_, index) => (
-                    <tr key={index}>
+                 {Array.from({ length: 20 }).map((_, index) => (
+                      <tr key={index + 1}>
                         <TableCell>{index + 1}</TableCell>
-                        <TableCell>Arthur. W</TableCell>
-                        <TableCell>Estoquista</TableCell>
-                        <TableCell>05/04/23</TableCell>
+                        <TableCell>Arthur</TableCell>
+                        <TableCell>Gerente</TableCell>
+                        <TableCell>30/01/2023</TableCell>
                         <TableCell>N/A</TableCell>
-                        <TableCell>R$1000</TableCell>
-                        <TableCell>Lic. Médica</TableCell>
+                        <TableCell>R$ 1000</TableCell>
+                        <TableCell>Ativo</TableCell>
                         <td className="py-3 text-center font-light text-lg flex justify-center gap-5">
-                          <TooltipProvider>
-                             <Tooltip>
-                               <TooltipTrigger asChild>
-                                <Pencil className="cursor-pointer text-secondary"/>
-                              </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="font-medium">Editar</p>
-                            </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <TooltipProvider>
-                             <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Trash2 className="cursor-pointer text-error"/>
-                                </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="font-medium">Excluir</p>
-                            </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
+                            <Dialog>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>                                 
+                                            <DialogTrigger>
+                                                  <Pencil className="cursor-pointer text-secondary"/>
+                                            </DialogTrigger>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="font-medium">Editar</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                                <DialogContent className="sm:max-w-[425px] bg-primary text-secondary border-none">
+                                    <DialogHeader className="pt-1 pb-3 px-3 rounded-lg">
+                                        <DialogTitle className="text-neutral-400">
+                                            Editar funcionário
+                                        </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="flex flex-col gap-5 items-center">
+                                        <div className="flex flex-col">
+                                            <label htmlFor="name">Nome</label>
+                                            <input type="text" id="name" placeholder="Willam" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md" />
+                                        </div>
+                                        <div>
+                                            <label className="flex flex-col" htmlFor="email">Email</label>
+                                            <input type="email" id="email" placeholder="seu@email.com" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md"/>
+                                        </div>
+                                        <div>
+                                            <label className="flex flex-col" htmlFor="password">Senha</label>
+                                            <input type="password" id="password" placeholder="*******" className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md"/>
+                                        </div>
+                                        <div className="mt-3 mb-2">
+                                            <select className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80">
+                                                <option disabled selected>       
+                                                    Selecione o cargo
+                                                </option>
+                                                <option>
+                                                    Gerente
+                                                </option>
+                                                <option>
+                                                    Caixa 
+                                                </option>
+                                                <option>
+                                                    Estoquista
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <button className="bg-[#010101] py-1.5 px-10 rounded-lg text-white">Salvar</button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+
+                          <Dialog>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <DialogTrigger>
+                                          <Trash2 className="cursor-pointer text-error"/>
+                                      </DialogTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="font-medium">Excluir</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <DialogContent className="sm:max-w-[425px] bg-primary text-secondary border-none gap-10">
+                              <DialogHeader className="pt-1 pb-3 px-3 rounded-lg">
+                                <DialogTitle className="text-neutral-400">Excluir funcionário</DialogTitle>
+                                <DialogDescription className="text-secondary">Deseja realmente excluir o funcionário?</DialogDescription>
+                              </DialogHeader>
+                              <DialogFooter>
+                                <button className="bg-[#010101] mx-2 py-1.5 px-10 rounded-lg text-white">Cancelar</button>
+                                <button className="bg-error py-1.5 px-10 rounded-lg text-white">Excluir</button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+
                         </td>
                     </tr>
                 ))}
