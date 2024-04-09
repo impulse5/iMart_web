@@ -4,10 +4,10 @@ import { Input } from '../components/ui/Input/input';
 import { Button } from '../components/ui/Button/button';
 import { Toaster } from '../components/ui/Toast/toaster';
 import { useToast } from '../components/ui/Toast/use-toast';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { AuthenticationContext, useAuthentication } from '@/contexts/AuthenticationContext';
+import { useAuthentication } from '@/contexts/AuthenticationContext';
 import { Loader2 } from 'lucide-react';
 
 const EnterpriseLoginSchema = z.object({
