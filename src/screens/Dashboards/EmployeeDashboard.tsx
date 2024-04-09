@@ -18,8 +18,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog/dialog"
-import { TableCell } from "@/components/ui/Toast/Table/tableCell";
-import { TableHeader } from "@/components/ui/Toast/Table/tableHeader";
+import { TableCell } from "@/components/ui/Table/tableCell";
+import { TableHeader } from "@/components/ui/Table/tableHeader";
 
 
 export function EmployeeDashboard() {
