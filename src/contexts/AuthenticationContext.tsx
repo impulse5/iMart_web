@@ -7,22 +7,24 @@ import { Props } from '@/types/Props'
 export const AuthenticationContext = createContext<AuthContextType>(null!)
 
 export type AuthContextType = {
-  user: User | null;
-  signout: () => void;
   loginLoading: boolean;
   loginError: boolean;
   loginSuccess: boolean;
   Login: (email: string, password: string) => Promise<void>;
+  setLoginSuccess: (value: boolean) => void;
 }
 
 export const AuthenticationProvider = ({ children }: Props) => {
   const [loginLoading, setLoginLoading] = useState(false)
   const [loginError, setLoginError] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
-  const [user, setUser] = useState<User | null>(null);
 
   const setToken = (token: string) => {
     localStorage.setItem('authToken', token);
+  }
+
+  const setUser = (user: User) => {
+    setUser(user);
   }
 
   const Login = async (email: string, password: string) => {
@@ -37,26 +39,21 @@ export const AuthenticationProvider = ({ children }: Props) => {
       setLoginLoading(false);
       setLoginSuccess(true);
       setToken(response.data.token);
+      setUser(response.data.user.data.attributes);
     } catch (error) {
       setLoginLoading(false)
       setLoginError(true)
     }
   }
 
-  const signout = () => {
-    setUser(null);
-    localStorage.removeItem('authToken');
-  }
-
   return (
     <AuthenticationContext.Provider
       value={{
-        user,
-        signout,
         loginLoading,
         loginError,
         loginSuccess,
-        Login
+        Login,
+        setLoginSuccess,
       }}
     >
       {children}

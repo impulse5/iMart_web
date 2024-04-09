@@ -1,8 +1,9 @@
 export type User = {
     id?: string;
-    name?: string;
+    name: string;
     email: string;
-    token?: string;
+    role: string;
+    status: boolean;
 }
 
 export type Token = {

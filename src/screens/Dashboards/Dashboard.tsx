@@ -1,6 +1,17 @@
 import { BarChartBig, CircleUserRound, TicketCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function Dashboard() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!localStorage.getItem('authToken')) {
+            navigate('/login');
+        }
+    }, []);
+
   return (
 <main className="p-6 w-full h-screen bg-primary rounded-dashboard">
     <header className="flex justify-between">
