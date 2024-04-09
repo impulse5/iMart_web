@@ -12,19 +12,24 @@ export type AuthContextType = {
   loginSuccess: boolean;
   Login: (email: string, password: string) => Promise<void>;
   setLoginSuccess: (value: boolean) => void;
+  user: User | null;
+  token: string | null;
+  authenticate: () => boolean;
 }
 
 export const AuthenticationProvider = ({ children }: Props) => {
   const [loginLoading, setLoginLoading] = useState(false)
   const [loginError, setLoginError] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [token, setToken] = useState<string | null>(null)
 
-  const setToken = (token: string) => {
+  const storageToken = (token: string) => {
     localStorage.setItem('authToken', token);
   }
 
-  const setUser = (user: User) => {
-    setUser(user);
+  const storageUser = (user: User) => {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   const Login = async (email: string, password: string) => {
@@ -38,12 +43,25 @@ export const AuthenticationProvider = ({ children }: Props) => {
       })
       setLoginLoading(false);
       setLoginSuccess(true);
-      setToken(response.data.token);
-      setUser(response.data.user.data.attributes);
+      storageToken(response.data.token);
+      storageUser(response.data.user.data.attributes);
     } catch (error) {
       setLoginLoading(false)
       setLoginError(true)
     }
+  }
+
+  const authenticate = () => {
+    const token = localStorage.getItem('authToken')
+    const user = localStorage.getItem('user')
+    if (!token) {
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('user')
+      return false
+    }
+    setToken(token)
+    setUser(JSON.parse(user!))
+    return true
   }
 
   return (
@@ -54,6 +72,9 @@ export const AuthenticationProvider = ({ children }: Props) => {
         loginSuccess,
         Login,
         setLoginSuccess,
+        user,
+        token,
+        authenticate,
       }}
     >
       {children}

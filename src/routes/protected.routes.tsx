@@ -1,12 +1,16 @@
 import { Outlet } from 'react-router-dom'
-import { Navigate } from 'react-router-dom'
-import authenticate from '@/hooks/authenticate'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useAuthentication } from '@/contexts/AuthenticationContext'
 
 export const ProtectedRoutes = () => {
+  const navigate = useNavigate()
+  const { authenticate } = useAuthentication()
 
   useEffect(() => {
-    authenticate() || <Navigate to="/login" />
+    if (!authenticate()) {
+      navigate('/login')
+    }
   }, [])
 
   return (
