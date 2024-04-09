@@ -4,10 +4,10 @@ import { Input } from '../components/ui/Input/input';
 import { Button } from '../components/ui/Button/button';
 import { Toaster } from '../components/ui/Toast/toaster';
 import { useToast } from '../components/ui/Toast/use-toast';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { useAuthentication } from '@/contexts/AuthenticationContext';
+import { AuthenticationContext, useAuthentication } from '@/contexts/AuthenticationContext';
 import { Loader2 } from 'lucide-react';
 
 const EnterpriseLoginSchema = z.object({
@@ -25,6 +25,7 @@ interface EnterpriseLoginType {
 }
 
 export function Login() {
+  const auth = useContext(AuthenticationContext);
   const { Login, loginLoading, loginError, loginSuccess } = useAuthentication();
   const { toast } = useToast();
   const [enterpriseLogin, setEnterpriseLogin] = useState<EnterpriseLoginType>({ email: '', password: '' });
@@ -109,8 +110,15 @@ export function Login() {
         variant: 'success',
         title: 'Login realizado com sucesso!',
         description: 'Seja bem vindo!',
-        duration: 5000,
+        duration: 3000,
       });
+      const isLogged = auth.user;
+      if (isLogged) {
+        setTimeout(() => {
+          navigate('/logado')
+        }, 3000)
+      }
+
     }
   }, [loginSuccess]);
 

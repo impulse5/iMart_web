@@ -7,6 +7,8 @@ import { RegisterMarketProvider } from '@/contexts/RegisterMarketContext'
 import { Login } from '@/screens/Login'
 import { EnterpriseSubmission } from '@/screens/MarketRegister/EnterpriseSubmission'
 import { AuthenticationProvider } from '@/contexts/AuthenticationContext'
+import { Private } from '@/screens/Private'
+import { RequireAuth } from '@/contexts/RequireAuth'
 
 export function RegisterRoutes() {
   return (
@@ -24,6 +26,7 @@ export function RegisterRoutes() {
             element={<EnterpriseSubmission />}
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/logado" element={<RequireAuth><Private/></RequireAuth>} />
           <Route
             path="/"
             element={<Redirect route="/cadastre-se/dados-empresariais" />}
