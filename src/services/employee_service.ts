@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { api } from "./api"
 import { GET_EMPLOYEES } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
