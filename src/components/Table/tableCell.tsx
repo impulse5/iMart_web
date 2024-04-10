@@ -6,7 +6,7 @@ export function TableCell(props: TableCellProps) {
   return (
     <td
       {...props}
-      className="py-3 text-center font-light text-lg "
+      className="py-3 text-center font-light text-lg"
     ></td>
   );
 }

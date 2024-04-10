@@ -18,6 +18,7 @@ import {
   DialogDescription,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/Dialog/dialog"
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
@@ -45,7 +46,7 @@ export function EmployeeDashboard() {
             </div>
           <div>
             <Dialog>
-              <DialogTrigger>
+              <DialogTrigger>              
                   <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar</button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px] bg-primary text-secondary border-none">
@@ -83,7 +84,9 @@ export function EmployeeDashboard() {
                     </div>
                   </div>
               <DialogFooter>
+                <DialogClose>
                   <button className="bg-[#010101] py-1.5 px-10 rounded-lg text-white">Salvar</button>
+                </DialogClose>
               </DialogFooter>
           </DialogContent>
             </Dialog>
@@ -91,28 +94,24 @@ export function EmployeeDashboard() {
         </div>
         <table className="w-full">
           <thead>
-            <tr>
-              <th className="pb-6 pt-3 px-5 text-center text-secondary text-xl font-semibold ">ID</th>
+            <tr className="border-b border-neutral-400/70">
+              <th className="pb-3 pt-3 px-5 text-center text-secondary text-xl font-semibold">ID</th>
                 <TableHeader>Nome</TableHeader>
                 <TableHeader>Cargo</TableHeader>
-                <TableHeader>Admissão</TableHeader>
-                <TableHeader>Demissão</TableHeader>
-                <TableHeader>Salário</TableHeader>
+                <TableHeader>Email</TableHeader>
                 <TableHeader>Status</TableHeader>
-              <th className="pb-6 pt-3 px-5 text-center text-secondary text-xl font-semibold">Ações</th>
+                <th className="pb-3 pt-3 pl-5 text-center text-secondary text-xl font-semibold">Ações</th>
             </tr>
           </thead>
           <tbody>
                  {Array.from({ length: 20 }).map((_, index) => (
-                      <tr key={index + 1}>
+                      <tr className="border-b border-white/20" key={index + 1}>
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>Arthur</TableCell>
                         <TableCell>Gerente</TableCell>
-                        <TableCell>30/01/2023</TableCell>
-                        <TableCell>N/A</TableCell>
-                        <TableCell>R$ 1000</TableCell>
+                        <TableCell>seu@gmail.com</TableCell>
                         <TableCell>Ativo</TableCell>
-                        <td className="py-3 text-center font-light text-lg flex justify-center gap-5">
+                        <td className="font-light text-lg mt-3 flex justify-center gap-5">
                             <Dialog>
                                 <TooltipProvider>
                                     <Tooltip>
@@ -163,7 +162,9 @@ export function EmployeeDashboard() {
                                         </div>
                                     </div>
                                     <DialogFooter>
+                                      <DialogClose>
                                         <button className="bg-[#010101] py-1.5 px-10 rounded-lg text-white">Salvar</button>
+                                      </DialogClose>
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
@@ -187,8 +188,12 @@ export function EmployeeDashboard() {
                                 <DialogDescription className="text-secondary">Deseja realmente excluir o funcionário?</DialogDescription>
                               </DialogHeader>
                               <DialogFooter>
-                                <button className="bg-[#010101] mx-2 py-1.5 px-10 rounded-lg text-white">Cancelar</button>
-                                <button className="bg-error py-1.5 px-10 rounded-lg text-white">Excluir</button>
+                                <DialogClose>
+                                  <button className="bg-[#010101] mx-2 py-1.5 px-10 rounded-lg text-white">Cancelar</button>
+                                </DialogClose>
+                                <DialogClose>
+                                  <button className="bg-error py-1.5 px-10 rounded-lg text-white">Excluir</button>
+                                </DialogClose>
                               </DialogFooter>
                             </DialogContent>
                           </Dialog>
