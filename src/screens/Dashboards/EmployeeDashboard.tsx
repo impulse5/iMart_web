@@ -20,12 +20,13 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/Dialog/dialog"
+import { badgeVariants } from "@/components/ui/Badge/badge"
+import {
+  Badge
+} from "@/components/ui/Badge/badge"
+
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
-
-
-
-
 
 export function EmployeeDashboard() {
     return(
@@ -110,8 +111,10 @@ export function EmployeeDashboard() {
                         <TableCell>Arthur</TableCell>
                         <TableCell>Gerente</TableCell>
                         <TableCell>seu@gmail.com</TableCell>
-                        <TableCell>Ativo</TableCell>
-                        <td className="font-light text-lg mt-3 flex justify-center gap-5">
+                        <TableCell>
+                          <Badge>Ativo</Badge>
+                        </TableCell>
+                        <td className="font-light  text-lg mt-3 flex justify-center gap-5">
                             <Dialog>
                                 <TooltipProvider>
                                     <Tooltip>
@@ -168,7 +171,6 @@ export function EmployeeDashboard() {
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
-
                           <Dialog>
                             <TooltipProvider>
                                 <Tooltip>
