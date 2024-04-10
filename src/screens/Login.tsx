@@ -25,7 +25,7 @@ interface EnterpriseLoginType {
 }
 
 export function Login() {
-  const { Login, loginLoading, loginError, loginSuccess } = useAuthentication();
+  const { Login, loginLoading, loginError, loginSuccess, setLoginSuccess } = useAuthentication();
   const { toast } = useToast();
   const [enterpriseLogin, setEnterpriseLogin] = useState<EnterpriseLoginType>({ email: '', password: '' });
   const handleChange = (e: any) => {
@@ -109,8 +109,12 @@ export function Login() {
         variant: 'success',
         title: 'Login realizado com sucesso!',
         description: 'Seja bem vindo!',
-        duration: 5000,
+        duration: 3000,
       });
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 1000)
+      setLoginSuccess(false);
     }
   }, [loginSuccess]);
 
