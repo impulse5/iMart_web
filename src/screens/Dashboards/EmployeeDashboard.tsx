@@ -20,7 +20,6 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/Dialog/dialog"
-import { badgeVariants } from "@/components/ui/Badge/badge"
 import {
   Badge
 } from "@/components/ui/Badge/badge"
