@@ -58,7 +58,11 @@ export const AuthenticationProvider = ({ children }: Props) => {
     if (!token) {
       localStorage.removeItem('authToken')
       localStorage.removeItem('user')
+      api.defaults.headers = {}
       return false
+    }
+    api.defaults.headers = {
+      Authorization: `Bearer ${token}`,
     }
     setToken(token)
     setUser(JSON.parse(user!))
