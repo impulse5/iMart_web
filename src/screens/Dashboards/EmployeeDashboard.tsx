@@ -96,7 +96,6 @@ export function EmployeeDashboard() {
         <table className="w-full">
           <thead>
             <tr className="border-b border-neutral-400/70">
-              <th className="pb-3 pt-3 px-5 text-center text-secondary text-xl font-semibold">ID</th>
                 <TableHeader>Nome</TableHeader>
                 <TableHeader>Cargo</TableHeader>
                 <TableHeader>Email</TableHeader>
@@ -107,7 +106,6 @@ export function EmployeeDashboard() {
           <tbody>
                  {Array.from({ length: 20 }).map((_, index) => (
                       <tr className="border-b border-white/20" key={index + 1}>
-                        <TableCell>{index + 1}</TableCell>
                         <TableCell>Arthur</TableCell>
                         <TableCell>Gerente</TableCell>
                         <TableCell>seu@gmail.com</TableCell>
