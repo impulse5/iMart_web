@@ -12,7 +12,7 @@ export type AuthContextType = {
   loginSuccess: boolean;
   Login: (email: string, password: string) => Promise<void>;
   setLoginSuccess: (value: boolean) => void;
-  user: User | null;
+  user: User;
   token: string | null;
   authenticate: () => boolean;
   logout: () => boolean;
@@ -22,7 +22,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
   const [loginLoading, setLoginLoading] = useState(false)
   const [loginError, setLoginError] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>({})
   const [token, setToken] = useState<string | null>(null)
 
   const storageToken = (token: string) => {

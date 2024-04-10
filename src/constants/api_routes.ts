@@ -9,3 +9,6 @@ export const GET_CITY_STATE_BY_CEP = (cep: string) =>
 
 // login
 export const POST_USER_LOGIN = `login`
+
+export const GET_EMPLOYEES = (id: string) =>
+  `market/${id}/employees`

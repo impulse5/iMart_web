@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { 
   CircleUserRound,
   Pencil, 
@@ -26,8 +27,17 @@ import {
 
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
+import { EmployeeService } from "@/services/employee_service";
+import { useRoleTranslate } from "@/hooks/useRoleTranslate";
 
 export function EmployeeDashboard() {
+
+  const { getEmployees, employees } = EmployeeService()
+
+  useEffect(() => {
+    getEmployees();
+  }, [])
+
     return(
         <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
           <header className="flex justify-between items-center mt-6 ">
@@ -103,13 +113,17 @@ export function EmployeeDashboard() {
             </tr>
           </thead>
           <tbody>
-                 {Array.from({ length: 20 }).map((_, index) => (
-                      <tr className="border-b border-white/20" key={index + 1}>
-                        <TableCell>Arthur</TableCell>
-                        <TableCell>Gerente</TableCell>
-                        <TableCell>seu@gmail.com</TableCell>
+                 {employees.map((employee) => (
+                      <tr className="border-b border-white/20" key={employee?.attributes?.id}>
+                        <TableCell>{employee?.attributes?.name}</TableCell>
+                        <TableCell>{useRoleTranslate(employee?.attributes?.role)}</TableCell>
+                        <TableCell>{employee?.attributes?.email}</TableCell>
                         <TableCell>
-                          <Badge>Ativo</Badge>
+                          {
+                            employee?.attributes?.status ? 
+                            <Badge>Ativo</Badge> : 
+                            <Badge variant="error">Inativo</Badge>
+                          }
                         </TableCell>
                         <td className="font-light  text-lg mt-3 flex justify-center gap-5">
                             <Dialog>
