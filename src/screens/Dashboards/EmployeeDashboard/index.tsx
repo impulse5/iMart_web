@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CircleUserRound, Trash2, Search } from "lucide-react";
+import { CircleUserRound, Search } from "lucide-react";
 import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
