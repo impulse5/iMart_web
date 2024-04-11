@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import { CircleUserRound, Search } from "lucide-react";
-import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
-import { useRoleTranslate } from "@/hooks/useRole";
-import { roles } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
 import { EditIcon } from "@/components/EditIcon";
 import { RemoveIcon } from "@/components/RemoveIcon";
@@ -45,12 +42,11 @@ export function SupplierDashboard() {
               }
               type="create"
               fields={[
-                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam' },
+                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev' },
                 { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00' },
                 { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999' },
                 { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' }
               ]}
-              selectOptions={roles}
             />
           </div>
         </div>
@@ -77,12 +73,11 @@ export function SupplierDashboard() {
                     type="edit"
                     title="Editar fornecedor"
                     fields={[
-                        { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam' },
+                        { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev' },
                         { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00' },
                         { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999' },
                         { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' }
                     ]}
-                    selectOptions={roles}
                     trigger={<EditIcon />}
                   />
                   <CustomModal
