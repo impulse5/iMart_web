@@ -11,35 +11,151 @@ import { EditIcon } from "@/components/EditIcon";
 import { RemoveIcon } from "@/components/RemoveIcon";
 import { EmployeeInfo } from "@/types/EmployeeInfo";
 
+import { Toaster } from "@/components/ui/Toast/toaster";
+import { useToast } from "@/components/ui/Toast/use-toast";
+
 export function EmployeeDashboard() {
+  const { toast } = useToast();
   const { getEmployees, employees, postEmployee } = EmployeeService();
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
     role: '',
   });
 
-  const handleCreateEmployee = () => {
-    if (newEmployee.name === '' || newEmployee.email === '' || newEmployee.password === '' || newEmployee.role === '') {
-      alert('Preencha todos os campos!');
+
+  const handleCreateEmployee = async () => {
+    if (newEmployee.name === '' || newEmployee.email === '' || newEmployee.password === '' || newEmployee.confirmPassword === '' || newEmployee.role === '') {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'Preencha todos os campos!',
+        duration: 3000,
+      });
       return;
     }
-    let employee = {
-      user: {
-        name: newEmployee.name,
-        email: newEmployee.email,
-        password: newEmployee.password,
-        role: newEmployee.role,
-      }}
-    postEmployee(employee);
-    setNewEmployee({
-      name: '',
-      email: '',
-      password: '',
-      role: '',
-    });
-  }
+
+    if (!/^[a-zA-Z]+$/.test(newEmployee.name)) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'Nome do funcionário inválido! O nome deve conter apenas letras.',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (newEmployee.password.length < 8) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'A senha deve ter pelo menos 8 caracteres!',
+        duration: 3000,
+      });
+      return;
+    }
+  
+    if (!/\d/.test(newEmployee.password)) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'A senha deve conter pelo menos um número!',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!/[A-Z]/.test(newEmployee.password)) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'A senha deve conter pelo menos uma letra maiúscula!',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!/[a-z]/.test(newEmployee.password)) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'A senha deve conter pelo menos uma letra minúscula!',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!/[$&+,:;=?@#|'<>.^*()%!-]/.test(newEmployee.password)) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'A senha deve conter pelo menos um caractere especial!',
+        duration: 3000,
+      });
+      return;
+    }
+  
+    if (newEmployee.password !== newEmployee.confirmPassword) {
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'As senhas não coincidem!',
+        duration: 3000,
+      });
+      return;
+    }
+  
+    try {
+      await getEmployees();
+
+      const isEmailRegistered = employees.some((employee) => employee.attributes.email === newEmployee.email);
+      if (isEmailRegistered) {
+        toast({
+          variant: 'error',
+          title: 'Erro ao criar funcionário',
+          description: 'Já existe um funcionário cadastrado com esse email!',
+          duration: 3000,
+        });
+        return;
+      }
+
+      let employee = {
+        user: {
+          name: newEmployee.name,
+          email: newEmployee.email,
+          password: newEmployee.password,
+          role: newEmployee.role,
+        }
+      };
+  
+      const success = await postEmployee(employee);
+  
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Funcionário criado',
+          description: 'O funcionário foi criado com sucesso!',
+          duration: 3000,
+        });
+        setNewEmployee({
+          name: '',
+          email: '',
+          password: '',
+          role: '',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao criar funcionário',
+        description: 'Ocorreu um erro ao tentar criar o funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+  };
 
   useEffect(() => {
     getEmployees();
@@ -47,6 +163,7 @@ export function EmployeeDashboard() {
   
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
+      <Toaster position="top-center" />
       <header className="flex justify-between items-center mt-6">
         <div>
           <h1 className="text-3xl text-neutral-400 font-bold">FUNCIONÁRIOS</h1>
@@ -76,6 +193,7 @@ export function EmployeeDashboard() {
                 { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam', value: newEmployee.name, onChange: (e) => setNewEmployee({ ...newEmployee, name: e.target.value })},
                 { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com', value: newEmployee.email, onChange: (e) => setNewEmployee({ ...newEmployee, email: e.target.value })},
                 { id: 'password', label: 'Senha', type: 'password', placeholder: '*******', value: newEmployee.password, onChange: (e) => setNewEmployee({ ...newEmployee, password: e.target.value })},
+                { id: 'confirmPassword', label: 'Confirme sua senha', type: 'password', placeholder: '*******', value: newEmployee.confirmPassword, onChange: (e) => setNewEmployee({ ...newEmployee, confirmPassword: e.target.value })},
                 { type: 'select', placeholder: 'Selecione o cargo', value: newEmployee.role, onSelect: (e) => setNewEmployee({ ...newEmployee, role: e.target.value })},
               ]}
               selectOptions={roles}

@@ -1,5 +1,5 @@
-// export const API_BASE_URL = 'https://imart-zzva.onrender.com/'
-export const API_BASE_URL = 'http://localhost:4000/'
+export const API_BASE_URL = 'https://imart-zzva.onrender.com/'
+
 // markets
 export const POST_CREATE_MARKET = `markets`
 

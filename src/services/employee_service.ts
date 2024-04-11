@@ -35,7 +35,9 @@ export const EmployeeService = () => {
     let market_id = await getMarketId()
     try {
       const response = await api.get(GET_EMPLOYEES(market_id || ''))
-     setEmployees(response.data.users.data)
+      setEmployees(response.data.users.data)
+      const emails = response.data.users.data
+      return emails
     } catch (error) {
       console.log(error)
     }
@@ -46,6 +48,7 @@ export const EmployeeService = () => {
       let market_id = await getMarketId()
       const response = await api.post(POST_EMPLOYEE(market_id || ''), employee);
       console.log(response)
+      return true
     } catch (error) {
       console.log(error)
     }

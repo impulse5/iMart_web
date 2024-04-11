@@ -2,6 +2,7 @@ export interface EmployeeInfo {
   name: string;
   email: string;
   password: string;
+  confirmPassword?: string;
   role: string;
 }
 
@@ -10,6 +11,7 @@ export interface userEmployeeInfo {
     name: string;
     email: string;
     password: string;
+    confirmPassword?: string;
     role: string;
   }
 }
