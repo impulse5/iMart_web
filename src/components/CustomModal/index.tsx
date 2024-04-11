@@ -21,14 +21,16 @@ type CustomModalProps = {
     id?: string,
     value?: string,
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onSelect?: (e: any) => void,
   }[]
   selectOptions?: {
     label: string,
     value: string,
   }[]
+  onSubmit?: () => void
 }
 
-export const CustomModal = ({type, trigger, title, description, fields, selectOptions}: CustomModalProps) => {
+export const CustomModal = ({type, trigger, title, description, fields, selectOptions, onSubmit}: CustomModalProps) => {
   return (
     <Dialog>
       <DialogTrigger>
@@ -55,11 +57,11 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
                     </div>
                   ) : (
                     <div className="mt-3 mb-2">
-                      <select className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80">
+                      <select onChange={field.onSelect} className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80">
                         <option disabled selected>{field.placeholder}</option>
                         {
                           selectOptions && selectOptions.map(option => (
-                            <option key={option.value}>{option.label}</option>
+                            <option value={option.value}>{option.label}</option>
                           ))
                         }
                       </select>
@@ -74,15 +76,17 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
             <DialogClose>
               <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cancelar</button>
             </DialogClose>
+            <DialogClose>
             {
               type === "create" ? (
-                <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar</button>
+                <button onClick={onSubmit} className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar</button>
               ) : type === "edit" ? (
-                <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Editar</button>
+                <button onClick={onSubmit} className="bg-[#010101] py-1.5 px-10 rounded-lg">Editar</button>
               ) : type === "delete" ? (
-                <button className="bg-error py-1.5 px-10 rounded-lg">Deletar</button>
+                <button onClick={onSubmit} className="bg-error py-1.5 px-10 rounded-lg">Deletar</button>
               ) : null
             }
+            </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

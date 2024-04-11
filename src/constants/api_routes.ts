@@ -12,3 +12,6 @@ export const POST_USER_LOGIN = `login`
 
 export const GET_EMPLOYEES = (id: string) =>
   `market/${id}/employees`
+
+export const POST_EMPLOYEE = (market_id: string) =>
+  `market/${market_id}/employee`
