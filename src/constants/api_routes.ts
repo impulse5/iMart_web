@@ -1,5 +1,5 @@
-export const API_BASE_URL = 'https://imart-zzva.onrender.com/'
-
+// export const API_BASE_URL = 'https://imart-zzva.onrender.com/'
+export const API_BASE_URL = 'http://localhost:4000/'
 // markets
 export const POST_CREATE_MARKET = `markets`
 
@@ -12,3 +12,6 @@ export const POST_USER_LOGIN = `login`
 
 export const GET_EMPLOYEES = (id: string) =>
   `market/${id}/employees`
+
+export const POST_EMPLOYEE = (market_id: string) =>
+  `market/${market_id}/employee`

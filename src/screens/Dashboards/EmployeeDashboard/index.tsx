@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CircleUserRound, Search } from "lucide-react";
 import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
@@ -9,9 +9,31 @@ import { roles } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
 import { EditIcon } from "@/components/EditIcon";
 import { RemoveIcon } from "@/components/RemoveIcon";
+import { EmployeeInfo } from "@/types/EmployeeInfo";
 
 export function EmployeeDashboard() {
-  const { getEmployees, employees } = EmployeeService();
+  const { getEmployees, employees, postEmployee } = EmployeeService();
+  const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
+    name: '',
+    email: '',
+    password: '',
+    role: '',
+  });
+
+  const handleCreateEmployee = () => {
+    if (newEmployee.name === '' || newEmployee.email === '' || newEmployee.password === '' || newEmployee.role === '') {
+      alert('Preencha todos os campos!');
+      return;
+    }
+    let employee = {
+      user: {
+        name: newEmployee.name,
+        email: newEmployee.email,
+        password: newEmployee.password,
+        role: newEmployee.role,
+      }}
+    postEmployee(employee);
+  }
 
   useEffect(() => {
     getEmployees();
@@ -45,12 +67,13 @@ export function EmployeeDashboard() {
               }
               type="create"
               fields={[
-                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam' },
-                { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
-                { id: 'password', label: 'Senha', type: 'password', placeholder: '*******' },
-                { type: 'select', placeholder: 'Selecione o cargo'}
+                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam', value: newEmployee.name, onChange: (e) => setNewEmployee({ ...newEmployee, name: e.target.value })},
+                { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com', value: newEmployee.email, onChange: (e) => setNewEmployee({ ...newEmployee, email: e.target.value })},
+                { id: 'password', label: 'Senha', type: 'password', placeholder: '*******', value: newEmployee.password, onChange: (e) => setNewEmployee({ ...newEmployee, password: e.target.value })},
+                { type: 'select', placeholder: 'Selecione o cargo', value: newEmployee.role, onSelect: (e) => setNewEmployee({ ...newEmployee, role: e.target.value })},
               ]}
               selectOptions={roles}
+              onSubmit={handleCreateEmployee}
             />
           </div>
         </div>
