@@ -9,7 +9,7 @@ export const useRoleTranslate = (role: string) => {
 };
 
 export const roles = [
-  { value: 'manager', label: 'Gerente' },
-  { value: 'stockist', label: 'Estoquista' },
-  { value: 'seller', label: 'Caixa' },
+  { value: 'gerente', label: 'Gerente' },
+  { value: 'estoquista', label: 'Estoquista' },
+  { value: 'caixa', label: 'Caixa' },
 ]
