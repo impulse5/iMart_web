@@ -19,6 +19,8 @@ type CustomModalProps = {
     type: string,
     placeholder: string,
     id?: string,
+    value?: string,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   }[]
   selectOptions?: {
     label: string,
@@ -49,7 +51,7 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
                   field.type !== "select" ? (
                     <div key={index} className="flex flex-col">
                       <label htmlFor={field.id}>{field.label}</label>
-                      <input type={field.type} id={field.id} placeholder={field.placeholder} className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md" />
+                      <input type={field.type} id={field.id} placeholder={field.placeholder} value={field.value} onChange={field.onChange} className="py-1.5 px-3 w-80 outline-none bg-tertiary rounded-md" />
                     </div>
                   ) : (
                     <div className="mt-3 mb-2">
