@@ -33,6 +33,12 @@ export function EmployeeDashboard() {
         role: newEmployee.role,
       }}
     postEmployee(employee);
+    setNewEmployee({
+      name: '',
+      email: '',
+      password: '',
+      role: '',
+    });
   }
 
   useEffect(() => {

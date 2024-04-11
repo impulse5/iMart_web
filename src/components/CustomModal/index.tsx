@@ -76,6 +76,7 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
             <DialogClose>
               <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cancelar</button>
             </DialogClose>
+            <DialogClose>
             {
               type === "create" ? (
                 <button onClick={onSubmit} className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar</button>
@@ -85,6 +86,7 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
                 <button onClick={onSubmit} className="bg-error py-1.5 px-10 rounded-lg">Deletar</button>
               ) : null
             }
+            </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
