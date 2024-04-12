@@ -1,25 +1,15 @@
 import {LogoWhite} from '../../assets/imart_logo_white'
 import { Settings, ShoppingBasket, Package, LayoutDashboard, Users } from "lucide-react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useAuthentication } from '@/contexts/AuthenticationContext';
 
 export function Sidebar() {
-  const navigate = useNavigate()
 
   const {pathname} = useLocation();
-  const { logout } = useAuthentication();
 
   function getActiveClass(path: string) {
     return pathname === path;
-  }
-
-  function handleLogout() {
-    const isLoggedOut = logout();
-    if (isLoggedOut) {
-      navigate('/login')
-    }
   }
 
   return (
@@ -52,9 +42,6 @@ export function Sidebar() {
             <button className="py-2 w-full flex">
               <Settings className="mx-2" />
               Configurações
-            </button>
-            <button className="p-2 bg-neutral-950 rounded-lg hover:opacity-80" onClick={handleLogout}>
-              Sair
             </button>
           </div>
         </div>

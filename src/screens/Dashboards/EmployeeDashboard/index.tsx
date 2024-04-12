@@ -10,7 +10,7 @@ import { EditIcon, RemoveIcon, ActivateIcon, DeactivateIcon } from "@/components
 import { EmployeeInfo, userEmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
-import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
+import { Dropdown } from "@/components/UserDropdown/Dropdown";
 import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 export function EmployeeDashboard() {

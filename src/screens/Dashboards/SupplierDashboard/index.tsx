@@ -2,7 +2,7 @@ import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
-import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
+import { Dropdown } from "@/components/UserDropdown/Dropdown";
 import { useState } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
 export function SupplierDashboard() {
