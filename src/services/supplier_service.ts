@@ -9,6 +9,7 @@ type SupplierService = {
   getSuppliers: () => Promise<void>;
   postSupplier: (supplier: dataSupplierInfo) => Promise<boolean> | undefined;
   switchSupplierStatus: (supplier_id: string) => Promise<boolean> | undefined;
+  deleteSupplier: (supplier_id: string) => Promise<boolean> | undefined;
 }
 
 type Supplier = {
