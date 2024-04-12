@@ -9,10 +9,12 @@ import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
 import { SupplierInfo } from "@/types/SupplierInfo";
+import { Badge } from "@/components/ui/Badge/badge";
+import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 
 export function SupplierDashboard() {
 
-  const { getSuppliers, suppliers, postSupplier } = SupplierService();
+  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus } = SupplierService();
   const { toast } = useToast();
   const [newSupplier, setNewSupplier] = useState<SupplierInfo>({
     name: '',
@@ -51,10 +53,27 @@ export function SupplierDashboard() {
     }
   }
 
-  const supplier = [
-    { id: 1, name: 'MelhorArroz', cnpj: '91.689.620/0001-35', telefone: '80020922', email: 'fornecedor1@example.com' },
-    { id: 2, name: 'Feijão', cnpj: '91.689.620/0001-36', telefone: '80020923', email: 'fornecedor2@example.com' },
-  ];
+  const handleStatusSupplier = async (supplier_id: string) => {
+    try {
+      const success = await switchSupplierStatus(supplier_id);
+      if (success) {
+        toast({
+          title: 'Status alterado com sucesso!',
+          description: 'O status do fornecedor foi alterado com sucesso.',
+          variant: 'success',
+          duration: 3000,
+        })
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Erro ao alterar status!',
+        description: 'Ocorreu um erro ao alterar o status do fornecedor.',
+        variant: 'error',
+        duration: 3000,
+      })
+    }
+  }
 
   const [search, setSearch] = useState<string>('');
   const filteredSupplier = suppliers.filter((supplier) =>
@@ -117,6 +136,7 @@ export function SupplierDashboard() {
               <TableHeader>CNPJ</TableHeader>
               <TableHeader>Telefone</TableHeader>
               <TableHeader>Email</TableHeader>
+              <TableHeader>Status</TableHeader>
               <th className="pb-3 pt-3 pl-5 text-center text-secondary text-xl font-semibold">Ações</th>
             </tr>
           </thead>
@@ -127,6 +147,13 @@ export function SupplierDashboard() {
                 <TableCell>{supplier?.attributes?.cnpj}</TableCell>
                 <TableCell>{supplier?.attributes?.cellphone}</TableCell>
                 <TableCell>{supplier?.attributes?.email}</TableCell>
+                <TableCell>
+                  {supplier?.attributes?.active ? (
+                    <Badge>Ativo</Badge>
+                  ) : (
+                    <Badge variant="error">Inativo</Badge>
+                  )}
+                </TableCell>
                 
                 <td className="font-light text-lg mt-3 flex justify-center gap-5">
                   <CustomModal
@@ -146,6 +173,11 @@ export function SupplierDashboard() {
                     title="Excluir fornecedor"
                     description="Deseja realmente excluir o fornecedor?"
                   />
+                  <div onClick={() => handleStatusSupplier(supplier?.attributes?.id)}>
+                    {
+                      supplier?.attributes?.active ? <DeactivateIcon /> : <ActivateIcon />
+                    }
+                  </div>
                 </td>
               </tr>
             ))}

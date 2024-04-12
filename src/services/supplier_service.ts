@@ -1,13 +1,14 @@
 import { api } from "./api";
-import { POST_SUPPLIER, GET_SUPPLIERS } from "@/constants/api_routes";
+import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS } from "@/constants/api_routes";
 import { useState } from "react";
 import { useGetMarketId } from "@/hooks/useGetMarketId";
 import { dataSupplierInfo } from "@/types/SupplierInfo";
 
 type SupplierService = {
+  suppliers: Supplier;
   getSuppliers: () => Promise<void>;
   postSupplier: (supplier: dataSupplierInfo) => Promise<boolean> | undefined;
-  suppliers: Supplier;
+  switchSupplierStatus: (supplier_id: string) => Promise<boolean> | undefined;
 }
 
 type Supplier = {
@@ -17,6 +18,7 @@ type Supplier = {
     email: string;
     cnpj: string;
     cellphone: string;
+    active: string;
   }
   id: string;
   type: string;
@@ -48,5 +50,21 @@ export const SupplierService = (): SupplierService => {
     }
   }
 
-  return { suppliers, getSuppliers, postSupplier } as SupplierService;
+  const switchSupplierStatus = async (supplier_id: string) => {
+    try {
+      const response = await api.put(PUT_SUPPLIER_STATUS(supplier_id))
+      console.log(response)
+      setSuppliers(suppliers.map(supplier => {
+        if (supplier.id === supplier_id) {
+          supplier.attributes.active = response.data.supplier.data.attributes.active
+        }
+        return supplier
+      }))
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus } as SupplierService;
 }
