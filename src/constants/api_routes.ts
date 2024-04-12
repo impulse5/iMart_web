@@ -36,3 +36,6 @@ export const DELETE_SUPPLIER = (supplier_id: string) =>
 
 export const PUT_SUPPLIER_STATUS = (supplier_id: string) => 
   `supplier/${supplier_id}/status`
+
+export const PUT_SUPPLIER = (supplier_id: string) =>
+  `supplier/${supplier_id}`
