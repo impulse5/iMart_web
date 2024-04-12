@@ -4,8 +4,7 @@ import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
 import { CustomModal } from "@/components/CustomModal";
-import { EditIcon } from "@/components/EditIcon";
-import { RemoveIcon } from "@/components/RemoveIcon";
+import { EditIcon, RemoveIcon } from "@/components/Icons/";
 
 export function SupplierDashboard() {
   const { getEmployees, employees } = EmployeeService();

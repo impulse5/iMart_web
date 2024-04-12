@@ -47,7 +47,7 @@ export const EmployeeService = () => {
     try {
       let market_id = await getMarketId()
       const response = await api.post(POST_EMPLOYEE(market_id || ''), employee);
-      console.log(response)
+      setEmployees([...employees, response.data.user.data])
       return true
     } catch (error) {
       console.log(error)
@@ -58,6 +58,7 @@ export const EmployeeService = () => {
     try {
       const response = await api.delete(DELETE_EMPLOYEE(employee_id))
       console.log(response)
+      setEmployees(employees.filter(employee => employee.id !== employee_id))
       return true
     } catch (error) {
       console.log(error)

@@ -92,7 +92,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
         user,
         token,
         authenticate,
-        logout
+        logout,
       }}
     >
       {children}
