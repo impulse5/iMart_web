@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { api } from "./api"
-import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE } from "@/constants/api_routes"
+import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
 import { userEmployeeInfo } from "@/types/EmployeeInfo"
 
@@ -65,10 +65,34 @@ export const EmployeeService = () => {
     }
   }
 
+  const switchEmployeeStatus = async (employee_id: string) => {
+    try {
+      const response = await api.put(PUT_EMPLOYEE_STATUS(employee_id))
+      console.log(response)
+      const updatedEmployees = employees.map(employee => {
+        if (employee.id === employee_id) {
+          return {
+            ...employee,
+            attributes: {
+              ...employee.attributes,
+              status: !employee.attributes.status
+            }
+          }
+        }
+        return employee
+      })
+      setEmployees(updatedEmployees)
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     employees,
     getEmployees,
     postEmployee,
-    deleteEmployee
+    deleteEmployee,
+    switchEmployeeStatus
   }
 }

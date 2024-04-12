@@ -6,7 +6,7 @@ import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
 import { roles, ownerRoles, useRoleTranslate } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
-import { EditIcon, RemoveIcon } from "@/components/Icons";
+import { EditIcon, RemoveIcon, ActivateIcon, DeactivateIcon } from "@/components/Icons";
 import { EmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
@@ -14,7 +14,7 @@ import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee, deleteEmployee } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus } = EmployeeService();
   const { user } = useAuthentication();
   const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
@@ -179,6 +179,28 @@ export function EmployeeDashboard() {
     }
   }
 
+  const handleStatusEmployee = async (employeeId: string) => {
+    try {
+      const success = await switchEmployeeStatus(employeeId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Status do funcionário alterado',
+          description: 'O status do funcionário foi alterado com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao alterar status do funcionário',
+        description: 'Ocorreu um erro ao tentar alterar o status do funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+  }
+
   useEffect(() => {
     getEmployees();
   }, []);
@@ -278,6 +300,15 @@ export function EmployeeDashboard() {
                       description="Deseja realmente excluir o funcionário?"
                       onSubmit={() => handleDeleteEmployee(employee?.attributes?.id)}
                     />
+                    )
+                  }
+                  {
+                    employee?.attributes?.role === 'owner' ? null : (
+                      <div onClick={() => handleStatusEmployee(employee?.attributes?.id)}>
+                        {
+                          employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
+                        }
+                      </div>
                     )
                   }
                 </td>

@@ -18,3 +18,6 @@ export const POST_EMPLOYEE = (market_id: string) =>
 
 export const DELETE_EMPLOYEE = (employee_id: string) =>
   `employee/${employee_id}`
+
+export const PUT_EMPLOYEE_STATUS = (employee_id: string) =>
+  `employee/${employee_id}/status`
