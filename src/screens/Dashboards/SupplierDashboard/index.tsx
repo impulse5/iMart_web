@@ -6,7 +6,7 @@ import { EmployeeService } from "@/services/employee_service";
 import { CustomModal } from "@/components/CustomModal";
 import { EditIcon } from "@/components/EditIcon";
 import { RemoveIcon } from "@/components/RemoveIcon";
-
+import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 export function SupplierDashboard() {
   const { getEmployees, employees } = EmployeeService();
 
@@ -21,8 +21,13 @@ export function SupplierDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
         </div>
         <div>
-          <CircleUserRound className="text-neutral-400 size-12 cursor-pointer" />
-        </div>
+            <Dropdown 
+              title="Minha conta" 
+              trigger={<CircleUserRound 
+              className="text-neutral-400 size-12 cursor-pointer" 
+            />
+            }/>
+        </div>  
       </header>
       <article className="my-4 bg-tertiary rounded-lg">
         <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CircleUserRound, Search } from "lucide-react";
+import { CircleUserRound, Search} from "lucide-react";
 import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
@@ -12,7 +12,7 @@ import { RemoveIcon } from "@/components/RemoveIcon";
 import { EmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
-
+import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 export function EmployeeDashboard() {
   const { toast } = useToast();
   const { getEmployees, employees, postEmployee, deleteEmployee } = EmployeeService();
@@ -194,7 +194,11 @@ export function EmployeeDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FUNCIONÁRIOS</h1>
         </div>
         <div>
-          <CircleUserRound className="text-neutral-400 size-12 cursor-pointer" />
+          <Dropdown 
+              title="Minha conta" 
+              trigger={<CircleUserRound 
+              className="text-neutral-400 size-12 cursor-pointer" 
+            />}/>
         </div>
       </header>
       <article className="my-4 bg-tertiary rounded-lg">
