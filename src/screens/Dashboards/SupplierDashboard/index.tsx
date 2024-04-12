@@ -5,7 +5,7 @@ import { CustomModal } from "@/components/CustomModal";
 import { useState, useEffect } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
 import { SuppliersService } from "@/services/suppliers_service";
-
+import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 export function SupplierDashboard() {
   const { getSuppliers, suppliers } = SuppliersService();
   const [search, setSearch] = useState<string>('');
@@ -24,8 +24,13 @@ export function SupplierDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
         </div>
         <div>
-          <CircleUserRound className="text-neutral-400 size-12 cursor-pointer" />
-        </div>
+            <UserDropdown 
+              title="Minha conta" 
+              trigger={<CircleUserRound 
+              className="text-neutral-400 size-12 cursor-pointer" 
+            />
+            }/>
+        </div>  
       </header>
       <article className="my-4 bg-tertiary rounded-lg">
         <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">
