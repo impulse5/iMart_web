@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS } from "@/constants/api_routes";
+import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS, DELETE_SUPPLIER } from "@/constants/api_routes";
 import { useState } from "react";
 import { useGetMarketId } from "@/hooks/useGetMarketId";
 import { dataSupplierInfo } from "@/types/SupplierInfo";
@@ -9,6 +9,7 @@ type SupplierService = {
   getSuppliers: () => Promise<void>;
   postSupplier: (supplier: dataSupplierInfo) => Promise<boolean> | undefined;
   switchSupplierStatus: (supplier_id: string) => Promise<boolean> | undefined;
+  deleteSupplier: (supplier_id: string) => Promise<boolean> | undefined;
 }
 
 type Supplier = {
@@ -50,6 +51,18 @@ export const SupplierService = (): SupplierService => {
     }
   }
 
+  const deleteSupplier = async (supplier_id: string) => {
+    try {
+      const response = await api.delete(DELETE_SUPPLIER(supplier_id))
+      console.log(response)
+      setSuppliers(suppliers.filter(supplier => supplier.id !== supplier_id))
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   const switchSupplierStatus = async (supplier_id: string) => {
     try {
       const response = await api.put(PUT_SUPPLIER_STATUS(supplier_id))
@@ -66,5 +79,5 @@ export const SupplierService = (): SupplierService => {
     }
   }
 
-  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus } as SupplierService;
+  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus, deleteSupplier } as SupplierService;
 }

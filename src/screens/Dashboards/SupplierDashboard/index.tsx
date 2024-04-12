@@ -14,7 +14,7 @@ import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 
 export function SupplierDashboard() {
 
-  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus } = SupplierService();
+  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus, deleteSupplier } = SupplierService();
   const { toast } = useToast();
   const [newSupplier, setNewSupplier] = useState<SupplierInfo>({
     name: '',
@@ -79,6 +79,27 @@ export function SupplierDashboard() {
   const filteredSupplier = suppliers.filter((supplier) =>
     supplier.attributes.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleDeleteSupplier = async (supplierId: string) => {
+    try {
+      const success = await deleteSupplier(supplierId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Fornecedor excluído',
+          description: 'O fornecedor foi excluído com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao excluir fornecedor',
+        description: 'Ocorreu um erro ao tentar excluir o fornecedor. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }}
 
   useEffect(() => {
     getSuppliers();
@@ -172,6 +193,7 @@ export function SupplierDashboard() {
                     type="delete"
                     title="Excluir fornecedor"
                     description="Deseja realmente excluir o fornecedor?"
+                    onSubmit={() => handleDeleteSupplier(supplier?.attributes?.id)}
                   />
                   <div onClick={() => handleStatusSupplier(supplier?.attributes?.id)}>
                     {

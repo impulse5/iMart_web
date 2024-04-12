@@ -31,5 +31,8 @@ export const POST_SUPPLIER = (market_id: string) =>
 export const GET_SUPPLIERS = (market_id: string) =>
   `market/${market_id}/suppliers`
 
+export const DELETE_SUPPLIER = (supplier_id: string) =>
+  `supplier/${supplier_id}`
+
 export const PUT_SUPPLIER_STATUS = (supplier_id: string) => 
   `supplier/${supplier_id}/status`
