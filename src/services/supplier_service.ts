@@ -11,6 +11,7 @@ type SupplierService = {
   switchSupplierStatus: (supplier_id: string) => Promise<boolean> | undefined;
   deleteSupplier: (supplier_id: string) => Promise<boolean> | undefined;
   editSupplier: (supplier_id: string, supplier: dataSupplierInfo) => Promise<boolean> | undefined;
+  loading?: boolean;
 }
 
 type Supplier = {
@@ -30,41 +31,53 @@ export const SupplierService = (): SupplierService => {
 
   const { getMarketId } = useGetMarketId()
   const [suppliers, setSuppliers] = useState<Supplier>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getSuppliers = async () => {
     let market_id = await getMarketId()
+    setLoading(true)
     try {
       const response = await api.get(GET_SUPPLIERS(market_id || ''))
       setSuppliers(response.data.suppliers.data)
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
 
   const postSupplier = async (supplier: dataSupplierInfo) => {
+    setLoading(true)
     try {
       let market_id = await getMarketId()
       const response = await api.post(POST_SUPPLIER(market_id || ''), supplier);
       setSuppliers([...suppliers, response.data.supplier.data])
+      setLoading(false)
       return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
+      return false
     }
   }
 
   const deleteSupplier = async (supplier_id: string) => {
+    setLoading(true)
     try {
       const response = await api.delete(DELETE_SUPPLIER(supplier_id))
       console.log(response)
       setSuppliers(suppliers.filter(supplier => supplier.id !== supplier_id))
+      setLoading(false)
       return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
       return false
     }
   }
 
   const switchSupplierStatus = async (supplier_id: string) => {
+    setLoading(true)
     try {
       const response = await api.put(PUT_SUPPLIER_STATUS(supplier_id))
       console.log(response)
@@ -74,13 +87,17 @@ export const SupplierService = (): SupplierService => {
         }
         return supplier
       }))
+      setLoading(false)
       return true
     } catch (error) {
       console.log(error)
+      setLoading(false)
+      return false
     }
   }
 
   const editSupplier = async (supplier_id: string, supplier: dataSupplierInfo) => {
+    setLoading(true)
     try {
       const response = await api.put(PUT_SUPPLIER(supplier_id), supplier)
       console.log(response)
@@ -90,11 +107,14 @@ export const SupplierService = (): SupplierService => {
         }
         return supplier
       }))
+      setLoading(false)
       return true
     } catch (error) {
       console.log(error)
+      setLoading(false)
+      return false
     }
   }
 
-  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier } as SupplierService;
+  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier, loading } as SupplierService;
 }

@@ -12,10 +12,11 @@ import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { useAuthentication } from "@/contexts/AuthenticationContext";
+import ReactLoading from 'react-loading';
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus, editEmployee } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus, editEmployee, loading } = EmployeeService();
   const { user } = useAuthentication();
   const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
@@ -294,7 +295,7 @@ export function EmployeeDashboard() {
             </tr>
           </thead>
           <tbody>
-            {filteredEmployees.map((employee) => (
+            {!loading && filteredEmployees.map((employee) => (
               <tr className="border-b border-white/20" key={employee?.attributes?.id}>
                 <TableCell>{employee?.attributes?.name}</TableCell>
                 <TableCell>{useRoleTranslate(employee?.attributes?.role)}</TableCell>
@@ -345,6 +346,13 @@ export function EmployeeDashboard() {
             ))}
           </tbody>
         </table>
+        {
+          loading && (
+            <div className="flex justify-center items-center h-52">
+              <ReactLoading type="bars" color="#fff" height={100} width={100} />
+            </div>
+          )
+        }
       </article>
     </main>
   );

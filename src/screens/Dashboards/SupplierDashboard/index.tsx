@@ -11,10 +11,11 @@ import { useToast } from "@/components/ui/Toast/use-toast";
 import { SupplierInfo, dataSupplierInfo } from "@/types/SupplierInfo";
 import { Badge } from "@/components/ui/Badge/badge";
 import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
+import ReactLoading from 'react-loading';
 
 export function SupplierDashboard() {
 
-  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier } = SupplierService();
+  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier, loading } = SupplierService();
   const { toast } = useToast();
   const [newSupplier, setNewSupplier] = useState<SupplierInfo>({
     name: '',
@@ -133,7 +134,7 @@ export function SupplierDashboard() {
 
   useEffect(() => {
     getSuppliers();
-  }, [suppliers]);
+  }, []);
 
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
@@ -192,7 +193,7 @@ export function SupplierDashboard() {
             </tr>
           </thead>
           <tbody>
-            {filteredSupplier.map((supplier) => (
+            {!loading && filteredSupplier.map((supplier) => (
               <tr className="border-b border-white/20" key={supplier.id}>
                 <TableCell>{supplier?.attributes?.name}</TableCell>
                 <TableCell>{supplier?.attributes?.cnpj}</TableCell>
@@ -237,6 +238,13 @@ export function SupplierDashboard() {
             ))}
           </tbody>
         </table>
+        {
+          loading && (
+            <div className="flex justify-center items-center h-52">
+              <ReactLoading type="bars" color="#fff" height={100} width={100} />
+            </div>
+          )
+        }
       </article>
     </main>
   );

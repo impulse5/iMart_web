@@ -20,42 +20,52 @@ type Employee = {
 export const EmployeeService = () => {
   const { getMarketId } = useGetMarketId()
   const [employees, setEmployees] = useState<Employee[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const getEmployees = async () => {
+    setLoading(true)
     let market_id = await getMarketId()
     try {
       const response = await api.get(GET_EMPLOYEES(market_id || ''))
       setEmployees(response.data.users.data)
-      const emails = response.data.users.data
-      return emails
+      setLoading(false)
+      return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
 
   const postEmployee = async (employee: userEmployeeInfo) => {
+    setLoading(true)
     try {
       let market_id = await getMarketId()
       const response = await api.post(POST_EMPLOYEE(market_id || ''), employee);
       setEmployees([...employees, response.data.user.data])
+      setLoading(false)
       return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
 
   const deleteEmployee = async (employee_id: string) => {
+    setLoading(true)
     try {
       const response = await api.delete(DELETE_EMPLOYEE(employee_id))
       console.log(response)
       setEmployees(employees.filter(employee => employee.id !== employee_id))
+      setLoading(false)
       return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
 
   const switchEmployeeStatus = async (employee_id: string) => {
+    setLoading(true)
     try {
       const response = await api.put(PUT_EMPLOYEE_STATUS(employee_id))
       console.log(response)
@@ -72,13 +82,16 @@ export const EmployeeService = () => {
         return employee
       })
       setEmployees(updatedEmployees)
+      setLoading(false)
       return true
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
   
   const editEmployee = async (employee_id: string, editedEmployee: userEmployeeInfo) => {
+    setLoading(true)
     try {
       const response = await api.put(PUT_EMPLOYEE(employee_id), editedEmployee)
       console.log(response)
@@ -97,9 +110,11 @@ export const EmployeeService = () => {
         return employee
       })
       setEmployees(updatedEmployees)
+      setLoading(false)
       return true
     } catch (error) {
       console.log(error)
+      setLoading(false)
     }
   }
 
@@ -109,6 +124,7 @@ export const EmployeeService = () => {
     postEmployee,
     deleteEmployee,
     switchEmployeeStatus,
-    editEmployee
+    editEmployee,
+    loading
   }
 }
