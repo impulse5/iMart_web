@@ -79,11 +79,11 @@ export function EnterpriseData() {
           duration: 5000,
         });
         return;
-      } else if (fieldErrors.hasOwnProperty('telefone')) {
+      } else if (fieldErrors.hasOwnProperty('cellphone')) {
         toast({
           variant: 'error',
           title: 'Erro no formulário',
-          description: <p>{fieldErrors.telefone}</p>,
+          description: <p>{fieldErrors.cellphone}</p>,
           duration: 5000,
         });
         return;
