@@ -2,20 +2,21 @@ import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
-import { UserDropdown } from "@/components/UserDropdown/Dropdown";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
+import { SuppliersService } from "@/services/suppliers_service";
+import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 export function SupplierDashboard() {
-
-  const supplier = [
-    { id: 1, name: 'MelhorArroz', cnpj: '91.689.620/0001-35', telefone: '80020922', email: 'fornecedor1@example.com' },
-    { id: 2, name: 'Feijão', cnpj: '91.689.620/0001-36', telefone: '80020923', email: 'fornecedor2@example.com' },
-  ];
-
+  const { getSuppliers, suppliers } = SuppliersService();
   const [search, setSearch] = useState<string>('');
-  const filteredSupplier = supplier.filter((supplier) =>
-    supplier.name.toLowerCase().includes(search.toLowerCase())
+  const filteredSupplier = suppliers.filter((supplier) =>
+    supplier.attributes.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  useEffect(() => {
+    getSuppliers();
+  }, [suppliers]);
+
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
       <header className="flex justify-between items-center mt-6">
@@ -72,10 +73,10 @@ export function SupplierDashboard() {
           <tbody>
             {filteredSupplier.map((supplier) => (
               <tr className="border-b border-white/20" key={supplier.id}>
-                <TableCell>{supplier.name}</TableCell>
-                <TableCell>{supplier.cnpj}</TableCell>
-                <TableCell>{supplier.telefone}</TableCell>
-                <TableCell>{supplier.email}</TableCell>
+                <TableCell>{supplier?.attributes?.name}</TableCell>
+                <TableCell>{supplier?.attributes?.cnpj}</TableCell>
+                <TableCell>{supplier?.attributes?.cellphone}</TableCell>
+                <TableCell>{supplier?.attributes?.email}</TableCell>
                 
                 <td className="font-light text-lg mt-3 flex justify-center gap-5">
                   <CustomModal
