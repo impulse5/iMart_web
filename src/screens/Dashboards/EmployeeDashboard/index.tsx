@@ -15,7 +15,7 @@ import { useToast } from "@/components/ui/Toast/use-toast";
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee } = EmployeeService();
   const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
     name: '',
@@ -157,6 +157,28 @@ export function EmployeeDashboard() {
     }
   };
 
+  const handleDeleteEmployee = async (employeeId: string) => {
+    try {
+      const success = await deleteEmployee(employeeId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Funcionário excluído',
+          description: 'O funcionário foi excluído com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao excluir funcionário',
+        description: 'Ocorreu um erro ao tentar excluir o funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+  }
+
   useEffect(() => {
     getEmployees();
   }, []);
@@ -247,6 +269,7 @@ export function EmployeeDashboard() {
                     type="delete"
                     title="Excluir funcionário"
                     description="Deseja realmente excluir o funcionário?"
+                    onSubmit={() => handleDeleteEmployee(employee?.attributes?.id)}
                   />
                 </td>
               </tr>

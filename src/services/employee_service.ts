@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { api } from "./api"
-import { GET_EMPLOYEES, POST_EMPLOYEE } from "@/constants/api_routes"
+import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
 import { userEmployeeInfo } from "@/types/EmployeeInfo"
 
@@ -54,9 +54,20 @@ export const EmployeeService = () => {
     }
   }
 
+  const deleteEmployee = async (employee_id: string) => {
+    try {
+      const response = await api.delete(DELETE_EMPLOYEE(employee_id))
+      console.log(response)
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     employees,
     getEmployees,
-    postEmployee
+    postEmployee,
+    deleteEmployee
   }
 }

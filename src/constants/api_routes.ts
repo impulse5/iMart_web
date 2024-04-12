@@ -15,3 +15,6 @@ export const GET_EMPLOYEES = (id: string) =>
 
 export const POST_EMPLOYEE = (market_id: string) =>
   `market/${market_id}/employee`
+
+export const DELETE_EMPLOYEE = (employee_id: string) =>
+  `employee/${employee_id}`
