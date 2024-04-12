@@ -2,9 +2,9 @@ import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
+import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
 import { useState } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
-
 export function SupplierDashboard() {
 
   const supplier = [
@@ -23,8 +23,13 @@ export function SupplierDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
         </div>
         <div>
-          <CircleUserRound className="text-neutral-400 size-12 cursor-pointer" />
-        </div>
+            <Dropdown 
+              title="Minha conta" 
+              trigger={<CircleUserRound 
+              className="text-neutral-400 size-12 cursor-pointer" 
+            />
+            }/>
+        </div>  
       </header>
       <article className="my-4 bg-tertiary rounded-lg">
         <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">
