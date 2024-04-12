@@ -1,19 +1,21 @@
-import { useEffect } from "react";
 import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
-import { EmployeeService } from "@/services/employee_service";
 import { CustomModal } from "@/components/CustomModal";
 import { EditIcon } from "@/components/EditIcon";
 import { RemoveIcon } from "@/components/RemoveIcon";
-
+import {useState} from 'react';
 export function SupplierDashboard() {
-  const { getEmployees, employees } = EmployeeService();
 
-  useEffect(() => {
-    getEmployees();
-  }, []);
-  
+  const supplier = [
+    { id: 1, name: 'MelhorArroz', cnpj: '91.689.620/0001-35', telefone: '80020922', email: 'fornecedor1@example.com' },
+    { id: 2, name: 'Feijão', cnpj: '91.689.620/0001-36', telefone: '80020923', email: 'fornecedor2@example.com' },
+  ];
+
+  const [search, setSearch] = useState<string>('');
+  const filteredSupplier = supplier.filter((supplier) =>
+    supplier.name.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
       <header className="flex justify-between items-center mt-6">
@@ -31,6 +33,8 @@ export function SupplierDashboard() {
               type="text"
               placeholder="Pesquisar"
               className="flex p-0 bg-transparent border-none outline-none text-sm w-full focus:ring-0"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <Search size={20} />
           </div>
@@ -61,12 +65,12 @@ export function SupplierDashboard() {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee) => (
-              <tr className="border-b border-white/20" key={employee?.attributes?.id}>
-                <TableCell>{employee?.attributes?.name}</TableCell>
-                <TableCell>91.689.620/0001-35</TableCell>
-                <TableCell>80020922</TableCell>
-                <TableCell>{employee?.attributes?.email}</TableCell>
+            {filteredSupplier.map((supplier) => (
+              <tr className="border-b border-white/20" key={supplier.id}>
+                <TableCell>{supplier.name}</TableCell>
+                <TableCell>{supplier.cnpj}</TableCell>
+                <TableCell>{supplier.telefone}</TableCell>
+                <TableCell>{supplier.email}</TableCell>
                 
                 <td className="font-light text-lg mt-3 flex justify-center gap-5">
                   <CustomModal
