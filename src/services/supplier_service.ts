@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS, DELETE_SUPPLIER } from "@/constants/api_routes";
+import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS, DELETE_SUPPLIER, PUT_SUPPLIER } from "@/constants/api_routes";
 import { useState } from "react";
 import { useGetMarketId } from "@/hooks/useGetMarketId";
 import { dataSupplierInfo } from "@/types/SupplierInfo";
@@ -10,6 +10,7 @@ type SupplierService = {
   postSupplier: (supplier: dataSupplierInfo) => Promise<boolean> | undefined;
   switchSupplierStatus: (supplier_id: string) => Promise<boolean> | undefined;
   deleteSupplier: (supplier_id: string) => Promise<boolean> | undefined;
+  editSupplier: (supplier_id: string, supplier: dataSupplierInfo) => Promise<boolean> | undefined;
 }
 
 type Supplier = {
@@ -79,5 +80,21 @@ export const SupplierService = (): SupplierService => {
     }
   }
 
-  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus, deleteSupplier } as SupplierService;
+  const editSupplier = async (supplier_id: string, supplier: dataSupplierInfo) => {
+    try {
+      const response = await api.put(PUT_SUPPLIER(supplier_id), supplier)
+      console.log(response)
+      setSuppliers(suppliers.map(supplier => {
+        if (supplier.id === supplier_id) {
+          supplier.attributes = response.data.supplier.data.attributes
+        }
+        return supplier
+      }))
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return { suppliers, getSuppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier } as SupplierService;
 }

@@ -8,19 +8,27 @@ import { SupplierService } from "@/services/supplier_service";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
-import { SupplierInfo } from "@/types/SupplierInfo";
+import { SupplierInfo, dataSupplierInfo } from "@/types/SupplierInfo";
 import { Badge } from "@/components/ui/Badge/badge";
 import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 
 export function SupplierDashboard() {
 
-  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus, deleteSupplier } = SupplierService();
+  const { getSuppliers, suppliers, postSupplier, switchSupplierStatus, deleteSupplier, editSupplier } = SupplierService();
   const { toast } = useToast();
   const [newSupplier, setNewSupplier] = useState<SupplierInfo>({
     name: '',
     email: '',
     cnpj: '',
     cellphone: ''
+  });
+  const [editedSupplier, setEditedSupplier] = useState<dataSupplierInfo>({
+    supplier: {
+      name: '',
+      email: '',
+      cnpj: '',
+      cellphone: ''
+    }
   });
 
   const handlePostSupplier = async (supplier: any) => {
@@ -69,6 +77,28 @@ export function SupplierDashboard() {
       toast({
         title: 'Erro ao alterar status!',
         description: 'Ocorreu um erro ao alterar o status do fornecedor.',
+        variant: 'error',
+        duration: 3000,
+      })
+    }
+  }
+
+  const handleEditSupplier = async (supplier_id: string) => {
+    try {
+      const success = await editSupplier(supplier_id, editedSupplier);
+      if (success) {
+        toast({
+          title: 'Fornecedor editado com sucesso!',
+          description: 'O fornecedor foi editado com sucesso.',
+          variant: 'success',
+          duration: 3000,
+        })
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Erro ao editar fornecedor!',
+        description: 'Ocorreu um erro ao editar o fornecedor.',
         variant: 'error',
         duration: 3000,
       })
@@ -181,12 +211,14 @@ export function SupplierDashboard() {
                     type="edit"
                     title="Editar fornecedor"
                     fields={[
-                        { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev' },
-                        { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00' },
-                        { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999' },
-                        { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' }
+                        { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev', value: editedSupplier.supplier.name, onChange: (e) => setEditedSupplier({ supplier: { ...editedSupplier.supplier, name: e.target.value }})},
+                        { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00', value: editedSupplier.supplier.cnpj, onChange: (e) => setEditedSupplier({ supplier: { ...editedSupplier.supplier, cnpj: e.target.value }})},
+                        { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999', value: editedSupplier.supplier.cellphone, onChange: (e) => setEditedSupplier({ supplier: { ...editedSupplier.supplier, cellphone: e.target.value }})},
+                        { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com', value: editedSupplier.supplier.email, onChange: (e) => setEditedSupplier({ supplier: { ...editedSupplier.supplier, email: e.target.value }})}
                     ]}
                     trigger={<EditIcon />}
+                    onInit={() => setEditedSupplier({ supplier: { name: supplier?.attributes?.name, email: supplier?.attributes?.email, cnpj: supplier?.attributes?.cnpj, cellphone: supplier?.attributes?.cellphone }})}
+                    onSubmit={() => handleEditSupplier(supplier?.attributes?.id)}
                   />
                   <CustomModal
                     trigger={<RemoveIcon />}
