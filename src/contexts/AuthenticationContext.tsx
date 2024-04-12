@@ -73,6 +73,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
     try {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
+      api.defaults.headers = {}
       return true;
     } catch (error) {
       console.error('Erro ao fazer logout:', error);
@@ -91,7 +92,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
         user,
         token,
         authenticate,
-        logout
+        logout,
       }}
     >
       {children}

@@ -4,19 +4,19 @@ import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
-import { useRoleTranslate } from "@/hooks/useRole";
-import { roles } from "@/hooks/useRole";
+import { roles, ownerRoles, useRoleTranslate } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
-import { EditIcon } from "@/components/EditIcon";
-import { RemoveIcon } from "@/components/RemoveIcon";
+import { EditIcon, RemoveIcon } from "@/components/Icons";
 import { EmployeeInfo } from "@/types/EmployeeInfo";
-
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
+import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee } = EmployeeService();
+  const { user } = useAuthentication();
+  const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
     name: '',
     email: '',
@@ -157,10 +157,40 @@ export function EmployeeDashboard() {
     }
   };
 
+  const handleDeleteEmployee = async (employeeId: string) => {
+    try {
+      const success = await deleteEmployee(employeeId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Funcionário excluído',
+          description: 'O funcionário foi excluído com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao excluir funcionário',
+        description: 'Ocorreu um erro ao tentar excluir o funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+  }
+
   useEffect(() => {
     getEmployees();
   }, []);
-  
+
+  useEffect(() => {
+    console.log(user)
+    console.log(employees)
+  }, [user])
+
+  const filteredEmployees = employees.filter((employee) =>
+    employee.attributes.name.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
       <Toaster position="top-center" />
@@ -179,6 +209,8 @@ export function EmployeeDashboard() {
               type="text"
               placeholder="Pesquisar"
               className="flex p-0 bg-transparent border-none outline-none text-sm w-full focus:ring-0"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
             <Search size={20} />
           </div>
@@ -196,7 +228,7 @@ export function EmployeeDashboard() {
                 { id: 'confirmPassword', label: 'Confirme sua senha', type: 'password', placeholder: '*******', value: newEmployee.confirmPassword, onChange: (e) => setNewEmployee({ ...newEmployee, confirmPassword: e.target.value })},
                 { type: 'select', placeholder: 'Selecione o cargo', value: newEmployee.role, onSelect: (e) => setNewEmployee({ ...newEmployee, role: e.target.value })},
               ]}
-              selectOptions={roles}
+              selectOptions={user.role === 'owner' ? ownerRoles : roles}
               onSubmit={handleCreateEmployee}
             />
           </div>
@@ -212,7 +244,7 @@ export function EmployeeDashboard() {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee) => (
+            {filteredEmployees.map((employee) => (
               <tr className="border-b border-white/20" key={employee?.attributes?.id}>
                 <TableCell>{employee?.attributes?.name}</TableCell>
                 <TableCell>{useRoleTranslate(employee?.attributes?.role)}</TableCell>
@@ -234,15 +266,20 @@ export function EmployeeDashboard() {
                       { id: 'password', label: 'Senha', type: 'password', placeholder: '*******' },
                       { type: 'select', placeholder: 'Selecione o cargo'}
                     ]}
-                    selectOptions={roles}
+                    selectOptions={user.role === 'owner' ? ownerRoles : roles}
                     trigger={<EditIcon />}
                   />
-                  <CustomModal
-                    trigger={<RemoveIcon />}
-                    type="delete"
-                    title="Excluir funcionário"
-                    description="Deseja realmente excluir o funcionário?"
-                  />
+                  {
+                    employee?.attributes?.role === 'owner' ? null : (
+                      <CustomModal
+                      trigger={<RemoveIcon />}
+                      type="delete"
+                      title="Excluir funcionário"
+                      description="Deseja realmente excluir o funcionário?"
+                      onSubmit={() => handleDeleteEmployee(employee?.attributes?.id)}
+                    />
+                    )
+                  }
                 </td>
               </tr>
             ))}

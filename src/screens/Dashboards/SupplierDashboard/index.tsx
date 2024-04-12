@@ -2,9 +2,9 @@ import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
-import { EditIcon } from "@/components/EditIcon";
-import { RemoveIcon } from "@/components/RemoveIcon";
-import {useState} from 'react';
+import { useState } from 'react';
+import { EditIcon, RemoveIcon } from "@/components/Icons/";
+
 export function SupplierDashboard() {
 
   const supplier = [
