@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { api } from "./api"
 import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS, PUT_EMPLOYEE } from "@/constants/api_routes"
-import { useAuthentication } from "@/contexts/AuthenticationContext"
-import { EmployeeInfo, userEmployeeInfo } from "@/types/EmployeeInfo"
+import { userEmployeeInfo } from "@/types/EmployeeInfo"
+import { useGetMarketId } from "@/hooks/useGetMarketId"
 
 type Employee = {
   attributes: {
@@ -18,18 +18,8 @@ type Employee = {
 }
 
 export const EmployeeService = () => {
-
-  const { user } = useAuthentication()
+  const { getMarketId } = useGetMarketId()
   const [employees, setEmployees] = useState<Employee[]>([])
-
-  const getMarketId = async () => {
-    let market_id = await user.market_id
-    if (!market_id) {
-      let localUser = JSON.parse(localStorage.getItem('user') || '{}')
-      market_id = localUser.market_id
-    }
-    return market_id
-  }
 
   const getEmployees = async () => {
     let market_id = await getMarketId()

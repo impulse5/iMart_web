@@ -5,7 +5,51 @@ import { CustomModal } from "@/components/CustomModal";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { useState } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
+import { SupplierService } from "@/services/supplier_service";
+import { Toaster } from "@/components/ui/Toast/toaster";
+import { useToast } from "@/components/ui/Toast/use-toast";
+import { SupplierInfo } from "@/types/SupplierInfo";
+
 export function SupplierDashboard() {
+
+  const { postSupplier } = SupplierService();
+  const { toast } = useToast();
+  const [newSupplier, setNewSupplier] = useState<SupplierInfo>({
+    name: '',
+    email: '',
+    cnpj: '',
+    cellphone: ''
+  });
+
+  const handlePostSupplier = async (supplier: any) => {
+    try {
+      let newSupplier = {
+        supplier: {
+          name: supplier.name,
+          email: supplier.email,
+          cnpj: supplier.cnpj,
+          cellphone: supplier.cellphone
+        }
+      }
+      const success = await postSupplier(newSupplier);
+      if (success) {
+        toast({
+          title: 'Fornecedor cadastrado com sucesso!',
+          description: 'O fornecedor foi cadastrado com sucesso.',
+          variant: 'success',
+          duration: 3000,
+        })
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: 'Erro ao cadastrar fornecedor!',
+        description: 'Ocorreu um erro ao cadastrar o fornecedor.',
+        variant: 'error',
+        duration: 3000,
+      })
+    }
+  }
 
   const supplier = [
     { id: 1, name: 'MelhorArroz', cnpj: '91.689.620/0001-35', telefone: '80020922', email: 'fornecedor1@example.com' },
@@ -18,6 +62,7 @@ export function SupplierDashboard() {
   );
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
+      <Toaster position="top-center" />
       <header className="flex justify-between items-center mt-6">
         <div>
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
@@ -51,11 +96,12 @@ export function SupplierDashboard() {
               }
               type="create"
               fields={[
-                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev' },
-                { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00' },
-                { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999' },
-                { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' }
+                { id: 'name', label: 'Nome', type: 'text', placeholder: 'Ambev', value: newSupplier.name, onChange: (e) => setNewSupplier({ ...newSupplier, name: e.target.value })},
+                { id: 'cnpj', label: 'CNPJ', type: 'text', placeholder: '00.000.000/0000-00', value: newSupplier.cnpj, onChange: (e) => setNewSupplier({ ...newSupplier, cnpj: e.target.value })},
+                { id: 'tel', label: 'Telefone', type: 'tel', placeholder: '99 99999-9999', value: newSupplier.cellphone, onChange: (e) => setNewSupplier({ ...newSupplier, cellphone: e.target.value })},
+                { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com', value: newSupplier.email, onChange: (e) => setNewSupplier({ ...newSupplier, email: e.target.value })},
               ]}
+              onSubmit={() => handlePostSupplier(newSupplier)}
             />
           </div>
         </div>

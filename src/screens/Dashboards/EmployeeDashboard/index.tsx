@@ -116,8 +116,6 @@ export function EmployeeDashboard() {
     }
   
     try {
-      await getEmployees();
-
       const isEmailRegistered = employees.some((employee) => employee.attributes.email === newEmployee.email);
       if (isEmailRegistered) {
         toast({
