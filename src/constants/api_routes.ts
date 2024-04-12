@@ -27,3 +27,7 @@ export const PUT_EMPLOYEE = (employee_id: string) =>
 
 export const POST_SUPPLIER = (market_id: string) =>
   `market/${market_id}/supplier`
+
+export const GET_SUPPLIERS = (market_id: string) =>
+  `market/${market_id}/suppliers`
+
