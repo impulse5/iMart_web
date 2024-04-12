@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { api } from "./api"
-import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS } from "@/constants/api_routes"
+import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS, PUT_EMPLOYEE } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
-import { userEmployeeInfo } from "@/types/EmployeeInfo"
+import { EmployeeInfo, userEmployeeInfo } from "@/types/EmployeeInfo"
 
 type Employee = {
   attributes: {
@@ -87,12 +87,38 @@ export const EmployeeService = () => {
       console.log(error)
     }
   }
+  
+  const editEmployee = async (employee_id: string, editedEmployee: userEmployeeInfo) => {
+    try {
+      const response = await api.put(PUT_EMPLOYEE(employee_id), editedEmployee)
+      console.log(response)
+      const updatedEmployees = employees.map(employee => {
+        if (employee.id === employee_id) {
+          return {
+            ...employee,
+            attributes: {
+              ...employee.attributes,
+              name: response.data.user.data.attributes.name,
+              email: response.data.user.data.attributes.email,
+              role: response.data.user.data.attributes.role,
+            }
+          }
+        }
+        return employee
+      })
+      setEmployees(updatedEmployees)
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return {
     employees,
     getEmployees,
     postEmployee,
     deleteEmployee,
-    switchEmployeeStatus
+    switchEmployeeStatus,
+    editEmployee
   }
 }

@@ -21,3 +21,6 @@ export const DELETE_EMPLOYEE = (employee_id: string) =>
 
 export const PUT_EMPLOYEE_STATUS = (employee_id: string) =>
   `employee/${employee_id}/status`
+
+export const PUT_EMPLOYEE = (employee_id: string) =>
+  `employee/${employee_id}`

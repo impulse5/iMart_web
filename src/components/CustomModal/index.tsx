@@ -28,11 +28,13 @@ type CustomModalProps = {
     value: string,
   }[]
   onSubmit?: () => void
+  onInit?: () => void
 }
 
-export const CustomModal = ({type, trigger, title, description, fields, selectOptions, onSubmit}: CustomModalProps) => {
+export const CustomModal = ({type, trigger, title, description, fields, selectOptions, onSubmit, onInit}: CustomModalProps) => {
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={onInit}>
       <DialogTrigger>
         {trigger}
       </DialogTrigger>

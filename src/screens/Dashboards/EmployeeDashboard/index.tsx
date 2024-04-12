@@ -7,14 +7,14 @@ import { EmployeeService } from "@/services/employee_service";
 import { roles, ownerRoles, useRoleTranslate } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
 import { EditIcon, RemoveIcon, ActivateIcon, DeactivateIcon } from "@/components/Icons";
-import { EmployeeInfo } from "@/types/EmployeeInfo";
+import { EmployeeInfo, userEmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
 import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus, editEmployee } = EmployeeService();
   const { user } = useAuthentication();
   const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
@@ -23,6 +23,13 @@ export function EmployeeDashboard() {
     password: '',
     confirmPassword: '',
     role: '',
+  });
+  const [editedEmployee, setEditedEmployee] = useState<userEmployeeInfo>({
+    user: {
+      name: '',
+      email: '',
+      role: '',
+    }
   });
 
 
@@ -201,14 +208,32 @@ export function EmployeeDashboard() {
     }
   }
 
+  const handleEditEmployee = async (employeeId: string) => {
+    try {
+      const success = await editEmployee(employeeId, editedEmployee);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Funcionário editado',
+          description: 'O funcionário foi editado com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao editar funcionário',
+        description: 'Ocorreu um erro ao tentar editar o funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+    setEditedEmployee({ user: { name: '', email: '', password: '', role: '' } });
+  }
+
   useEffect(() => {
     getEmployees();
   }, []);
-
-  useEffect(() => {
-    console.log(user)
-    console.log(employees)
-  }, [user])
 
   const filteredEmployees = employees.filter((employee) =>
     employee.attributes.name.toLowerCase().includes(search.toLowerCase())
@@ -283,13 +308,14 @@ export function EmployeeDashboard() {
                     type="edit"
                     title="Editar funcionário"
                     fields={[
-                      { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam' },
-                      { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
-                      { id: 'password', label: 'Senha', type: 'password', placeholder: '*******' },
-                      { type: 'select', placeholder: 'Selecione o cargo'}
+                      { id: 'name', label: 'Nome', type: 'text', placeholder: 'Willam', value: editedEmployee.user.name, onChange: (e) => setEditedEmployee({ user: { ...editedEmployee.user, name: e.target.value } })},
+                      { id: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com', value: editedEmployee.user.email, onChange: (e) => setEditedEmployee({ user: { ...editedEmployee.user, email: e.target.value } })},
+                      { type: 'select', placeholder: 'Selecione o cargo', value: editedEmployee.user.role, onSelect: (e) => setEditedEmployee({ user: { ...editedEmployee.user, role: e.target.value } })},
                     ]}
                     selectOptions={user.role === 'owner' ? ownerRoles : roles}
                     trigger={<EditIcon />}
+                    onInit={() => setEditedEmployee({ user: { name: employee?.attributes?.name, email: employee?.attributes?.email, role: employee?.attributes?.role } })}
+                    onSubmit={() => handleEditEmployee(employee?.attributes?.id)}
                   />
                   {
                     employee?.attributes?.role === 'owner' ? null : (
