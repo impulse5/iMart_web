@@ -27,3 +27,6 @@ export const PUT_EMPLOYEE = (employee_id: string) =>
 
 export const GET_SUPPLIERS = (market_id: string) =>
   `market/${market_id}/suppliers`
+
+export const DELETE_SUPPLIER = (supplier_id: string) =>
+  `supplier/${supplier_id}`

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { api } from "./api"
-import { GET_SUPPLIERS } from "@/constants/api_routes"
+import { DELETE_SUPPLIER, GET_SUPPLIERS } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
 
 type Supplier = {
@@ -39,9 +39,23 @@ export const SuppliersService = () => {
     }
   }
 
+  const deleteSupplier = async (supplier_id: string) => {
+    try {
+      const response = await api.delete(DELETE_SUPPLIER(supplier_id))
+      console.log(response)
+      setSuppliers(suppliers.filter(supplier => supplier.id !== supplier_id))
+      return true
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
+
  
   return {
     getSuppliers,
-    suppliers
+    suppliers,
+    deleteSupplier
   }
 }

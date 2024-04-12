@@ -4,14 +4,39 @@ import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
 import { useState, useEffect } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
-import { SuppliersService } from "@/services/suppliers_service";
+import { Toaster } from "@/components/ui/Toast/toaster";
+import { useToast } from "@/components/ui/Toast/use-toast";
+import { SuppliersService } from "@/services/supplier_service";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
+
 export function SupplierDashboard() {
-  const { getSuppliers, suppliers } = SuppliersService();
+  const { toast } = useToast();
+  const { getSuppliers, suppliers, deleteSupplier } = SuppliersService();
   const [search, setSearch] = useState<string>('');
   const filteredSupplier = suppliers.filter((supplier) =>
     supplier.attributes.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  const handleDeleteSupplier = async (supplierId: string) => {
+    try {
+      const success = await deleteSupplier(supplierId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Fornecedor excluído',
+          description: 'O fornecedor foi excluído com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao excluir fornecedor',
+        description: 'Ocorreu um erro ao tentar excluir o fornecedor. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }}
 
   useEffect(() => {
     getSuppliers();
@@ -19,6 +44,7 @@ export function SupplierDashboard() {
 
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
+      <Toaster position="top-center" />
       <header className="flex justify-between items-center mt-6">
         <div>
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
@@ -95,6 +121,7 @@ export function SupplierDashboard() {
                     type="delete"
                     title="Excluir fornecedor"
                     description="Deseja realmente excluir o fornecedor?"
+                    onSubmit={() => handleDeleteSupplier(supplier?.attributes?.id)}
                   />
                 </td>
               </tr>
