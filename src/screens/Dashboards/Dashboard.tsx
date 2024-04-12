@@ -1,4 +1,5 @@
 import { BarChartBig, CircleUserRound, TicketCheck } from "lucide-react";
+import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 
 export function Dashboard() {
 
@@ -8,9 +9,14 @@ export function Dashboard() {
         <div>
             <h1 className="text-3xl text-neutral-400 font-bold">DASHBOARD</h1>
         </div>
-        <nav>
-            <CircleUserRound className="text-neutral-400 size-12"/>
-        </nav>
+        <div>
+            <UserDropdown 
+              title="Minha conta" 
+              trigger={<CircleUserRound 
+              className="text-neutral-400 size-12 cursor-pointer" 
+            />
+            }/>
+        </div>
     </header>
     <section className="grid grid-cols-3 gap-4 mt-10">
         <div className="bg-tertiary rounded-xl p-10 ">

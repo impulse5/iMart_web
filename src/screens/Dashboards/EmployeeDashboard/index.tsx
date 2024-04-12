@@ -10,7 +10,7 @@ import { EditIcon, RemoveIcon, ActivateIcon, DeactivateIcon } from "@/components
 import { EmployeeInfo, userEmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
-import { Dropdown } from "@/components/UserDropdown/Dropdown";
+import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 export function EmployeeDashboard() {
@@ -247,7 +247,7 @@ export function EmployeeDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FUNCIONÁRIOS</h1>
         </div>
         <div>
-          <Dropdown 
+          <UserDropdown 
               title="Minha conta" 
               trigger={<CircleUserRound 
               className="text-neutral-400 size-12 cursor-pointer" 

@@ -2,7 +2,7 @@ import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
-import { Dropdown } from "@/components/UserDropdown/Dropdown";
+import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { useState } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
 export function SupplierDashboard() {
@@ -23,7 +23,7 @@ export function SupplierDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
         </div>
         <div>
-            <Dropdown 
+            <UserDropdown 
               title="Minha conta" 
               trigger={<CircleUserRound 
               className="text-neutral-400 size-12 cursor-pointer" 

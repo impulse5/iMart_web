@@ -8,7 +8,7 @@ interface DropdownProps {
     trigger: React.ReactElement,
 }
 
-export function Dropdown({title, trigger}: DropdownProps) {
+export function UserDropdown({title, trigger}: DropdownProps) {
 
     const { logout } = useAuthentication();
     const navigate = useNavigate();
