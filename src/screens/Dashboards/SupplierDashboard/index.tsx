@@ -43,6 +43,7 @@ export function SupplierDashboard() {
         }
       }
       const success = await postSupplier(newSupplier);
+      setNewSupplier({ name: '', email: '', cnpj: '', cellphone: '' });
       if (success) {
         toast({
           title: 'Fornecedor cadastrado com sucesso!',

@@ -47,6 +47,7 @@ export const EmployeeService = () => {
     } catch (error) {
       setLoading(false)
       console.log(error)
+      return false
     }
   }
 

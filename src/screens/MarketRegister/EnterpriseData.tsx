@@ -8,6 +8,8 @@ import { useRegisterMarket } from '../../contexts/RegisterMarketContext';
 import { useToast } from '../../components/ui/Toast/use-toast';
 import { Toaster } from '../../components/ui/Toast/toaster';
 import { z } from 'zod';
+import { useAuthentication } from '@/contexts/AuthenticationContext';
+import { useEffect } from 'react';
 
 const EnterpriseDataSchema = z.object({
   name: z
@@ -25,7 +27,14 @@ export function EnterpriseData() {
   const { toast } = useToast();
 
   const { enterpriseData, setEnterpriseData, setSuccessEnterpriseData } = useRegisterMarket();
+  const { authenticate } = useAuthentication();
 
+  useEffect(() => {
+    if (authenticate()) {
+      navigate('/dashboard');
+    }
+  }, []);
+  
   const breadcrumbItems = [
     { text: 'Dados empresariais', current: true },
     { text: 'Endereço', current: false },

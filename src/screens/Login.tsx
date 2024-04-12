@@ -25,7 +25,7 @@ interface EnterpriseLoginType {
 }
 
 export function Login() {
-  const { Login, loginLoading, loginError, loginSuccess, setLoginSuccess } = useAuthentication();
+  const { Login, loginLoading, loginError, loginSuccess, setLoginSuccess, authenticate } = useAuthentication();
   const { toast } = useToast();
   const [enterpriseLogin, setEnterpriseLogin] = useState<EnterpriseLoginType>({ email: '', password: '' });
   const handleChange = (e: any) => {
@@ -34,6 +34,12 @@ export function Login() {
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticate()) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
