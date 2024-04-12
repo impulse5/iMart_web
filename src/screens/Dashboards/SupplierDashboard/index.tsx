@@ -15,7 +15,7 @@ export function SupplierDashboard() {
 
   useEffect(() => {
     getSuppliers();
-  }, []);
+  }, [suppliers]);
 
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
