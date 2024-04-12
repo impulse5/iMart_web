@@ -4,18 +4,19 @@ import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
-import { useRoleTranslate } from "@/hooks/useRole";
-import { roles } from "@/hooks/useRole";
+import { roles, ownerRoles, useRoleTranslate } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
-import { EditIcon } from "@/components/EditIcon";
-import { RemoveIcon } from "@/components/RemoveIcon";
+import { EditIcon, RemoveIcon, ActivateIcon, DeactivateIcon } from "@/components/Icons";
 import { EmployeeInfo } from "@/types/EmployeeInfo";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
 import { Dropdown } from "@/components/ui/Dropdown/Dropdown";
+import { useAuthentication } from "@/contexts/AuthenticationContext";
+
 export function EmployeeDashboard() {
   const { toast } = useToast();
-  const { getEmployees, employees, postEmployee, deleteEmployee } = EmployeeService();
+  const { getEmployees, employees, postEmployee, deleteEmployee, switchEmployeeStatus } = EmployeeService();
+  const { user } = useAuthentication();
   const [search, setSearch] = useState<string>("");
   const [newEmployee, setNewEmployee] = useState<EmployeeInfo>({
     name: '',
@@ -179,9 +180,36 @@ export function EmployeeDashboard() {
     }
   }
 
+  const handleStatusEmployee = async (employeeId: string) => {
+    try {
+      const success = await switchEmployeeStatus(employeeId);
+      if (success) {
+        toast({
+          variant: 'success',
+          title: 'Status do funcionário alterado',
+          description: 'O status do funcionário foi alterado com sucesso!',
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'error',
+        title: 'Erro ao alterar status do funcionário',
+        description: 'Ocorreu um erro ao tentar alterar o status do funcionário. Por favor, tente novamente mais tarde.',
+        duration: 3000,
+      });
+    }
+  }
+
   useEffect(() => {
     getEmployees();
   }, []);
+
+  useEffect(() => {
+    console.log(user)
+    console.log(employees)
+  }, [user])
 
   const filteredEmployees = employees.filter((employee) =>
     employee.attributes.name.toLowerCase().includes(search.toLowerCase())
@@ -227,7 +255,7 @@ export function EmployeeDashboard() {
                 { id: 'confirmPassword', label: 'Confirme sua senha', type: 'password', placeholder: '*******', value: newEmployee.confirmPassword, onChange: (e) => setNewEmployee({ ...newEmployee, confirmPassword: e.target.value })},
                 { type: 'select', placeholder: 'Selecione o cargo', value: newEmployee.role, onSelect: (e) => setNewEmployee({ ...newEmployee, role: e.target.value })},
               ]}
-              selectOptions={roles}
+              selectOptions={user.role === 'owner' ? ownerRoles : roles}
               onSubmit={handleCreateEmployee}
             />
           </div>
@@ -265,16 +293,29 @@ export function EmployeeDashboard() {
                       { id: 'password', label: 'Senha', type: 'password', placeholder: '*******' },
                       { type: 'select', placeholder: 'Selecione o cargo'}
                     ]}
-                    selectOptions={roles}
+                    selectOptions={user.role === 'owner' ? ownerRoles : roles}
                     trigger={<EditIcon />}
                   />
-                  <CustomModal
-                    trigger={<RemoveIcon />}
-                    type="delete"
-                    title="Excluir funcionário"
-                    description="Deseja realmente excluir o funcionário?"
-                    onSubmit={() => handleDeleteEmployee(employee?.attributes?.id)}
-                  />
+                  {
+                    employee?.attributes?.role === 'owner' ? null : (
+                      <CustomModal
+                      trigger={<RemoveIcon />}
+                      type="delete"
+                      title="Excluir funcionário"
+                      description="Deseja realmente excluir o funcionário?"
+                      onSubmit={() => handleDeleteEmployee(employee?.attributes?.id)}
+                    />
+                    )
+                  }
+                  {
+                    employee?.attributes?.role === 'owner' ? null : (
+                      <div onClick={() => handleStatusEmployee(employee?.attributes?.id)}>
+                        {
+                          employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
+                        }
+                      </div>
+                    )
+                  }
                 </td>
               </tr>
             ))}

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { api } from "./api"
-import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE } from "@/constants/api_routes"
+import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS } from "@/constants/api_routes"
 import { useAuthentication } from "@/contexts/AuthenticationContext"
 import { userEmployeeInfo } from "@/types/EmployeeInfo"
 
@@ -47,7 +47,7 @@ export const EmployeeService = () => {
     try {
       let market_id = await getMarketId()
       const response = await api.post(POST_EMPLOYEE(market_id || ''), employee);
-      console.log(response)
+      setEmployees([...employees, response.data.user.data])
       return true
     } catch (error) {
       console.log(error)
@@ -58,6 +58,30 @@ export const EmployeeService = () => {
     try {
       const response = await api.delete(DELETE_EMPLOYEE(employee_id))
       console.log(response)
+      setEmployees(employees.filter(employee => employee.id !== employee_id))
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const switchEmployeeStatus = async (employee_id: string) => {
+    try {
+      const response = await api.put(PUT_EMPLOYEE_STATUS(employee_id))
+      console.log(response)
+      const updatedEmployees = employees.map(employee => {
+        if (employee.id === employee_id) {
+          return {
+            ...employee,
+            attributes: {
+              ...employee.attributes,
+              status: !employee.attributes.status
+            }
+          }
+        }
+        return employee
+      })
+      setEmployees(updatedEmployees)
       return true
     } catch (error) {
       console.log(error)
@@ -68,6 +92,7 @@ export const EmployeeService = () => {
     employees,
     getEmployees,
     postEmployee,
-    deleteEmployee
+    deleteEmployee,
+    switchEmployeeStatus
   }
 }

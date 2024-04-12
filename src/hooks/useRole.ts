@@ -8,8 +8,13 @@ export const useRoleTranslate = (role: string) => {
   return roles[role];
 };
 
-export const roles = [
+export const ownerRoles = [
   { value: 'gerente', label: 'Gerente' },
+  { value: 'estoquista', label: 'Estoquista' },
+  { value: 'caixa', label: 'Caixa' },
+]
+
+export const roles = [
   { value: 'estoquista', label: 'Estoquista' },
   { value: 'caixa', label: 'Caixa' },
 ]
