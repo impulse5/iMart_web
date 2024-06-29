@@ -4,6 +4,7 @@ import { Dashboard } from '../screens/Dashboards/Dashboard'
 import { EmployeeDashboard } from '@/screens/Dashboards/EmployeeDashboard'
 import { SupplierDashboard } from '@/screens/Dashboards/SupplierDashboard'
 import { ProtectedRoutes } from './protected.routes'
+import CategoryDashboard from '@/screens/Dashboards/CategoryDashboard'
 
 export function DashboardRoutes() {
 
@@ -14,6 +15,7 @@ export function DashboardRoutes() {
           <Route index path="/dashboard" element={<Dashboard/>} />
           <Route path='/funcionarios' element={<EmployeeDashboard/>} />
           <Route path='/fornecedores' element={<SupplierDashboard/>} />
+          <Route path='/categorias' element={<CategoryDashboard/>} />
         </Route>
       </Route>
     </Routes>

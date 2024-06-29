@@ -1,5 +1,5 @@
 import {LogoWhite} from '../../assets/imart_logo_white'
-import { Settings, ShoppingBasket, Package, LayoutDashboard, Users } from "lucide-react";
+import { Settings, ShoppingBasket, Package, LayoutDashboard, Users, Tags } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -34,6 +34,10 @@ export function Sidebar() {
             <Link to='/fornecedores' className={`${getActiveClass('/fornecedores') ? 'bg-neutral-950 py-2 w-full flex rounded-lg transition-all' : ' py-2 w-full flex rounded-lg'} `}> 
               <Package className="mx-2" />
               Fornecedores
+            </Link>
+            <Link to='/categorias' className={`${getActiveClass('/categorias') ? 'bg-neutral-950 py-2 w-full flex rounded-lg transition-all' : ' py-2 w-full flex rounded-lg'} `}>
+              <Tags className="mx-2" />
+              Categorias
             </Link>
             <button className="py-2 w-full flex">
               <ShoppingBasket className="mx-2 " />
