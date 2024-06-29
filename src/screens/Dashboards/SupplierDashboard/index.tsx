@@ -1,17 +1,17 @@
-import { CircleUserRound, Search } from "lucide-react";
 import { TableCell } from "@/components/Table/tableCell";
 import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
 import { useState, useEffect } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
 import { SupplierService } from "@/services/supplier_service";
-import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { useToast } from "@/components/ui/Toast/use-toast";
 import { SupplierInfo, dataSupplierInfo } from "@/types/SupplierInfo";
 import { Badge } from "@/components/ui/Badge/badge";
 import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 import ReactLoading from 'react-loading';
+import { DashboardHeader } from "@/components/DashboardHeader";
+import { SearchInput } from "@/components/SearchInput";
 
 export function SupplierDashboard() {
 
@@ -140,26 +140,10 @@ export function SupplierDashboard() {
   return (
     <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
       <Toaster position="top-center" />
-      <header className="flex justify-between items-center mt-6">
-        <div>
-          <h1 className="text-3xl text-neutral-400 font-bold">FORNECEDORES</h1>
-        </div>
-        <div>
-            <UserDropdown />
-        </div>  
-      </header>
+      <DashboardHeader title="Fornecedores" />
       <article className="my-4 bg-tertiary rounded-lg">
         <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">
-          <div className="flex items-center w-96 py-1.5 px-3 outline-none bg-tertiary rounded-md">
-            <input
-              type="text"
-              placeholder="Pesquisar"
-              className="flex p-0 bg-transparent border-none outline-none text-sm w-full focus:ring-0"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <Search size={20} />
-          </div>
+          <SearchInput search={search} setSearch={setSearch} />
           <div>
             <CustomModal
               title="Cadastrar fornecedor"
