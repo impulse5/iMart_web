@@ -1,5 +1,4 @@
 import { TableCell } from "@/components/Table/tableCell";
-import { TableHeader } from "@/components/Table/tableHeader";
 import { CustomModal } from "@/components/CustomModal";
 import { useState, useEffect } from 'react';
 import { EditIcon, RemoveIcon } from "@/components/Icons/";
@@ -12,6 +11,7 @@ import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 import ReactLoading from 'react-loading';
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { SearchInput } from "@/components/SearchInput";
+import { CustomTHead } from "@/components/CustomTHead";
 
 export function SupplierDashboard() {
 
@@ -162,16 +162,7 @@ export function SupplierDashboard() {
           </div>
         </div>
         <table className="w-full">
-          <thead>
-            <tr className="border-b border-neutral-400/70">
-              <TableHeader>Nome</TableHeader>
-              <TableHeader>CNPJ</TableHeader>
-              <TableHeader>Telefone</TableHeader>
-              <TableHeader>Email</TableHeader>
-              <TableHeader>Status</TableHeader>
-              <th className="pb-3 pt-3 pl-5 text-center text-secondary text-xl font-semibold">Ações</th>
-            </tr>
-          </thead>
+          <CustomTHead fields={['Nome', 'CNPJ', 'Telefone', 'Email', 'Status']} />
           <tbody>
             {!loading && filteredSupplier.map((supplier) => (
               <tr className="border-b border-white/20" key={supplier.id}>

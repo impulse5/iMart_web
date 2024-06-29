@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/Badge/badge";
 import { TableCell } from "@/components/Table/tableCell";
-import { TableHeader } from "@/components/Table/tableHeader";
 import { EmployeeService } from "@/services/employee_service";
 import { roles, ownerRoles, useRoleTranslate } from "@/hooks/useRole";
 import { CustomModal } from "@/components/CustomModal";
@@ -13,6 +12,7 @@ import { useAuthentication } from "@/contexts/AuthenticationContext";
 import ReactLoading from 'react-loading';
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { SearchInput } from "@/components/SearchInput";
+import { CustomTHead } from "@/components/CustomTHead";
 
 export function EmployeeDashboard() {
   const { toast } = useToast();
@@ -265,15 +265,7 @@ export function EmployeeDashboard() {
           </div>
         </div>
         <table className="w-full">
-          <thead>
-            <tr className="border-b border-neutral-400/70">
-              <TableHeader>Nome</TableHeader>
-              <TableHeader>Cargo</TableHeader>
-              <TableHeader>Email</TableHeader>
-              <TableHeader>Status</TableHeader>
-              <th className="pb-3 pt-3 pl-5 text-center text-secondary text-xl font-semibold">Ações</th>
-            </tr>
-          </thead>
+          <CustomTHead fields={['Nome', 'Cargo', 'Email', 'Status']} />
           <tbody>
             {!loading && filteredEmployees.map((employee) => (
               <tr className="border-b border-white/20" key={employee?.attributes?.id}>
