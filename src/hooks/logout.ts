@@ -1,13 +1,14 @@
+import { api } from "@/services/api";
 import { useNavigate } from "react-router-dom";
 
-
-export const useLogoutHandler = () => {
+const logout = () => {
 
   const navigate = useNavigate();
 
   try {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
+    api.defaults.headers = {};
     navigate('/login');
     return true;
   } catch (error) {
@@ -15,3 +16,5 @@ export const useLogoutHandler = () => {
     return false;
   }
 };
+
+export default logout;
