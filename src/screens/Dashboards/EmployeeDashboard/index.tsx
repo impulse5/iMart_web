@@ -246,11 +246,7 @@ export function EmployeeDashboard() {
           <h1 className="text-3xl text-neutral-400 font-bold">FUNCIONÁRIOS</h1>
         </div>
         <div>
-          <UserDropdown 
-              title="Minha conta" 
-              trigger={<CircleUserRound 
-              className="text-neutral-400 size-12 cursor-pointer" 
-            />}/>
+          <UserDropdown />
         </div>
       </header>
       <article className="my-4 bg-tertiary rounded-lg">

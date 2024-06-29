@@ -10,12 +10,7 @@ export function Dashboard() {
             <h1 className="text-3xl text-neutral-400 font-bold">DASHBOARD</h1>
         </div>
         <div>
-            <UserDropdown 
-              title="Minha conta" 
-              trigger={<CircleUserRound 
-              className="text-neutral-400 size-12 cursor-pointer" 
-            />
-            }/>
+            <UserDropdown />
         </div>
     </header>
     <section className="grid grid-cols-3 gap-4 mt-10">
