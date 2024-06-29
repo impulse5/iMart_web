@@ -1,7 +1,6 @@
 import { api } from "./api";
 import { POST_SUPPLIER, GET_SUPPLIERS, PUT_SUPPLIER_STATUS, DELETE_SUPPLIER, PUT_SUPPLIER } from "@/constants/api_routes";
 import { useState } from "react";
-import { useGetMarketId } from "@/hooks/useGetMarketId";
 import { dataSupplierInfo } from "@/types/SupplierInfo";
 
 type SupplierService = {
@@ -29,15 +28,13 @@ type Supplier = {
 
 export const SupplierService = (): SupplierService => {
 
-  const { getMarketId } = useGetMarketId()
   const [suppliers, setSuppliers] = useState<Supplier>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getSuppliers = async () => {
-    let market_id = await getMarketId()
     setLoading(true)
     try {
-      const response = await api.get(GET_SUPPLIERS(market_id || ''))
+      const response = await api.get(GET_SUPPLIERS())
       setSuppliers(response.data.suppliers.data)
       setLoading(false)
     } catch (error) {
@@ -49,8 +46,7 @@ export const SupplierService = (): SupplierService => {
   const postSupplier = async (supplier: dataSupplierInfo) => {
     setLoading(true)
     try {
-      let market_id = await getMarketId()
-      const response = await api.post(POST_SUPPLIER(market_id || ''), supplier);
+      const response = await api.post(POST_SUPPLIER(), supplier);
       setSuppliers([...suppliers, response.data.supplier.data])
       setLoading(false)
       return true

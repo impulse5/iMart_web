@@ -2,7 +2,6 @@ import { useState } from "react"
 import { api } from "./api"
 import { GET_EMPLOYEES, POST_EMPLOYEE, DELETE_EMPLOYEE, PUT_EMPLOYEE_STATUS, PUT_EMPLOYEE } from "@/constants/api_routes"
 import { userEmployeeInfo } from "@/types/EmployeeInfo"
-import { useGetMarketId } from "@/hooks/useGetMarketId"
 
 type Employee = {
   attributes: {
@@ -18,15 +17,13 @@ type Employee = {
 }
 
 export const EmployeeService = () => {
-  const { getMarketId } = useGetMarketId()
   const [employees, setEmployees] = useState<Employee[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   const getEmployees = async () => {
     setLoading(true)
-    let market_id = await getMarketId()
     try {
-      const response = await api.get(GET_EMPLOYEES(market_id || ''))
+      const response = await api.get(GET_EMPLOYEES())
       setEmployees(response.data.users.data)
       setLoading(false)
       return true
@@ -39,8 +36,7 @@ export const EmployeeService = () => {
   const postEmployee = async (employee: userEmployeeInfo) => {
     setLoading(true)
     try {
-      let market_id = await getMarketId()
-      const response = await api.post(POST_EMPLOYEE(market_id || ''), employee);
+      const response = await api.post(POST_EMPLOYEE(), employee);
       setEmployees([...employees, response.data.user.data])
       setLoading(false)
       return true
