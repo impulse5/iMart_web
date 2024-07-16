@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:3000'
+export const API_BASE_URL = 'https://imart-s238.onrender.com/'
 
 export const GET_CITY_STATE_BY_CEP = (cep: string) =>
   `https://viacep.com.br/ws/${cep}/json/`
