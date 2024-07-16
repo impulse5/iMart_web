@@ -1,5 +1,5 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP, POST_CREATE_MARKET } from '../constants/api_routes';
+import { GET_CITY_STATE_BY_CEP, MARKET_COLLECTION_ROUTE } from '../constants/api_routes';
 import axios from 'axios';
 import { api } from '@/services/api';
 
@@ -52,7 +52,7 @@ export const RegisterMarketProvider = ({ children }: Props) => {
   const registerMarket = async () => {
     try {
       setRegisterMarketLoading(true);
-      await api.post(POST_CREATE_MARKET, {
+      await api.post(MARKET_COLLECTION_ROUTE, {
         market: {
           ...enterpriseData,
         },

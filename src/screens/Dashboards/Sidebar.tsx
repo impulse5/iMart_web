@@ -39,10 +39,10 @@ export function Sidebar() {
               <Tags className="mx-2" />
               Categorias
             </Link>
-            <button className="py-2 w-full flex">
+            <Link to='/produtos' className={`${getActiveClass('/produtos') ? 'bg-neutral-950 py-2 w-full flex rounded-lg transition-all' : ' py-2 w-full flex rounded-lg'} `}>
               <ShoppingBasket className="mx-2 " />
               Produtos
-            </button>
+            </Link>
             <button className="py-2 w-full flex">
               <Settings className="mx-2" />
               Configurações
