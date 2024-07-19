@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
-import { EnterpriseData } from '@/screens/MarketRegister/EnterpriseData'
-import { EnterpriseAccess } from '@/screens/MarketRegister/EnterpriseAccess'
-import { EnterpriseAddress } from '@/screens/MarketRegister/EnterpriseAddress'
+import { EnterpriseData } from '@/screens/MarketRegister/EnterpriseData/EnterpriseData'
+import { EnterpriseAccess } from '@/screens/MarketRegister/EnterpriseAccess/EnterpriseAccess'
+import { EnterpriseAddress } from '@/screens/MarketRegister/EnterpriseAddress/EnterpriseAddress'
 import { Redirect } from '@/components/Redirect'
 import { RegisterMarketProvider } from '@/contexts/RegisterMarketContext'
 import { Login } from '@/screens/Login'
-import { EnterpriseSubmission } from '@/screens/MarketRegister/EnterpriseSubmission'
+import { EnterpriseSubmission } from '@/screens/MarketRegister/EnterpriseSubmission/EnterpriseSubmission'
 
 export function RegisterRoutes() {
   return (

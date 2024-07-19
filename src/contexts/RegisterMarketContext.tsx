@@ -53,12 +53,8 @@ export const RegisterMarketProvider = ({ children }: Props) => {
     try {
       setRegisterMarketLoading(true);
       await api.post(MARKET_COLLECTION_ROUTE, {
-        market: {
-          ...enterpriseData,
-        },
-        address: {
-          ...enterpriseAddress,
-        },
+        market: { ...enterpriseData },
+        address: { ...enterpriseAddress },
         user: {
           name: enterpriseAccess.name,
           email: enterpriseAccess.email,
@@ -67,17 +63,20 @@ export const RegisterMarketProvider = ({ children }: Props) => {
       });
       setRegisterMarketLoading(false);
       setRegisterSuccess(true);
+      console.log("Cadastro bem-sucedido, redirecionando...");
     } catch (error) {
       setRegisterMarketLoading(false);
       setRegisterMarketError(error as any);
+      console.error("Erro ao cadastrar:", error);
     }
   };
+  
 
   useEffect(() => {
     if (/^\d{5}-\d{3}$/.test(enterpriseAddress.zipcode)) {
       getCityAndState();
     }
-  }, [enterpriseAddress]);
+  }, [enterpriseAddress.zipcode]);
 
   return (
     <RegisterMarketContext.Provider

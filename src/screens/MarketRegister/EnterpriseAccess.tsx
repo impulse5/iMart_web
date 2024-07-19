@@ -137,9 +137,11 @@ export function EnterpriseAccess() {
 
   useEffect(() => {
     if (registerSuccess) {
-      navigate('/cadastre-se/submissao-enviada');
+      setTimeout(() => {
+        navigate('/cadastre-se/submissao-enviada');
+      }, 500);
     }
-  }, [registerSuccess]);
+  }, [registerSuccess, navigate]);
 
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
