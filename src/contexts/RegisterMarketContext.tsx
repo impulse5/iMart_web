@@ -1,22 +1,43 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP, MARKET_COLLECTION_ROUTE } from '../constants/api_routes';
+import { GET_CITY_STATE_BY_CEP } from '../constants/api_routes';
 import axios from 'axios';
-import { api } from '@/services/api';
+import { MarketService } from "@/services/MarketService/index"
+import { EnterpriseAccess, EnterpriseAddress, EnterpriseData, MarketRequest } from '@/types/market';
 
-export const RegisterMarketContext = createContext<any>(null);
+interface RegisterMarketContextData {
+  enterpriseData: EnterpriseData;
+  setEnterpriseData: (data: EnterpriseData) => void;
+  enterpriseAddress: EnterpriseAddress;
+  setEnterpriseAddress: (data: EnterpriseAddress) => void;
+  enterpriseAccess: EnterpriseAccess;
+  setEnterpriseAccess: (data: EnterpriseAccess) => void;
+  successEnterpriseData: boolean;
+  setSuccessEnterpriseData: (data: boolean) => void;
+  successEnterpriseAddress: boolean;
+  setSuccessEnterpriseAddress: (data: boolean) => void;
+  successEnterpriseAccess: boolean;
+  setSuccessEnterpriseAccess: (data: boolean) => void;
+  setRegisterSuccess: (data: boolean) => void;
+  registerMarket: () => void;
+  registerSuccess: boolean;
+  IsLoading: boolean;
+  isError: boolean
+}
+
+export const RegisterMarketContext = createContext({} as RegisterMarketContextData );
 
 type Props = {
   children: React.ReactNode;
 }
 
 export const RegisterMarketProvider = ({ children }: Props) => {
-  const [enterpriseData, setEnterpriseData] = useState({
+  const [enterpriseData, setEnterpriseData] = useState<EnterpriseData>({
     name: '',
     cnpj: '',
     cellphone: '',
   });
 
-  const [enterpriseAddress, setEnterpriseAddress] = useState({
+  const [enterpriseAddress, setEnterpriseAddress] = useState<EnterpriseAddress>({
     street: '',
     neighborhood: '',
     number: '',
@@ -25,7 +46,7 @@ export const RegisterMarketProvider = ({ children }: Props) => {
     state: '',
   });
 
-  const [enterpriseAccess, setEnterpriseAccess] = useState({
+  const [enterpriseAccess, setEnterpriseAccess] = useState<EnterpriseAccess>({
     name: '',
     email: '',
     password: '',
@@ -35,8 +56,6 @@ export const RegisterMarketProvider = ({ children }: Props) => {
   const [successEnterpriseData, setSuccessEnterpriseData] = useState(false);
   const [successEnterpriseAddress, setSuccessEnterpriseAddress] = useState(false);
   const [successEnterpriseAccess, setSuccessEnterpriseAccess] = useState(false);
-  const [registerMarketLoading, setRegisterMarketLoading] = useState(false);
-  const [registerMarketError, setRegisterMarketError] = useState(null);
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
   const getCityAndState = async () => {
@@ -49,27 +68,26 @@ export const RegisterMarketProvider = ({ children }: Props) => {
     }));
   };
 
+  const { register, IsLoading, isError } = MarketService();
+  
   const registerMarket = async () => {
-    try {
-      setRegisterMarketLoading(true);
-      await api.post(MARKET_COLLECTION_ROUTE, {
-        market: { ...enterpriseData },
-        address: { ...enterpriseAddress },
-        user: {
-          name: enterpriseAccess.name,
-          email: enterpriseAccess.email,
-          password: enterpriseAccess.password,
-        },
-      });
-      setRegisterMarketLoading(false);
-      setRegisterSuccess(true);
-      console.log("Cadastro bem-sucedido, redirecionando...");
-    } catch (error) {
-      setRegisterMarketLoading(false);
-      setRegisterMarketError(error as any);
-      console.error("Erro ao cadastrar:", error);
-    }
-  };
+    const marketData: MarketRequest = {
+      address: enterpriseAddress,
+      user: {
+        name: enterpriseAccess.name,
+        email: enterpriseAccess.email,
+        password: enterpriseAccess.password,
+      },
+      market: enterpriseData,
+    };  
+     try {
+       await register(marketData)
+       setRegisterSuccess(true);
+       console.log("Mercado cadastrado com sucesso")     
+     } catch (error) {
+      console.log("Erro ao cadastrar", error)
+     }
+  }
   
 
   useEffect(() => {
@@ -96,8 +114,8 @@ export const RegisterMarketProvider = ({ children }: Props) => {
         setRegisterSuccess,
         registerMarket,
         registerSuccess,
-        registerMarketError,
-        registerMarketLoading,
+        isError,
+        IsLoading
       }}
     >
       {children}

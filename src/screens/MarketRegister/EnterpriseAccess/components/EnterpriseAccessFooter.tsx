@@ -3,16 +3,16 @@ import { Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-  registerMarketLoading: boolean;
+  isLoading: boolean;
 }
 
-export function EnterpriseAccessFooter({ registerMarketLoading }: Props) {
+export function EnterpriseAccessFooter({ isLoading }: Props) {
   const navigate = useNavigate();
   
   return (
     <>
-      <Button type="submit" className="w-full" disabled={registerMarketLoading}>
-        {registerMarketLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      <Button type="submit" className="w-full" disabled={isLoading}>
+        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Finalizar Cadastro
       </Button>
       <p className="mt-2 text-nowrap text-sm">
