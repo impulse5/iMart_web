@@ -6,7 +6,6 @@ import { EnterpriseAddressBreadcrumb } from './components/EnterpriseAddressBread
 import { EnterpriseAddressFooter } from './components/EnterpriseAddressFooter';
 import { useNavigate } from 'react-router-dom';
 import { useRegisterMarket } from '@/contexts/RegisterMarketContext';
-import { useEnterpriseAddressValidation } from './useEnterpriseAddressValidation';
 import { Toaster } from '@/components/ui/Toast/toaster';
 import { Button } from '@/components/ui/Button/button';
 
@@ -14,6 +13,7 @@ export function EnterpriseAddress() {
   const navigate = useNavigate();
   const { successEnterpriseData, setSuccessEnterpriseAddress } = useRegisterMarket();
 
+  
   useEffect(() => {
     if (!successEnterpriseData) {
       navigate('/cadastre-se/dados-empresariais');
@@ -31,8 +31,6 @@ export function EnterpriseAddress() {
     { text: 'Acesso', current: false },
   ];
 
-  const validateAddress = useEnterpriseAddressValidation({}, handleNextStep);
-
   return (
     <main className="bg-primary grid grid-cols-custom w-full h-screen overflow-hidden">
       <div className="flex justify-center items-center">
@@ -44,7 +42,7 @@ export function EnterpriseAddress() {
         </div>
       </div>
       <div>
-        <form className="h-full bg-secondary rounded-form" onSubmit={validateAddress}>
+        <form className="h-full bg-secondary rounded-form" onSubmit={handleNextStep}>
           <div className="flex items-center flex-col">
             <EnterpriseAddressHeader />
           </div>

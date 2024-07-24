@@ -5,7 +5,6 @@ import { EnterpriseAccessFormFields } from './components/EnterpriseAccessFormFie
 import { EnterpriseAccessHeader } from './components/EnterpriseAccessHeader';
 import { EnterpriseAccessBreadcrumb } from './components/EnterpriseAccessBreadcrumb';
 import { EnterpriseAccessFooter } from './components/EnterpriseAccessFooter';
-import { useEnterpriseAccessValidation } from './useEnterpriseAccessValidation';
 import { Toaster } from '@/components/ui/Toast/toaster';
 import { SectionDescription } from '@/components/SectionDescription';
 import { toast } from '@/components/ui/Toast/use-toast';
@@ -18,11 +17,15 @@ export function EnterpriseAccess() {
     setEnterpriseAccess,
     registerMarket,
     registerSuccess,
-    registerMarketError,
-    registerMarketLoading,
+    IsLoading,
+    isError
   } = useRegisterMarket();
   const navigate = useNavigate();
-  const validate = useEnterpriseAccessValidation(enterpriseAccess, registerMarket);
+
+  function handleValidation(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    registerMarket()
+  }
 
   useEffect(() => {
     if (!successEnterpriseData || !successEnterpriseAddress) {
@@ -37,15 +40,15 @@ export function EnterpriseAccess() {
   ];
 
   useEffect(() => {
-    if (registerMarketError) {
+    if (isError) {
       toast({
         variant: 'error',
         title: 'Erro ao cadastrar',
-        description: registerMarketError.response.data.message,
+        description: 'Ocorreu um erro ao cadastrar sua empresa, tente novamente.',
         duration: 5000,
       });
     }
-  }, [registerMarketError]);
+  }, [isError]);
 
   useEffect(() => {
     if (registerSuccess) {
@@ -64,7 +67,7 @@ export function EnterpriseAccess() {
         </div>
       </div>
       <div>
-        <form className="h-full bg-secondary rounded-form" onSubmit={validate} noValidate>
+        <form className="h-full bg-secondary rounded-form" onSubmit={handleValidation} noValidate>
           <div className="flex items-center flex-col">
             <EnterpriseAccessHeader />
           </div>
@@ -75,7 +78,7 @@ export function EnterpriseAccess() {
             <div className="mt-4 mb-1 text-nowrap">
               <EnterpriseAccessBreadcrumb items={breadcrumbItems} />
             </div>
-            <EnterpriseAccessFooter registerMarketLoading={registerMarketLoading} />
+            <EnterpriseAccessFooter isLoading={IsLoading} />
             <Toaster position="top-center" />
           </div>
         </form>

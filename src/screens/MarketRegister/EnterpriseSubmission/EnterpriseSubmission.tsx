@@ -23,7 +23,7 @@ export function EnterpriseSubmission() {
     } else {
       navigate('/cadastre-se/dados-empresariais');
     }
-  }, [registerSuccess, navigate, setRegisterSuccess, toast]);
+  }, []);
 
   return (
     <>
