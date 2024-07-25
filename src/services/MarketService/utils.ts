@@ -1,6 +1,11 @@
 import { api } from "../api"
-import { MARKET_COLLECTION_ROUTE } from "@/constants/api_routes"
+import { GET_CITY_STATE_BY_CEP, MARKET_COLLECTION_ROUTE } from "@/constants/api_routes"
 import { MarketRequest } from "@/types/market"
+
+export interface CityAndState {
+    localidade: string;
+    uf: string;
+  }
 
 export const utils = () => {
     const registerMarket = async (marketData: MarketRequest) => {
@@ -12,8 +17,19 @@ export const utils = () => {
             throw error
         }
     }
+    const getCityAndState = async (zipcode: string): Promise<CityAndState> => {
+        try {
+            const response = await api.get(GET_CITY_STATE_BY_CEP(zipcode))
+            return response.data
+        } catch (error) {
+            console.log("Error getting city and state by zipcode:", error)
+            throw error
+        }
+    }
+    
     return {
-        registerMarket
+        registerMarket,
+        getCityAndState
     }
 }
 
