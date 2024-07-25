@@ -6,11 +6,10 @@ export const MarketService = () => {
     const { registerMarket, getCityAndState} = utils()
 
     const { data: fetchCityAndStateByZipcode } = useQuery({
-        queryKey: ['cityAndState'],
+        queryKey: ['cep_location'],
         queryFn: () => getCityAndState,
     })
     
-
     const { mutateAsync: register, isPending: IsLoading, isError} = useMutation({
         mutationFn: registerMarket,
     })
