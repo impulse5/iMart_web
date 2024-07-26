@@ -1,7 +1,5 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP } from '../constants/api_routes';
-import axios from 'axios';
-import { MarketService } from "@/services/MarketService/index"
+import { MarketService,  } from "@/services/MarketService/index"
 import { EnterpriseAccess, EnterpriseAddress, EnterpriseData, MarketRequest } from '@/types/market';
 
 interface RegisterMarketContextData {
@@ -58,18 +56,23 @@ export const RegisterMarketProvider = ({ children }: Props) => {
   const [successEnterpriseAccess, setSuccessEnterpriseAccess] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
+  const { register, IsLoading, isError, fetchCityAndStateByZipcode} = MarketService();
+
   const getCityAndState = async () => {
-    const response = await axios(GET_CITY_STATE_BY_CEP(enterpriseAddress.zipcode));
-    const data = response.data;
-    setEnterpriseAddress((prevState) => ({
-      ...prevState,
-      city: data.localidade,
-      state: data.uf,
-    }));
+    try {
+      if (fetchCityAndStateByZipcode) {
+        const data = await fetchCityAndStateByZipcode(enterpriseAddress.zipcode);
+        setEnterpriseAddress((prevState) => ({
+          ...prevState,
+          city: data.localidade,
+          state: data.uf,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const { register, IsLoading, isError } = MarketService();
-  
   const registerMarket = async () => {
     const marketData: MarketRequest = {
       address: enterpriseAddress,

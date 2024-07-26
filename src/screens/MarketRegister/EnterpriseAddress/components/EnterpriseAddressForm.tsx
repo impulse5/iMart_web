@@ -49,6 +49,18 @@ export function EnterpriseAddressForm() {
         label="CEP"
         maxLength={9}
       />
+      <Input
+        placeholder="Preencha o CEP para exibir a cidade"
+        value={enterpriseAddress.city}
+        className="pointer-events-none"
+        disabled={enterpriseAddress.city == ''}
+        />
+        <Input
+        placeholder="Preencha o CEP para exibir o estado"
+        value={enterpriseAddress.state}
+        className="pointer-events-none"
+        disabled={enterpriseAddress.city == ''}
+        />
     </div>
   );
 }
