@@ -27,7 +27,7 @@ type CustomModalProps = {
     label: string,
     value: string,
   }[]
-  onSubmit?: () => void
+  onSubmit?: any
   onInit?: () => void
 }
 
@@ -36,8 +36,7 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
   return (
     <Dialog onOpenChange={onInit}>
       <DialogTrigger>
-        {trigger}
-      </DialogTrigger>
+        {trigger}      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-primary text-secondary border-none">
         <DialogHeader className="pt-1 pb-3 px-3 rounded-lg">
           {

@@ -1,8 +1,8 @@
 import { useContext, createContext, useState } from 'react'
 import { api } from '@/services/api'
 import { POST_USER_LOGIN } from '../constants/api_routes'
-import { User } from '@/types/User'
-import { Props } from '@/types/Props'
+import { User } from '@/types/user'
+import { Props } from '@/types/props'
 
 export const AuthenticationContext = createContext<AuthContextType>(null!)
 

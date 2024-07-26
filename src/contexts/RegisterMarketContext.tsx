@@ -1,22 +1,41 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { GET_CITY_STATE_BY_CEP, POST_CREATE_MARKET } from '../constants/api_routes';
-import axios from 'axios';
-import { api } from '@/services/api';
+import { MarketService,  } from "@/services/MarketService/index"
+import { EnterpriseAccess, EnterpriseAddress, EnterpriseData, MarketRequest } from '@/types/market';
 
-export const RegisterMarketContext = createContext<any>(null);
+interface RegisterMarketContextData {
+  enterpriseData: EnterpriseData;
+  setEnterpriseData: (data: EnterpriseData) => void;
+  enterpriseAddress: EnterpriseAddress;
+  setEnterpriseAddress: (data: EnterpriseAddress) => void;
+  enterpriseAccess: EnterpriseAccess;
+  setEnterpriseAccess: (data: EnterpriseAccess) => void;
+  successEnterpriseData: boolean;
+  setSuccessEnterpriseData: (data: boolean) => void;
+  successEnterpriseAddress: boolean;
+  setSuccessEnterpriseAddress: (data: boolean) => void;
+  successEnterpriseAccess: boolean;
+  setSuccessEnterpriseAccess: (data: boolean) => void;
+  setRegisterSuccess: (data: boolean) => void;
+  registerMarket: () => void;
+  registerSuccess: boolean;
+  IsLoading: boolean;
+  isError: boolean
+}
+
+export const RegisterMarketContext = createContext({} as RegisterMarketContextData );
 
 type Props = {
   children: React.ReactNode;
 }
 
 export const RegisterMarketProvider = ({ children }: Props) => {
-  const [enterpriseData, setEnterpriseData] = useState({
+  const [enterpriseData, setEnterpriseData] = useState<EnterpriseData>({
     name: '',
     cnpj: '',
     cellphone: '',
   });
 
-  const [enterpriseAddress, setEnterpriseAddress] = useState({
+  const [enterpriseAddress, setEnterpriseAddress] = useState<EnterpriseAddress>({
     street: '',
     neighborhood: '',
     number: '',
@@ -25,7 +44,7 @@ export const RegisterMarketProvider = ({ children }: Props) => {
     state: '',
   });
 
-  const [enterpriseAccess, setEnterpriseAccess] = useState({
+  const [enterpriseAccess, setEnterpriseAccess] = useState<EnterpriseAccess>({
     name: '',
     email: '',
     password: '',
@@ -35,49 +54,50 @@ export const RegisterMarketProvider = ({ children }: Props) => {
   const [successEnterpriseData, setSuccessEnterpriseData] = useState(false);
   const [successEnterpriseAddress, setSuccessEnterpriseAddress] = useState(false);
   const [successEnterpriseAccess, setSuccessEnterpriseAccess] = useState(false);
-  const [registerMarketLoading, setRegisterMarketLoading] = useState(false);
-  const [registerMarketError, setRegisterMarketError] = useState(null);
   const [registerSuccess, setRegisterSuccess] = useState(false);
 
+  const { register, IsLoading, isError, fetchCityAndStateByZipcode} = MarketService();
+
   const getCityAndState = async () => {
-    const response = await axios(GET_CITY_STATE_BY_CEP(enterpriseAddress.zipcode));
-    const data = response.data;
-    setEnterpriseAddress((prevState) => ({
-      ...prevState,
-      city: data.localidade,
-      state: data.uf,
-    }));
+    try {
+      if (fetchCityAndStateByZipcode) {
+        const data = await fetchCityAndStateByZipcode(enterpriseAddress.zipcode);
+        setEnterpriseAddress((prevState) => ({
+          ...prevState,
+          city: data.localidade,
+          state: data.uf,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const registerMarket = async () => {
-    try {
-      setRegisterMarketLoading(true);
-      await api.post(POST_CREATE_MARKET, {
-        market: {
-          ...enterpriseData,
-        },
-        address: {
-          ...enterpriseAddress,
-        },
-        user: {
-          name: enterpriseAccess.name,
-          email: enterpriseAccess.email,
-          password: enterpriseAccess.password,
-        },
-      });
-      setRegisterMarketLoading(false);
-      setRegisterSuccess(true);
-    } catch (error) {
-      setRegisterMarketLoading(false);
-      setRegisterMarketError(error as any);
-    }
-  };
+    const marketData: MarketRequest = {
+      address: enterpriseAddress,
+      user: {
+        name: enterpriseAccess.name,
+        email: enterpriseAccess.email,
+        password: enterpriseAccess.password,
+      },
+      market: enterpriseData,
+    };  
+     try {
+       await register(marketData)
+       setRegisterSuccess(true);
+       console.log("Mercado cadastrado com sucesso")     
+     } catch (error) {
+      console.log("Erro ao cadastrar", error)
+     }
+  }
+  
 
   useEffect(() => {
     if (/^\d{5}-\d{3}$/.test(enterpriseAddress.zipcode)) {
       getCityAndState();
     }
-  }, [enterpriseAddress]);
+  }, [enterpriseAddress.zipcode]);
 
   return (
     <RegisterMarketContext.Provider
@@ -97,8 +117,8 @@ export const RegisterMarketProvider = ({ children }: Props) => {
         setRegisterSuccess,
         registerMarket,
         registerSuccess,
-        registerMarketError,
-        registerMarketLoading,
+        isError,
+        IsLoading
       }}
     >
       {children}
