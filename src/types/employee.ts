@@ -3,6 +3,7 @@ interface UserAttributes {
   name: string;
   role: string;
   email: string;
+  password: string;
   status: boolean;
 }
 
@@ -12,5 +13,5 @@ export type UserResponse = {
 }
 
 export type UserRequest = {
-  user: UserAttributes
+  user: Omit<UserAttributes, "status">
 }
