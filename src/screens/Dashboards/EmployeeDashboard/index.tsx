@@ -4,18 +4,66 @@ import { useState } from "react";
 import { SearchInput } from "@/components/SearchInput";
 import { CustomTHead } from "@/components/CustomTHead";
 import { EmployeeService } from "@/services/EmployeeService";
-import { UserResponse } from "@/types/employee";
+import { UserRequest, UserResponse } from "@/types/employee";
 import { TableCell } from "@/components/Table/tableCell";
 import { useRoleTranslate } from "@/hooks/useRole";
 import { Badge } from "@/components/ui/Badge/badge";
 import ReactLoading from 'react-loading';
 import { DeactivateIcon, ActivateIcon } from "@/components/Icons";
 import { DeleteModal } from "@/components/DeleteModal";
+import { CreateModal, UpdateModal } from "./components";
 
 const EmployeeDashboard = () => {
 
   const [search, setSearch] = useState<string>('');
-  const { employees, loading, turnStatus, destroy } = EmployeeService();
+  const { employees, loading, turnStatus, destroy, create, update } = EmployeeService();
+
+  const [newEmployee, setNewEmployee] = useState<UserRequest>({
+    user: {
+      id: '',
+      name: '',
+      role: '',
+      email: '',
+      password: '',
+    }
+  })
+
+  const [editEmployee, setEditEmployee] = useState<UserRequest>({
+    user: {
+      id: '',
+      name: '',
+      role: '',
+      email: '',
+      password: '',
+    }
+  })
+
+  const handleCreate = async () => {
+    await create(newEmployee);
+    setNewEmployee({
+      user: {
+        id: '',
+        name: '',
+        role: '',
+        email: '',
+        password: '',
+      }
+    });
+  }
+
+  const handleUpdate = async () => {
+    await update(editEmployee);
+    setEditEmployee({
+      user: {
+        id: '',
+        name: '',
+        role: '',
+        email: '',
+        password: '',
+      }
+    });
+  }
+
 
   const handleDelete = async (id: string) => {
     await destroy(id);
@@ -35,6 +83,7 @@ const EmployeeDashboard = () => {
       <article className="my-4 bg-tertiary rounded-lg">
         <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">
           <SearchInput search={search} setSearch={setSearch} />
+          <CreateModal newEmployee={newEmployee} setNewEmployee={setNewEmployee} onSubmit={handleCreate}/>
         </div>
         <table className="w-full">
           <CustomTHead fields={['Nome', 'Cargo', 'Email', 'Status']} />
@@ -53,16 +102,22 @@ const EmployeeDashboard = () => {
                     )}
                   </TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
+                    {employee.attributes.role !== 'owner' && (
+                      <UpdateModal editedEmployee={editEmployee} employee={employee} onSubmit={handleUpdate} setEditedEmployee={setEditEmployee}/>
+                    )}                    
                     {
                       employee?.attributes?.role !== 'owner' && (
                         <DeleteModal prefix="o" entity="funcionário" handleDelete={() => handleDelete(employee.id)} />
                       )
                     }
-                    <div onClick={() => turnStatus(employee.id)}>
-                      {
-                        employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
-                      }
-                    </div>
+                    {employee?.attributes?.role !==  'owner' && (
+                       <div onClick={() => turnStatus(employee.id)}>
+                       {
+                         employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
+                       }
+                     </div>
+                    )}
+                   
                   </td>
                 </tr>
               ))
