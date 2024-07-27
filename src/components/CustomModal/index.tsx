@@ -9,24 +9,30 @@ import {
   DialogClose,
 } from "@/components/ui/Dialog/dialog";
 
+type SelectOption = {
+  label: string;
+  value: string;
+};
+
+type Field = {
+  label?: string;
+  type: string;
+  placeholder: string;
+  id?: string;
+  value?: string | any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+
 type CustomModalProps = {
   type: "create" | "edit" | "delete",
   trigger: React.ReactElement,
   title?: string,
   description?: string,
-  fields?: {
-    label?: string,
-    type: string,
-    placeholder: string,
-    id?: string,
-    value?: string,
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    onSelect?: (e: any) => void,
-  }[]
+  fields?: Field[],
   selectOptions?: {
-    label: string,
-    value: string,
-  }[]
+    [key: string]: SelectOption[];
+  },
   onSubmit?: any
   onInit?: () => void
 }
@@ -58,11 +64,15 @@ export const CustomModal = ({type, trigger, title, description, fields, selectOp
                     </div>
                   ) : (
                     <div className="mt-3 mb-2">
-                      <select onChange={field.onSelect} className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80">
+                      <select
+                        id={field.id}
+                        onChange={field.onSelect}
+                        className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80"
+                      >
                         <option disabled selected>{field.placeholder}</option>
                         {
-                          selectOptions && selectOptions.map(option => (
-                            <option value={option.value}>{option.label}</option>
+                          field.id && selectOptions && selectOptions[field.id] && selectOptions[field.id].map((option: SelectOption) => (
+                            <option key={option.value} value={option.value}>{option.label}</option>
                           ))
                         }
                       </select>
