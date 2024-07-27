@@ -102,17 +102,22 @@ const EmployeeDashboard = () => {
                     )}
                   </TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                    <UpdateModal editedEmployee={editEmployee} employee={employee} onSubmit={handleUpdate} setEditedEmployee={setEditEmployee}/>
+                    {employee.attributes.role !== 'owner' && (
+                      <UpdateModal editedEmployee={editEmployee} employee={employee} onSubmit={handleUpdate} setEditedEmployee={setEditEmployee}/>
+                    )}                    
                     {
                       employee?.attributes?.role !== 'owner' && (
                         <DeleteModal prefix="o" entity="funcionário" handleDelete={() => handleDelete(employee.id)} />
                       )
                     }
-                    <div onClick={() => turnStatus(employee.id)}>
-                      {
-                        employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
-                      }
-                    </div>
+                    {employee?.attributes?.role !==  'owner' && (
+                       <div onClick={() => turnStatus(employee.id)}>
+                       {
+                         employee?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
+                       }
+                     </div>
+                    )}
+                   
                   </td>
                 </tr>
               ))
