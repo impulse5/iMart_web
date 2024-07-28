@@ -1,3 +1,4 @@
+import { UserRequest } from "@/types/employee"
 import { api } from "../api"
 import { USER_COLLECTION_ROUTE, USER_MEMBER_ROUTE, USER_MEMBER_TURN_STATUS_ROUTE } from "@/constants/api_routes"
 
@@ -9,6 +10,26 @@ export const utils = () => {
       return response.data.users
     } catch (error) {
       console.error('Error fetching categories:', error)
+      throw error
+    }
+  }
+
+  const createEmployee = async (employee: UserRequest) => {
+    try {
+      const response = await api.post(USER_COLLECTION_ROUTE(), employee)
+      return response.data
+    } catch (error) {
+      console.error('Error creating employee:', error)
+      throw error
+    }
+  }
+
+  const updateEmployee = async (employee: UserRequest) => {
+    try {
+      const response = await api.put(USER_MEMBER_ROUTE(employee.user.id), employee)
+      return response.data
+    } catch (error) {
+      console.error('Error updating employee:', error)
       throw error
     }
   }
@@ -36,6 +57,8 @@ export const utils = () => {
   return {
     getEmployees,
     deleteEmployee,
-    turnEmployeeStatus
+    turnEmployeeStatus,
+    createEmployee,
+    updateEmployee
   }
 }
