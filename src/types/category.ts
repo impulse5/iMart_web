@@ -1,4 +1,4 @@
-interface CategoryAttributes {
+export interface CategoryAttributes {
   id: string;
   name: string;
 }

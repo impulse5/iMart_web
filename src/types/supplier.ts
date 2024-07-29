@@ -1,4 +1,4 @@
-interface SupplierAttributes {
+export interface SupplierAttributes {
   id: string;
   name: string;
   cnpj: string;

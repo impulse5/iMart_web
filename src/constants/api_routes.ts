@@ -31,3 +31,9 @@ export const CATEGORY_COLLECTION_ROUTE = () =>
 
 export const CATEGORY_MEMBER_ROUTE = (category_id: string) =>
   `categories/${category_id}`
+
+export const PRODUCT_COLLECTION_ROUTE = () =>
+  `products`
+
+export const PRODUCT_MEMBER_ROUTE = (product_id: string) =>
+  `products/${product_id}`
