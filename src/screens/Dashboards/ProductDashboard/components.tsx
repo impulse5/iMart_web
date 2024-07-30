@@ -5,12 +5,12 @@ import { EditIcon } from "@/components/Icons";
 import { SupplierService } from "@/services/SupplierService";
 import { CategoryService } from "@/services/CategoryService";
 
+
 type CreateProductModalProps = {
   newProduct: ProductRequest;
   setNewProduct: (product: ProductRequest) => void;
   onSubmit: () => void;
 };
-
 
 export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: CreateProductModalProps) => {
   const [supplierOptions, setSupplierOptions] = useState<{ value: string; label: string }[]>([]);
@@ -21,73 +21,83 @@ export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: Crea
 
   useEffect(() => {
     if (!suppliersLoading && suppliers) {
-      if (Array.isArray(suppliers.data)) {
-        setSupplierOptions(suppliers.data.map((supplier: any) => ({
-          value: supplier.id,
-          label: supplier.attributes.name || 'N/A'
-        })));
-      } else {
-        throw new Error
-      }
+      setSupplierOptions(suppliers.data.map((supplier: any) => ({
+        value: supplier.id,
+        label: supplier.attributes.name || 'N/A'
+      })));
     }
   }, [suppliers, suppliersLoading]);
-  
+
   useEffect(() => {
     if (!categoriesLoading && categories) {
-      if (Array.isArray(categories.data)) {
-        setCategoryOptions(categories.data.map((category: any) => ({
-          value: category.id,
-          label: category.attributes.name || 'N/A'
-        })));
-      } else {
-        throw new Error
-      }
+      setCategoryOptions(categories.data.map((category: any) => ({
+        value: category.id,
+        label: category.attributes.name || 'N/A'
+      })));
     }
   }, [categories, categoriesLoading]);
 
   if (categoriesLoading || suppliersLoading) {
-    return <div>Loading...</div>;
+    return <div>...</div>;
   }
 
   return (
-    <div>
-      <CustomModal
-        title="Cadastrar produto"
-        trigger={
-          <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar Produto</button>
-        }
-        type="create"
-        fields={[
-          { id: 'barcode', label: 'Código de Barras', type: 'text', placeholder: '1234567890123', value: newProduct.product.barcode, onChange: (e) => setNewProduct({ product: { ...newProduct.product, barcode: e.target.value }})},
-          { id: 'name', label: 'Nome', type: 'text', placeholder: 'Produto Exemplo', value: newProduct.product.name, onChange: (e) => setNewProduct({ product: { ...newProduct.product, name: e.target.value }})},
-          { id: 'price', label: 'Preço', type: 'number', placeholder: '99.99', value: newProduct.product.price, onChange: (e) => setNewProduct({ product: { ...newProduct.product, price: parseFloat(e.target.value) }})},
-          { 
-            id: 'supplier_id', 
-            label: 'Fornecedor', 
-            type: 'select', 
-            placeholder: 'Fornecedor', 
-            value: newProduct.product.supplier_id, 
-            onSelect: (e) => setNewProduct({ product: { ...newProduct.product, supplier_id: e.target.value }})
-          },
-          { 
-            id: 'category_id', 
-            label: 'Categoria', 
-            type: 'select', 
-            placeholder: 'Categoria', 
-            value: newProduct.product.category_id, 
-            onSelect: (e) => setNewProduct({ product: { ...newProduct.product, category_id: e.target.value }})
-          },
-        ]}
-        selectOptions={{
-          supplier_id: supplierOptions,
-          category_id: categoryOptions
-        }}
-        onSubmit={onSubmit}
-      />
-    </div>
+    <CustomModal
+      title="Cadastrar produto"
+      trigger={
+        <button className="bg-[#010101] py-1.5 px-10 rounded-lg">Cadastrar Produto</button>
+      }
+      type="create"
+      fields={[
+        { 
+          id: 'barcode', 
+          label: 'Código de Barras', 
+          type: 'text', 
+          placeholder: '1234567890123', 
+          value: newProduct.product.barcode, 
+          onChange: (e) => setNewProduct({ product: { ...newProduct.product, barcode: e.target.value }})
+        },
+        { 
+          id: 'name', 
+          label: 'Nome', 
+          type: 'text', 
+          placeholder: 'Produto Exemplo', 
+          value: newProduct.product.name, 
+          onChange: (e) => setNewProduct({ product: { ...newProduct.product, name: e.target.value }})
+        },
+        { 
+          id: 'price', 
+          label: 'Preço', 
+          type: 'number', 
+          placeholder: '99.99', 
+          value: newProduct.product.price, 
+          onChange: (e) => setNewProduct({ product: { ...newProduct.product, price: parseFloat(e.target.value) }})
+        },
+        { 
+          id: 'supplier_id', 
+          label: 'Fornecedor', 
+          type: 'select', 
+          placeholder: 'Fornecedor', 
+          value: newProduct.product.supplier_id, 
+          onChange: (e) => setNewProduct({ product: { ...newProduct.product, supplier_id: e.target.value }})
+        },
+        { 
+          id: 'category_id', 
+          label: 'Categoria', 
+          type: 'select', 
+          placeholder: 'Categoria', 
+          value: newProduct.product.category_id, 
+          onChange: (e) => setNewProduct({ product: { ...newProduct.product, category_id: e.target.value }})
+        },
+      ]}
+      selectOptions={{
+        supplier_id: supplierOptions,
+        category_id: categoryOptions
+      }}
+      onSubmit={onSubmit}
+    />
   );
 };
-
 type EditModalProps = {
   product: ProductResponse;
   setEditedProduct: (product: ProductRequest) => void;
@@ -144,7 +154,7 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
   }, [product, setEditedProduct]);
 
   if (categoriesLoading || suppliersLoading) {
-    return <div>Loading...</div>;
+    return <div>...</div>;
   }
 
   return (
@@ -177,6 +187,20 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
         category_id: categoryOptions
       }}
       trigger={<EditIcon />}
+      onInit={() => {
+        if (product) {
+          setEditedProduct({
+            product: {
+              id: product.id,
+              barcode: product.attributes.barcode,
+              name: product.attributes.name,
+              price: product.attributes.price,
+              supplier_id: product.attributes.supplier_id,
+              category_id: product.attributes.category_id
+            }
+          });
+        }
+      }}
       onSubmit={() => onSubmit(product.id)}
     />
   );

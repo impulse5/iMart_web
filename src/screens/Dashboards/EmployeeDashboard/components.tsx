@@ -8,10 +8,12 @@ type CreateModalProps = {
   onSubmit: () => void;
 }
 
-const selectOptions = [
-  { label: 'Caixa', value: 'caixa' },
-  { label: 'Estoquista', value: 'estoquista' },
-];
+const selectOptions = {
+  role: [
+    { label: 'Caixa', value: 'caixa' },
+    { label: 'Estoquista', value: 'estoquista' },
+  ]
+};
 
 export const CreateModal = ({newEmployee, onSubmit, setNewEmployee }: CreateModalProps) => {
 
