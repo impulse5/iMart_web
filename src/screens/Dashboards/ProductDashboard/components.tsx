@@ -5,11 +5,17 @@ import { EditIcon } from "@/components/Icons";
 import { SupplierService } from "@/services/SupplierService";
 import { CategoryService } from "@/services/CategoryService";
 
-
 type CreateProductModalProps = {
   newProduct: ProductRequest;
   setNewProduct: (product: ProductRequest) => void;
   onSubmit: () => void;
+};
+
+const formatPrice = (value: string) => {
+  if (!value) return '';
+  const cleanValue = value.replace(/\D/g, '');
+  const numberValue = (parseInt(cleanValue, 10) / 100).toFixed(2).replace('.', ',');
+  return `R$ ${numberValue}`;
 };
 
 export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: CreateProductModalProps) => {
@@ -68,17 +74,21 @@ export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: Crea
         { 
           id: 'price', 
           label: 'Preço', 
-          type: 'number', 
-          placeholder: '99.99', 
-          value: newProduct.product.price, 
-          onChange: (e) => setNewProduct({ product: { ...newProduct.product, price: parseFloat(e.target.value) }})
+          type: 'text', 
+          placeholder: 'R$ 0,00', 
+          value: newProduct.product.price ? formatPrice(newProduct.product.price.toString()) : '', 
+          onChange: (e) => {
+            const inputValue = e.target.value.replace(/\D/g, '');
+            const formattedValue = (parseInt(inputValue, 10) / 100).toFixed(2);
+            setNewProduct({ product: { ...newProduct.product, price: formattedValue }});
+          }
         },
         { 
           id: 'supplier_id', 
           label: 'Fornecedor', 
           type: 'select', 
           placeholder: 'Fornecedor', 
-          value: newProduct.product.supplier_id, 
+          value: newProduct.product.supplier_id || '', 
           onChange: (e) => setNewProduct({ product: { ...newProduct.product, supplier_id: e.target.value }})
         },
         { 
@@ -86,7 +96,7 @@ export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: Crea
           label: 'Categoria', 
           type: 'select', 
           placeholder: 'Categoria', 
-          value: newProduct.product.category_id, 
+          value: newProduct.product.category_id || '', 
           onChange: (e) => setNewProduct({ product: { ...newProduct.product, category_id: e.target.value }})
         },
       ]}
@@ -98,6 +108,7 @@ export const CreateProductModal = ({ newProduct, setNewProduct, onSubmit }: Crea
     />
   );
 };
+
 type EditModalProps = {
   product: ProductResponse;
   setEditedProduct: (product: ProductRequest) => void;
@@ -120,7 +131,7 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
           label: supplier.attributes.name || 'N/A'
         })));
       } else {
-        throw new Error
+        throw new Error("Erro ao carregar fornecedores");
       }
     }
   }, [suppliers, suppliersLoading]);
@@ -133,7 +144,7 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
           label: category.attributes.name || 'N/A'
         })));
       } else {
-        throw new Error
+        throw new Error("Erro ao carregar categorias");
       }
     }
   }, [categories, categoriesLoading]);
@@ -154,7 +165,7 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
   }, [product, setEditedProduct]);
 
   if (categoriesLoading || suppliersLoading) {
-    return <div>...</div>;
+    return <div>Carregando...</div>;
   }
 
   return (
@@ -162,24 +173,49 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
       type="edit"
       title="Editar produto"
       fields={[
-        { id: 'barcode', label: 'Código de Barras', type: 'text', placeholder: '1234567890123', value: editedProduct.product.barcode, onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, barcode: e.target.value }})},
-        { id: 'name', label: 'Nome', type: 'text', placeholder: 'Produto Exemplo', value: editedProduct.product.name, onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, name: e.target.value }})},
-        { id: 'price', label: 'Preço', type: 'number', placeholder: '99.99', value: editedProduct.product.price, onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, price: parseFloat(e.target.value) }})},
+        { 
+          id: 'barcode', 
+          label: 'Código de Barras', 
+          type: 'text', 
+          placeholder: '1234567890123', 
+          value: editedProduct.product.barcode, 
+          onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, barcode: e.target.value }})
+        },
+        { 
+          id: 'name', 
+          label: 'Nome', 
+          type: 'text', 
+          placeholder: 'Produto Exemplo', 
+          value: editedProduct.product.name, 
+          onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, name: e.target.value }})
+        },
+        { 
+          id: 'price', 
+          label: 'Preço', 
+          type: 'text', 
+          placeholder: 'R$ 0,00', 
+          value: editedProduct.product.price ? `R$ ${parseFloat(editedProduct.product.price).toFixed(2).replace('.', ',')}` : '', 
+          onChange: (e) => {
+            const inputValue = e.target.value.replace(/\D/g, '');
+            const formattedValue = (parseInt(inputValue, 10) / 100).toFixed(2);
+            setEditedProduct({ product: { ...editedProduct.product, price: formattedValue }});
+          }
+        },
         { 
           id: 'supplier_id', 
           label: 'Fornecedor', 
           type: 'select', 
           placeholder: 'Fornecedor', 
-          value: editedProduct.product.supplier_id, 
-          onSelect: (e) => setEditedProduct({ product: { ...editedProduct.product, supplier_id: e.target.value }})
+          value: editedProduct.product.supplier_id || '', 
+          onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, supplier_id: e.target.value }})
         },
         { 
           id: 'category_id', 
           label: 'Categoria', 
           type: 'select', 
           placeholder: 'Categoria', 
-          value: editedProduct.product.category_id, 
-          onSelect: (e) => setEditedProduct({ product: { ...editedProduct.product, category_id: e.target.value }})
+          value: editedProduct.product.category_id || '', 
+          onChange: (e) => setEditedProduct({ product: { ...editedProduct.product, category_id: e.target.value }})
         },
       ]}
       selectOptions={{
@@ -187,20 +223,6 @@ export const EditModal = ({ onSubmit, setEditedProduct, editedProduct, product }
         category_id: categoryOptions
       }}
       trigger={<EditIcon />}
-      onInit={() => {
-        if (product) {
-          setEditedProduct({
-            product: {
-              id: product.id,
-              barcode: product.attributes.barcode,
-              name: product.attributes.name,
-              price: product.attributes.price,
-              supplier_id: product.attributes.supplier_id,
-              category_id: product.attributes.category_id
-            }
-          });
-        }
-      }}
       onSubmit={() => onSubmit(product.id)}
     />
   );
