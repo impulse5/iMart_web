@@ -6,20 +6,24 @@ import CategoryDashboard from '@/screens/Dashboards/CategoryDashboard'
 import SupplierDashboard from '@/screens/Dashboards/SupplierDashboard'
 import EmployeeDashboard from '@/screens/Dashboards/EmployeeDashboard'
 import ProductDashboard from '@/screens/Dashboards/ProductDashboard'
+import StorageDashboard from '@/screens/Dashboards/StorageDashboard'
+import StoredProductDetails from '@/screens/Dashboards/StorageDashboard/StoredProductDetails'
 
 export function DashboardRoutes() {
 
   return (
     <Routes>
-      <Route element={<Sidebar/>}>
-        <Route element={<ProtectedRoutes/>}>
+      <Route element={<ProtectedRoutes/>}>
+        <Route element={<Sidebar/>}>
           <Route index path="/dashboard" element={<Dashboard/>} />
           <Route path='/funcionarios' element={<EmployeeDashboard/>} />
           <Route path='/fornecedores' element={<SupplierDashboard/>} />
           <Route path='/categorias' element={<CategoryDashboard/>} />
           <Route path='/produtos' element={<ProductDashboard/>} />
-        </Route>
-      </Route>
+          <Route path='/estoque' element={<StorageDashboard />} />
+         </Route>
+        <Route path="/estoques/:storageId" element={<StoredProductDetails/>} />
+      </Route>  
     </Routes>
   )
 }

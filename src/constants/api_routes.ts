@@ -37,3 +37,9 @@ export const PRODUCT_COLLECTION_ROUTE = () =>
 
 export const PRODUCT_MEMBER_ROUTE = (product_id: string) =>
   `products/${product_id}`
+
+export const STORAGE_COLLECTION_ROUTE = () =>
+  `storages`
+
+export const STORAGE_MEMBER_ROUTE = (storage_id: string) => 
+  `storages/${storage_id}`;
