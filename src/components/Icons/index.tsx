@@ -1,5 +1,5 @@
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip";
-import { Trash2, Pencil, Check, X } from "lucide-react";
+import { Trash2, Pencil, Check, X, QrCode } from "lucide-react";
 
 export const RemoveIcon = () => {
   return (
@@ -55,6 +55,21 @@ export const DeactivateIcon = () => {
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-medium">Desativar</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+export const QrCodeIcon = () => {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <QrCode className="cursor-pointer text-secondary" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p className="font-medium">QR Code</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
