@@ -20,7 +20,7 @@ type CustomModalProps = {
     placeholder: string,
     id?: string,
     value?: string | any,
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
     onSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
   }[],
   selectOptions?: {
@@ -59,11 +59,14 @@ export const CustomModal = ({ type, trigger, title, description, fields, selectO
                 </div>
               ) : (
                 <div key={index} className="mt-3 mb-2">
+                  {/* <label htmlFor={field.id}>{field.label}</label> */}
                   <select
-                    onChange={field.onSelect}
+                    id={field.id}
+                    value={field.value}
+                    onChange={field.onChange}
                     className="py-1.5 px-3 outline-none bg-tertiary rounded-md w-80"
                   >
-                    <option disabled selected>{field.placeholder}</option>
+                    <option value="" disabled>{field.placeholder}</option>
                     {field.id && selectOptions?.[field.id]?.map(option => (
                       <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
