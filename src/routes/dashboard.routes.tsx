@@ -8,6 +8,7 @@ import EmployeeDashboard from '@/screens/Dashboards/EmployeeDashboard'
 import ProductDashboard from '@/screens/Dashboards/ProductDashboard'
 import StorageDashboard from '@/screens/Dashboards/StorageDashboard'
 import StoredProductDetails from '@/screens/Dashboards/StorageDashboard/StoredProductDetails'
+import CashierDashboard from '@/screens/Dashboards/CashierDashboard'
 
 export function DashboardRoutes() {
 
@@ -22,6 +23,7 @@ export function DashboardRoutes() {
           <Route path='/produtos' element={<ProductDashboard/>} />
           <Route path='/estoque' element={<StorageDashboard />} />
          </Route>
+         <Route path='/caixa' element={<CashierDashboard/>}/> 
         <Route path="/estoques/:storageId" element={<StoredProductDetails/>} />
       </Route>  
     </Routes>
