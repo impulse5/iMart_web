@@ -10,6 +10,7 @@ type CreateModalProps = {
 
 const selectOptions = {
   role: [
+    { label: 'Gerente', value: 'gerente' },
     { label: 'Caixa', value: 'caixa' },
     { label: 'Estoquista', value: 'estoquista' },
   ]
