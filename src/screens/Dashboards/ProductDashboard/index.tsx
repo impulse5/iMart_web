@@ -88,7 +88,7 @@ const ProductDashboard = () => {
                 <tr key={product.id} className="border-b border-neutral-400/70">
                   <TableCell>{product?.attributes?.barcode}</TableCell>
                   <TableCell>{product?.attributes?.name}</TableCell>
-                  <TableCell>{product?.attributes?.price}</TableCell>
+                  <TableCell>R$ {product?.attributes?.price}</TableCell>
                   <TableCell>{product?.attributes?.supplier?.name}</TableCell>
                   <TableCell>{product?.attributes?.category?.name}</TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
