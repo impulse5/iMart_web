@@ -4,21 +4,23 @@ import { ActivateIcon, RemoveIcon } from "@/components/Icons";
 import { SearchInput } from "@/components/SearchInput";
 import { TableCell } from "@/components/Table/tableCell";
 import { Badge } from "@/components/ui/Badge/badge";
+import { AdminService } from "@/services/AdminService";
+import ReactLoading from 'react-loading';
+
 import { useState } from "react";
 
-const EMPRESAS = [
-    {
-        id: '1',
-        name: 'Mãe Rainha Supermercado'
-    },
-    {
-        id: '2',
-        name: 'Supermercado São José'
-    },
-]
+
 
 const AdminDashboard = () => {
+
+    const {markets, isLoading } = AdminService() 
+
     const [search, setSearch] = useState<string>('');
+
+    const filterMarkets = () => {
+        if (!search) return markets
+        return markets.filter((market: any) => market?.attributes?.name.toLowerCase().includes(search.toLowerCase()))
+    }
 
     return ( 
         <main className="px-10 pt-2 w-full h-screen bg-[#010101] rounded-dashboard overflow-auto">
@@ -32,9 +34,9 @@ const AdminDashboard = () => {
             <CustomTHead fields={['Empresas', 'Status']} />
             <tbody>
               {
-                EMPRESAS.map((empresa: any, index) => (
-                  <tr key={index} className="border-b border-neutral-400/70">
-                    <TableCell>{empresa.name}</TableCell>
+                filterMarkets()?.data?.map((market: any) => (
+                  <tr key={market.attributes.id } className="border-b border-neutral-400/70">
+                    <TableCell>{market.attributes.name}</TableCell>
                     <TableCell className="font-light text-lg mt-3 flex justify-center gap-5">
                       <Badge>Ativo</Badge>
                     </TableCell>
@@ -47,6 +49,13 @@ const AdminDashboard = () => {
               }
             </tbody>
           </table>
+          {
+          isLoading && (
+            <div className="flex justify-center items-center h-52">
+              <ReactLoading type="bars" color="#fff" height={100} width={100} />
+            </div>
+          )
+        }
         </article>
       </main>
      );
