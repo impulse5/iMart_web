@@ -12,7 +12,7 @@ export const MARKET_MEMBER_ROUTE = (market_id: string) =>
   `markets/${market_id}`
 
 export const MARKET_MEMBER_TURN_STATUS_ROUTE = (market_id: string) => 
-  `markets/${market_id}/turn_status`
+  `markets/${market_id}/update_status`
 
 export const USER_COLLECTION_ROUTE = () =>
   `users`

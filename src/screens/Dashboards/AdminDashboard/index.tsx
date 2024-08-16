@@ -18,8 +18,6 @@ const AdminDashboard = () => {
 
     const [search, setSearch] = useState<string>('');
 
-    console.log(markets)
-
     const handleDelete = async (id: string) => {
       await destroy(id)
     }
