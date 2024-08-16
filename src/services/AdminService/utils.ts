@@ -1,4 +1,4 @@
-import { MARKET_COLLECTION_ROUTE, MARKET_MEMBER_ROUTE } from "@/constants/api_routes"
+import { MARKET_COLLECTION_ROUTE, MARKET_MEMBER_ROUTE, MARKET_MEMBER_TURN_STATUS_ROUTE } from "@/constants/api_routes"
 import { api } from "../api";
 
 
@@ -22,9 +22,20 @@ const utils = () => {
             throw error;
         }
     }
+
+    const turnMarketStatus = async (marketId: string) => {
+        try {
+          const response = await api.put(MARKET_MEMBER_TURN_STATUS_ROUTE(marketId))
+          return response.data
+        } catch (error) {
+          console.error('Error turning market status:', error)
+          throw error
+        }
+      }
     return {
         getMarkets,
-        deleteMarket
+        deleteMarket,
+        turnMarketStatus
     }
 }
  

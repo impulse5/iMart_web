@@ -1,6 +1,5 @@
 import { CustomTHead } from "@/components/CustomTHead";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { ActivateIcon, RemoveIcon } from "@/components/Icons";
 import { SearchInput } from "@/components/SearchInput";
 import { TableCell } from "@/components/Table/tableCell";
 import { Badge } from "@/components/ui/Badge/badge";
@@ -9,15 +8,17 @@ import ReactLoading from 'react-loading';
 
 import { useState } from "react";
 import { DeleteModal } from "@/components/DeleteModal";
+import { ActivateIcon, DeactivateIcon } from "@/components/Icons";
 
 
 
 const AdminDashboard = () => {
 
-    const {markets, isLoading, destroy} = AdminService() 
+    const {markets, isLoading, destroy, turnStatus} = AdminService()
 
     const [search, setSearch] = useState<string>('');
 
+    console.log(markets)
 
     const handleDelete = async (id: string) => {
       await destroy(id)
@@ -34,20 +35,28 @@ const AdminDashboard = () => {
         <article className="my-4 bg-tertiary rounded-lg">
           <div className="flex rounded-lg py-2 px-10 justify-between bg-primary w-full items-center">
             <SearchInput search={search} setSearch={setSearch} />
-            {/* <CreateModal newCategory={newCategory} setNewCategory={setNewCategory} handleCreate={handleCreate} /> */}
           </div>
           <table className="w-full">
             <CustomTHead fields={['Empresas', 'Status']} />
             <tbody>
               {
                 filterMarkets()?.data?.map((market: any) => (
-                  <tr key={market.attributes.id } className="border-b border-neutral-400/70">
+                  <tr key={market.id } className="border-b border-neutral-400/70">
                     <TableCell>{market.attributes.name}</TableCell>
                     <TableCell className="font-light text-lg mt-3 flex justify-center gap-5">
+                    {market?.attributes?.status ? (
                       <Badge>Ativo</Badge>
+                    ) : (
+                      <Badge variant="error">Inativo</Badge>
+                    )}
                     </TableCell>
                     <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                      <DeleteModal entity="Mercado" prefix="o" handleDelete={() => handleDelete(market.attributes.id)}/>
+                      <DeleteModal entity="Mercado" prefix="o" handleDelete={() => handleDelete(market.id)}/>
+                      <div onClick={() => turnStatus(market.id)}>
+                       {
+                         market?.attributes?.status ? <DeactivateIcon /> : <ActivateIcon />
+                       }
+                     </div>
                     </td>
                   </tr>
                 ))
