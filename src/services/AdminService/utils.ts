@@ -1,4 +1,4 @@
-import {MARKET_COLLECTION_ROUTE } from "@/constants/api_routes"
+import { MARKET_COLLECTION_ROUTE, MARKET_MEMBER_ROUTE } from "@/constants/api_routes"
 import { api } from "../api";
 
 
@@ -12,8 +12,19 @@ const utils = () => {
             throw error;
         }
     }
+
+    const deleteMarket = async (marketId: string) => {
+        try {
+            const response = await api.delete(MARKET_MEMBER_ROUTE(marketId));
+            return response.data;
+        } catch (error) {
+            console.error('Error deleting market:', error);
+            throw error;
+        }
+    }
     return {
-        getMarkets
+        getMarkets,
+        deleteMarket
     }
 }
  

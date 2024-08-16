@@ -8,14 +8,20 @@ import { AdminService } from "@/services/AdminService";
 import ReactLoading from 'react-loading';
 
 import { useState } from "react";
+import { DeleteModal } from "@/components/DeleteModal";
 
 
 
 const AdminDashboard = () => {
 
-    const {markets, isLoading } = AdminService() 
+    const {markets, isLoading, destroy} = AdminService() 
 
     const [search, setSearch] = useState<string>('');
+
+
+    const handleDelete = async (id: string) => {
+      await destroy(id)
+    }
 
     const filterMarkets = () => {
         if (!search) return markets
@@ -41,8 +47,7 @@ const AdminDashboard = () => {
                       <Badge>Ativo</Badge>
                     </TableCell>
                     <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                      <RemoveIcon />
-                      <ActivateIcon />
+                      <DeleteModal entity="Mercado" prefix="o" handleDelete={() => handleDelete(market.attributes.id)}/>
                     </td>
                   </tr>
                 ))
@@ -50,10 +55,10 @@ const AdminDashboard = () => {
             </tbody>
           </table>
           {
-          isLoading && (
-            <div className="flex justify-center items-center h-52">
-              <ReactLoading type="bars" color="#fff" height={100} width={100} />
-            </div>
+            isLoading && (
+              <div className="flex justify-center items-center h-52">
+                <ReactLoading type="bars" color="#fff" height={100} width={100} />
+              </div>
           )
         }
         </article>
