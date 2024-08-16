@@ -13,10 +13,10 @@ import { Loader2 } from 'lucide-react';
 const EnterpriseLoginSchema = z.object({
   email: z
     .string()
-    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, { message: 'O email inserido está incorreto!' }),
-  password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-    message: 'A senha inserida está incorreta!',
-  }),
+    // .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, { message: 'O email inserido está incorreto!' }),
+  // password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
+  //   message: 'A senha inserida está incorreta!',
+  // }),
 });
 
 interface EnterpriseLoginType {
