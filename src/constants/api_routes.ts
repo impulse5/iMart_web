@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://imart-s238.onrender.com/'
+export const API_BASE_URL = 'https://yellow-sloths-lie.loca.lt/'
 
 export const GET_CITY_STATE_BY_CEP = (cep: string) =>
   `https://viacep.com.br/ws/${cep}/json/`
@@ -7,6 +7,12 @@ export const POST_USER_LOGIN = `users/login`
 
 export const MARKET_COLLECTION_ROUTE = () =>
   `markets`
+
+export const MARKET_MEMBER_ROUTE = (market_id: string) =>
+  `markets/${market_id}`
+
+export const MARKET_MEMBER_TURN_STATUS_ROUTE = (market_id: string) => 
+  `markets/${market_id}/turn_status`
 
 export const USER_COLLECTION_ROUTE = () =>
   `users`
