@@ -1,19 +1,34 @@
-import { Outlet } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import { useAuthentication } from '@/contexts/AuthenticationContext'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuthentication } from '@/contexts/AuthenticationContext';
 
 export const ProtectedRoutes = () => {
-  const navigate = useNavigate()
-  const { authenticate } = useAuthentication()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { authenticate, getRole } = useAuthentication();
 
   useEffect(() => {
     if (!authenticate()) {
-      navigate('/login')
+      if (location.pathname !== '/login') {
+        navigate('/login');
+      }
+      return;
     }
-  }, [])
 
-  return (
-    <Outlet />
-  )
-}
+    const role = getRole();
+
+    if (role === 'stockist') {
+      if (location.pathname !== '/sem-permissao') {
+        navigate('/sem-permissao');
+      }
+    } else if (role === 'seller' && location.pathname !== '/caixa') {
+      navigate('/caixa');
+    } else if ((role === 'owner' || role === 'caixista') && location.pathname === '/sem-permissao') {
+      navigate('/dashboard');
+    } else if (role !== 'seller' && location.pathname.startsWith('/caixa')) {
+      navigate('/dashboard');
+    }
+  }, [authenticate, getRole, location.pathname, navigate]);
+
+  return <Outlet />;
+};
