@@ -8,8 +8,8 @@ import EmployeeDashboard from '@/screens/Dashboards/EmployeeDashboard'
 import ProductDashboard from '@/screens/Dashboards/ProductDashboard'
 import StorageDashboard from '@/screens/Dashboards/StorageDashboard'
 import StoredProductDetails from '@/screens/Dashboards/StorageDashboard/StoredProductDetails'
-import CashierDashboard from '@/screens/Dashboards/CashierDashboard'
 import AdminDashboard from '@/screens/Dashboards/AdminDashboard'
+import { UnauthorizedAccess } from '@/screens/unauthorized-access'
 
 export function DashboardRoutes() {
 
@@ -25,8 +25,8 @@ export function DashboardRoutes() {
           <Route path='/estoque' element={<StorageDashboard />} />
           <Route path='/admin' element={<AdminDashboard />} />
         </Route>
-         <Route path='/caixa' element={<CashierDashboard/>}/> 
         <Route path="/estoques/:storageId" element={<StoredProductDetails/>} />
+        <Route path="/sem-permissao" element={<UnauthorizedAccess />}/>
       </Route>  
     </Routes>
   )
