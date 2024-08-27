@@ -25,9 +25,9 @@ export function DashboardRoutes() {
           <Route path='/estoque' element={<StorageDashboard />} />
           <Route path='/admin' element={<AdminDashboard />} />
         </Route>
-        <Route path="/estoques/:storageId" element={<StoredProductDetails/>} />
         <Route path="/sem-permissao" element={<UnauthorizedAccess />}/>
       </Route>  
+        <Route path="/estoques/:storageId" element={<StoredProductDetails/>} />
     </Routes>
   )
 }
