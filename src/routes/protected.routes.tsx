@@ -5,7 +5,7 @@ import { useAuthentication } from '@/contexts/AuthenticationContext';
 export const ProtectedRoutes = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { authenticate, getRole } = useAuthentication();
+  const { authenticate, getRole, token } = useAuthentication();
 
   useEffect(() => {
     if (!authenticate()) {
@@ -28,7 +28,7 @@ export const ProtectedRoutes = () => {
     } else if (role !== 'seller' && location.pathname.startsWith('/caixa')) {
       navigate('/dashboard');
     }
-  }, [authenticate, getRole, location.pathname, navigate]);
+  }, [authenticate, getRole, location.pathname, navigate, token]);
 
   return <Outlet />;
 };

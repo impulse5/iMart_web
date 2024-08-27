@@ -33,15 +33,14 @@ export const AuthenticationProvider = ({ children }: Props) => {
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
-      api.defaults.headers = {
-        Authorization: `Bearer ${storedToken}`,
-      };
+      api.defaults.headers.Authorization = `Bearer ${storedToken}`;
     }
   }, []);
 
   const storageToken = (token: string) => {
     localStorage.setItem('authToken', token);
     setToken(token);
+    api.defaults.headers.Authorization = `Bearer ${token}`;
   };
 
   const storageUser = (user: User) => {
@@ -78,7 +77,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
       localStorage.removeItem('user');
       setToken(null);
       setUser(null);
-      api.defaults.headers = {};
+      delete api.defaults.headers.Authorization;
       return true;
     } catch (error) {
       console.error('Erro ao fazer logout:', error);
