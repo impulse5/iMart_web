@@ -16,6 +16,7 @@ const SearchProductModal = ({ setOpen, onSelectProduct, isOpen }: SearchProductM
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const tableRef = useRef<HTMLTableElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const filteredProducts = () => {
     if (!searchTerm) return products?.data;
@@ -46,14 +47,23 @@ const SearchProductModal = ({ setOpen, onSelectProduct, isOpen }: SearchProductM
     } else if (event.key === "ArrowUp") {
       setSelectedIndex((prevIndex) => (prevIndex - 1 + productsList.length) % productsList.length);
     } else if (event.key === "Enter") {
-      handleSelectProduct(productsList[selectedIndex]);
+      if (productsList.length > 0) {
+        handleSelectProduct(productsList[selectedIndex]);
+      }
     }
   };
 
   useEffect(() => {
-    if (isOpen && tableRef.current) {
-      tableRef.current.focus(); 
-      setSelectedIndex(0); 
+    if (isOpen) {
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+        if (tableRef.current) {
+          tableRef.current.focus();
+        }
+        setSelectedIndex(0);
+      }, 1000);
     }
   }, [isOpen]);
 
@@ -61,18 +71,20 @@ const SearchProductModal = ({ setOpen, onSelectProduct, isOpen }: SearchProductM
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent className="bg-neutral-900 text-white border-none">
         <Input
+          ref={inputRef} // Set ref to the input
           className="w-[400px]"
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Pesquisar por nome ou código..."
-          tabIndex={-1}
+          // Ensure tabIndex is not affecting focus
+          tabIndex={0}
         />
         <table
           className="w-full"
           onKeyDown={handleKeyDown}
-          tabIndex={0} 
-          ref={tableRef} 
+          tabIndex={0}
+          ref={tableRef}
         >
           <thead>
             <tr className="border-b border-neutral-400/70">

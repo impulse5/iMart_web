@@ -131,15 +131,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
             </div>
             <div>
               <p className="font-semibold text-lg">Valor peso:</p>
-              <span className="text-neutral-400">{productInfo.price || 'Desconhecido'}</span>
-            </div>
-            <div>
-              <p className="font-semibold text-lg">Peso:</p>
-              <span className="text-neutral-400">{productInfo.weight || 'Desconhecido'}</span>
-            </div>
-            <div>
-              <p className="font-semibold text-lg">Total:</p>
-              <span className="text-neutral-400">{productInfo.total || 'Desconhecido'}</span>
+              <span className="text-neutral-400">R$ {productInfo.price || 'Desconhecido'}</span>
             </div>
           </>
         )}

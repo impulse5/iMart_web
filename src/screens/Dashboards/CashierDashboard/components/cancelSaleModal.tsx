@@ -1,6 +1,6 @@
+import { useEffect } from 'react';
 import { Button } from "@/components/ui/Button/button";
 import { Dialog, DialogContent } from "@/components/ui/Dialog/dialog";
-
 
 interface CancelSaleModalProps {
   isOpen: boolean;
@@ -9,6 +9,19 @@ interface CancelSaleModalProps {
 }
 
 export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalProps) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && isOpen) {
+        onConfirm();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onConfirm]);
+
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent className="bg-neutral-900 text-white p-6">

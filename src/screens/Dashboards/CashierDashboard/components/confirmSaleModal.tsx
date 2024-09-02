@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/Dialog/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button/button";
@@ -45,6 +45,19 @@ const formatCPF = (value: string): string => {
 export const ConfirmSaleModal = ({ isOpen, setOpen, onConfirm }: ConfirmSaleModalProps) => {
   const [cpf, setCpf] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && isOpen) {
+        handleConfirm();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
 
   const handleConfirm = () => {
     if (validateCPF(cpf)) {

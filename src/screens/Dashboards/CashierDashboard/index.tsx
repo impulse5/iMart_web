@@ -11,9 +11,9 @@ import { toast } from '@/components/ui/Toast/use-toast';
 import { Toaster } from "@/components/ui/Toast/toaster";
 import { createSale } from '@/services/CashierService';
 import SearchProductModal from '@/components/SearchProductModal';
-import { ConfirmSaleModal } from './components/confirm_sale_modal';
-import { CancelSaleModal } from './components/cancel_sale_modal';
-import { EditQuantityModal } from './components/edit_sale_modal';
+import { ConfirmSaleModal } from './components/confirmSaleModal';
+import { CancelSaleModal } from './components/cancelSaleModal';
+import { EditQuantityModal } from './components/editSaleModal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
@@ -163,10 +163,11 @@ const CashierDashboard = () => {
           <h1 className="text-3xl text-neutral-400 font-bold">{user?.name || 'Nome do Caixa'}</h1>
         </div>
         <div className="flex items-center justify-center gap-28 mt-4 mb-6 text-neutral-400">
+        {products.length > 0 && 
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCancelSaleModalOpen(true)}>
             <X className="size-5" />
             Cancelar Venda - F4
-          </Button>
+          </Button>}
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setSearchModalOpen(true)}>
             <Search className="size-5" />
             Buscar produtos - F2
