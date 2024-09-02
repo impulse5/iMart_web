@@ -8,13 +8,27 @@ import { X, Search, ShoppingCart } from "lucide-react";
 import { ProductDetails } from "./components";
 import { EditQuantityModal } from './modal';
 import { useAuthentication } from '@/contexts/AuthenticationContext';
+import { toast } from '@/components/ui/Toast/use-toast';
+import { Toaster } from "@/components/ui/Toast/toaster";
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
   const [products, setProducts] = useState<any[]>([]);
 
   const addProduct = (product: any) => {
-    setProducts((prevProducts) => [...prevProducts, product]);
+    setProducts((prevProducts) => {
+      const isProductExists = prevProducts.some((p) => p.code === product.code);
+      if (isProductExists) {
+        toast({
+          title: 'Produto já registrado',
+          description: 'Este produto já está na lista.',
+          duration: 3000,
+          variant: 'error'
+        });
+        return prevProducts;
+      }
+      return [...prevProducts, product];
+    });
   };
   
 const removeProduct = (code: string) => {
@@ -34,6 +48,7 @@ const calculateTotal = () => {
   return (
     <main className="w-full h-screen bg-[#010101] text-white overflow-hidden flex">
       <div className="flex-1 px-10">
+      <Toaster position="top-center" />
       <div className="flex items-center gap-2 pt-6">
           <UserDropdown />
           <h1 className="text-3xl text-neutral-400 font-bold">{user?.name || 'Nome do Caixa'}</h1>
