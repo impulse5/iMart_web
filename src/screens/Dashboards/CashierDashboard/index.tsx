@@ -13,10 +13,10 @@ const CashierDashboard = () => {
   const addProduct = (product: any) => {
     setProducts((prevProducts) => [...prevProducts, product]);
   };
-// onClick={() => removeProduct(product.code)}
-//   const removeProduct = (code: string) => {
-//     setProducts(products.filter(product => product.code !== code));
-//   };
+  
+const removeProduct = (code: string) => {
+  setProducts((prevProducts) => prevProducts.filter(product => product.code !== code));
+};
 
   return (
     <main className="w-full h-screen bg-[#010101] text-white overflow-hidden flex">
@@ -52,7 +52,7 @@ const CashierDashboard = () => {
                   <TableCell>{product.total}</TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
                     <EditIcon />
-                    <RemoveIcon/>
+                    <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
                   </td>
                 </tr>
               ))}
