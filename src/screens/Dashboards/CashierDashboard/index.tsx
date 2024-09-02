@@ -11,7 +11,7 @@ const CashierDashboard = () => {
   const [products, setProducts] = useState<any[]>([]);
 
   const addProduct = (product: any) => {
-    setProducts([...products, product]);
+    setProducts((prevProducts) => [...prevProducts, product]);
   };
 // onClick={() => removeProduct(product.code)}
 //   const removeProduct = (code: string) => {
