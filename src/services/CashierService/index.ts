@@ -10,3 +10,13 @@ export const productBarcodeService = async (barcode: string) => {
     throw error;
   }
 };
+
+export const createSale = async (saleData: any) => {
+  try {
+    const response = await api.post('package_sells', saleData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating sale:', error);
+    throw error;
+  }
+};

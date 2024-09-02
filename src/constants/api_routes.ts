@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://imart-back.onrender.com'
+export const API_BASE_URL = 'https://imart-back.onrender.com/'
 
 export const GET_CITY_STATE_BY_CEP = (cep: string) =>
   `https://viacep.com.br/ws/${cep}/json/`
@@ -52,3 +52,6 @@ export const STORAGE_MEMBER_ROUTE = (storage_id: string) =>
 
 export const PRODUCT_READ_BARCODE_ROUTE = (barcode: string) => 
   `products/${barcode}/on_cashier`; 
+
+export const PACKAGE_SELLS_ROUTE = () => 
+  `package_sells`;

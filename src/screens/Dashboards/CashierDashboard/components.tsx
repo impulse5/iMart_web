@@ -2,6 +2,7 @@
 import Quagga from 'quagga';
 import { useEffect, useRef, useState } from 'react';
 import { productBarcodeService } from '@/services/CashierService';
+import { toast } from '@/components/ui/Toast/use-toast';
 
 interface ProductDetailsProps {
   addProduct: (product: any) => void;
@@ -59,27 +60,43 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
 
   const handleDetected = async (result: any) => {
     if (isScanning) return;
-
+  
     setIsScanning(true);
-
+  
     const code = result.codeResult.code;
     setScannedData(code);
-
+  
     Quagga.offDetected(handleDetected);
-
+  
     try {
       const data = await productBarcodeService(code);
       const product = data.storage.data.attributes.product;
-      setProductInfo(product);
-      addProduct({ 
-        code: product.barcode, 
-        name: product.name, 
-        quantity: 1, 
-        price: product.price,
-        total: product.price
-      });
+      
+      if (product) {
+        setProductInfo(product);
+        addProduct({ 
+          code: product.barcode, 
+          name: product.name, 
+          quantity: 1, 
+          price: product.price,
+          total: product.price
+        });
+      } else {
+        toast({
+          title: 'Produto não encontrado',
+          description: 'O produto escaneado não foi encontrado no sistema.',
+          duration: 3000,
+          variant: 'error'
+        });
+      }
     } catch (error) {
       console.error('Erro ao buscar informações do produto:', error);
+      toast({
+        title: 'Erro de busca',
+        description: 'Não foi possível buscar informações do produto.',
+        duration: 3000,
+        variant: 'error'
+      });
     } finally {
       setTimeout(() => {
         setIsScanning(false);
@@ -87,6 +104,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
       }, SCAN_DELAY);
     }
   };
+  
 
   return (
     <div>
