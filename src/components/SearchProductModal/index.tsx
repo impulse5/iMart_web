@@ -19,8 +19,10 @@ const SearchProductModal = ({ setOpen, onSelectProduct, isOpen }: SearchProductM
 
   const filteredProducts = () => {
     if (!searchTerm) return products?.data;
+    const lowercasedTerm = searchTerm.toLowerCase();
     return products.data.filter((product: ProductResponse) =>
-      product?.attributes?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      product?.attributes?.name.toLowerCase().includes(lowercasedTerm) ||
+      product?.attributes?.barcode.toLowerCase().includes(lowercasedTerm)
     );
   };
 
@@ -63,7 +65,7 @@ const SearchProductModal = ({ setOpen, onSelectProduct, isOpen }: SearchProductM
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Pesquisar produto..."
+          placeholder="Pesquisar por nome ou código..."
           tabIndex={-1}
         />
         <table

@@ -154,7 +154,9 @@ const CashierDashboard = () => {
             <Search className="size-5" />
             Buscar produtos - F2
           </Button>
+          {products.length > 0 && 
           <ConfirmSaleModal onConfirm={handleCompleteSale} onCancel={() => {}} />
+          }
         </div>
         <div className="h-[344px] overflow-auto bg-tertiary">
           <table className="table-fixed w-full mt-4 rounded-sm">
