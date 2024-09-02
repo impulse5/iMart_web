@@ -3,11 +3,14 @@ import { CustomTHead } from "@/components/CustomTHead";
 import { TableCell } from "@/components/Table/tableCell";
 import { Button } from "@/components/ui/Button/button";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
-import { EditIcon, RemoveIcon } from "@/components/Icons/index";
+import { RemoveIcon } from "@/components/Icons/index";
 import { X, Search, ShoppingCart } from "lucide-react";
 import { ProductDetails } from "./components";
+import { EditQuantityModal } from './modal';
+import { useAuthentication } from '@/contexts/AuthenticationContext';
 
 const CashierDashboard = () => {
+  const { user } = useAuthentication();
   const [products, setProducts] = useState<any[]>([]);
 
   const addProduct = (product: any) => {
@@ -18,12 +21,22 @@ const removeProduct = (code: string) => {
   setProducts((prevProducts) => prevProducts.filter(product => product.code !== code));
 };
 
+const updateProductQuantity = (code: string, quantity: number) => {
+  setProducts((prevProducts) => prevProducts.map(product => 
+    product.code === code ? { ...product, quantity, total: product.price * quantity } : product
+  ));
+};
+
+const calculateTotal = () => {
+  return products.reduce((total, product) => total + product.total, 0).toFixed(2);
+};
+
   return (
     <main className="w-full h-screen bg-[#010101] text-white overflow-hidden flex">
       <div className="flex-1 px-10">
-        <div className="flex items-center gap-2 pt-6">
+      <div className="flex items-center gap-2 pt-6">
           <UserDropdown />
-          <h1 className="text-3xl text-neutral-400 font-bold">iStriker</h1>
+          <h1 className="text-3xl text-neutral-400 font-bold">{user?.name || 'Nome do Caixa'}</h1>
         </div>
         <div className="flex items-center justify-center gap-28 mt-4 mb-6 text-neutral-400">
           <Button variant="ghost" className="flex items-center gap-3 text-lg">
@@ -51,7 +64,10 @@ const removeProduct = (code: string) => {
                   <TableCell>{product.price}</TableCell>
                   <TableCell>{product.total}</TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                    <EditIcon />
+                  <EditQuantityModal 
+                      product={product} 
+                      updateProductQuantity={updateProductQuantity}
+                    />
                     <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
                   </td>
                 </tr>
@@ -61,9 +77,10 @@ const removeProduct = (code: string) => {
         </div>
         <div className="flex justify-between bg-primary py-4 items-center px-10 min-w-full">
           <h1 className="text-2xl text-neutral-100 font-semibold uppercase">Total:</h1>
-          <h1 className="text-2xl text-neutral-100 font-semibold">R$ 100,00</h1>
+          <h1 className="text-2xl text-neutral-100 font-semibold">R$ {calculateTotal()}</h1>
         </div>
-        <h1 className="text-3xl font-bold uppercase py-6 px-8">Mãe Rainha - Supermercado</h1>
+        <h1 className="text-3xl font-bold uppercase py-6 px-8">{user?.market?.name || 'Nome do Mercado'}</h1>
+
       </div>
       <div className="w-1/5 h-full bg-tertiary flex flex-col px-8 rounded-lg">
         <ProductDetails addProduct={addProduct} />

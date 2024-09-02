@@ -90,8 +90,8 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
 
   return (
     <div>
-      <div className="flex items-center justify-center my-4">
-        <div ref={scannerRef} id='camera' className="size-56 bg-slate-100" />
+      <div className="flex items-center justify-center my-12 -mb-8">
+        <div ref={scannerRef} id='camera' className="size-56 bg-transparent" />
       </div>
       <div className="pl-6 space-y-2">
         <h2 className="text-xl font-bold mb-4 -tracking-tight">Último produto escaneado</h2>
