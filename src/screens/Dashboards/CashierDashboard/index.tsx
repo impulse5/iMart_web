@@ -13,10 +13,25 @@ import { Toaster } from "@/components/ui/Toast/toaster";
 import { CancelSaleModal } from './modal';
 import { ConfirmSaleModal } from './modal';
 import { createSale } from '@/services/CashierService';
+import SearchProductModal from '@/components/SearchProductModal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
   const [products, setProducts] = useState<any[]>([]);
+  const [searchModalOpen, setSearchModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'F2') {
+        setSearchModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
 
   const addProduct = (product: any) => {
     setProducts((prevProducts) => {
@@ -135,7 +150,7 @@ const CashierDashboard = () => {
         </div>
         <div className="flex items-center justify-center gap-28 mt-4 mb-6 text-neutral-400">
           <CancelSaleModal onConfirm={handleCancelSale} />
-          <Button variant="ghost" className="flex items-center gap-3 text-lg">
+          <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setSearchModalOpen(true)}>
             <Search className="size-5" />
             Buscar produtos - F2
           </Button>
@@ -173,6 +188,11 @@ const CashierDashboard = () => {
       <div className="w-1/5 h-full bg-tertiary flex flex-col px-8 rounded-lg">
         <ProductDetails addProduct={addProduct} />
       </div>
+      <SearchProductModal 
+        isOpen={searchModalOpen}
+        setOpen={setSearchModalOpen} 
+        onSelectProduct={addProduct} 
+      />
     </main>
   );
 };
