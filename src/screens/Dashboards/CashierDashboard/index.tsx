@@ -4,34 +4,52 @@ import { TableCell } from "@/components/Table/tableCell";
 import { Button } from "@/components/ui/Button/button";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { RemoveIcon } from "@/components/Icons/index";
-import { Search } from "lucide-react";
+import { EditIcon, Search, ShoppingCart, X } from "lucide-react";
 import { ProductDetails } from "./components";
-import { EditQuantityModal } from './modal';
 import { useAuthentication } from '@/contexts/AuthenticationContext';
 import { toast } from '@/components/ui/Toast/use-toast';
 import { Toaster } from "@/components/ui/Toast/toaster";
-import { CancelSaleModal } from './modal';
-import { ConfirmSaleModal } from './modal';
 import { createSale } from '@/services/CashierService';
 import SearchProductModal from '@/components/SearchProductModal';
+import { ConfirmSaleModal } from './components/confirm_sale_modal';
+import { CancelSaleModal } from './components/cancel_sale_modal';
+import { EditQuantityModal } from './components/edit_sale_modal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
   const [products, setProducts] = useState<any[]>([]);
-  const [searchModalOpen, setSearchModalOpen] = useState(false)
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [isCancelSaleModalOpen, setCancelSaleModalOpen] = useState(false);
+  const [isConfirmSaleModalOpen, setConfirmSaleModalOpen] = useState(false);
+  const [editProduct, setEditProduct] = useState<any | null>(null);
+  const [isEditQuantityModalOpen, setEditQuantityModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'F2') {
         setSearchModalOpen(true);
+      } else if (event.key === 'F4') {
+        setCancelSaleModalOpen(true);
+      } else if (event.key === 'F6') {
+        if (isCancelSaleModalOpen) {
+          setCancelSaleModalOpen(false);
+        } else if (isConfirmSaleModalOpen) {
+          setConfirmSaleModalOpen(false);
+        } else if (isEditQuantityModalOpen) {
+          setEditQuantityModalOpen(false);
+        }
+      } else if (event.key === 'F9') {
+        if (products.length > 0 && !isConfirmSaleModalOpen) {
+          setConfirmSaleModalOpen(true);
+        }
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
+  }, [isCancelSaleModalOpen, isConfirmSaleModalOpen, isEditQuantityModalOpen, products.length]);
 
   const addProduct = (product: any) => {
     setProducts((prevProducts) => {
@@ -59,15 +77,19 @@ const CashierDashboard = () => {
     });
   };
 
-  const updateProductQuantity = (code: string, quantity: number) => {
-    setProducts((prevProducts) => prevProducts.map(product =>
-      product.code === code ? { ...product, quantity, total: product.price * quantity } : product
-    ));
+  const updateProductQuantity = (barcode: string, quantity: number) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.code === barcode
+          ? { ...product, quantity, total: product.price * quantity }
+          : product
+      )
+    );
     toast({
       title: 'Produto Atualizado',
       description: 'A quantidade foi atualizada com sucesso!',
       duration: 3000,
-      variant: 'success'
+      variant: 'success',
     });
   };
 
@@ -77,6 +99,7 @@ const CashierDashboard = () => {
 
   const handleCancelSale = () => {
     setProducts([]);
+    setCancelSaleModalOpen(false);
     toast({
       title: 'Venda cancelada',
       description: 'Todos os produtos foram removidos.',
@@ -107,9 +130,9 @@ const CashierDashboard = () => {
     };
 
     try {
-      console.log(saleData)
       await createSale(saleData);
       setProducts([]);
+      setConfirmSaleModalOpen(false);
       toast({
         title: 'Venda realizada',
         description: 'A venda foi registrada com sucesso.',
@@ -119,26 +142,17 @@ const CashierDashboard = () => {
     } catch (error) {
       toast({
         title: 'Erro ao finalizar venda',
-        description: `Não foi possível registrar a venda.`,
+        description: 'Não foi possível registrar a venda.',
         duration: 3000,
         variant: 'error'
       });
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        document.getElementById('cancel-sale-trigger')?.click();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
+  const openEditQuantityModal = (product: any) => {
+    setEditProduct(product);
+    setEditQuantityModalOpen(true);
+  };
 
   return (
     <main className="w-full h-screen bg-[#010101] text-white overflow-hidden flex">
@@ -149,13 +163,19 @@ const CashierDashboard = () => {
           <h1 className="text-3xl text-neutral-400 font-bold">{user?.name || 'Nome do Caixa'}</h1>
         </div>
         <div className="flex items-center justify-center gap-28 mt-4 mb-6 text-neutral-400">
-          <CancelSaleModal onConfirm={handleCancelSale} />
+          <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCancelSaleModalOpen(true)}>
+            <X className="size-5" />
+            Cancelar Venda - F4
+          </Button>
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setSearchModalOpen(true)}>
             <Search className="size-5" />
             Buscar produtos - F2
           </Button>
           {products.length > 0 && 
-          <ConfirmSaleModal onConfirm={handleCompleteSale} onCancel={() => {}} />
+          <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setConfirmSaleModalOpen(true)}>
+            <ShoppingCart className="size-5" />
+            Finalizar Venda - F9
+          </Button>
           }
         </div>
         <div className="h-[344px] overflow-auto bg-tertiary">
@@ -170,10 +190,7 @@ const CashierDashboard = () => {
                   <TableCell>{product.price}</TableCell>
                   <TableCell>{product.total}</TableCell>
                   <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                    <EditQuantityModal 
-                      product={product} 
-                      updateProductQuantity={updateProductQuantity}
-                    />
+                    <EditIcon className="cursor-pointer" onClick={() => openEditQuantityModal(product)} />
                     <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
                   </td>
                 </tr>
@@ -192,11 +209,29 @@ const CashierDashboard = () => {
       </div>
       <SearchProductModal 
         isOpen={searchModalOpen}
-        setOpen={setSearchModalOpen} 
-        onSelectProduct={addProduct} 
+        setOpen={setSearchModalOpen}
+        onSelectProduct={addProduct}
       />
+      <CancelSaleModal 
+        isOpen={isCancelSaleModalOpen}
+        setOpen={setCancelSaleModalOpen}
+        onConfirm={handleCancelSale}
+      />
+      <ConfirmSaleModal 
+        isOpen={isConfirmSaleModalOpen}
+        setOpen={setConfirmSaleModalOpen}
+        onConfirm={handleCompleteSale}
+      />
+      {editProduct && (
+        <EditQuantityModal 
+          isOpen={isEditQuantityModalOpen}
+          setOpen={setEditQuantityModalOpen}
+          product={editProduct}
+          updateProductQuantity={updateProductQuantity}
+        />
+      )}
     </main>
   );
 };
 
-export default CashierDashboard
+export default CashierDashboard;

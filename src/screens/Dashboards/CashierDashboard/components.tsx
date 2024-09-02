@@ -70,16 +70,23 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
   
     try {
       const data = await productBarcodeService(code);
-      const product = data.storage.data.attributes.product;
+      const storageData = data.storage.data.attributes;
+      const product = storageData.product;
       
       if (product) {
-        setProductInfo(product);
+        const maxQuantity = storageData.quantity;
+        setProductInfo({
+          ...product,
+          maxQuantity: storageData.quantity,
+        });
+        
         addProduct({ 
           code: product.barcode, 
           name: product.name, 
           quantity: 1, 
           price: product.price,
-          total: product.price
+          total: product.price,
+          maxQuantity
         });
       } else {
         toast({
@@ -104,7 +111,6 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
       }, SCAN_DELAY);
     }
   };
-  
 
   return (
     <div>
