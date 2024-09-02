@@ -37,17 +37,26 @@ const ProductDashboard = () => {
   });
 
   const handleCreate = async () => {
-    await create(newProduct);
-    setNewProduct({
+    const productToCreate = {
+      ...newProduct,
       product: {
-        id: '',
-        barcode: '',
-        name: '',
-        price: 0,
-        supplier_id: "",
-        category_id: ""
+        ...newProduct.product,
+        price: Number(newProduct.product.price)
       }
-    });
+    };
+    console.log('Creating product with:', productToCreate);
+      await create(productToCreate);
+      console.log('Product created successfully');
+      setNewProduct({
+        product: {
+          id: '',
+          barcode: '',
+          name: '',
+          price: 0,
+          supplier_id: "",
+          category_id: ""
+        }
+      });
   };
 
   const handleEdit = async () => {

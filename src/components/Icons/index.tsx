@@ -1,12 +1,20 @@
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip";
 import { Trash2, Pencil, Check, X, QrCode } from "lucide-react";
 
-export const RemoveIcon = () => {
+interface IconProps {
+  onClick?: () => void;
+  className?: string;
+}
+
+export const RemoveIcon: React.FC<IconProps> = ({ onClick, className }) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Trash2 className="cursor-pointer text-error" />
+          <Trash2 
+            className={`cursor-pointer text-error ${className}`} 
+            onClick={onClick} 
+          />
         </TooltipTrigger>
         <TooltipContent>
           <p className="font-medium">Excluir</p>
