@@ -4,7 +4,7 @@ import { TableCell } from "@/components/Table/tableCell";
 import { Button } from "@/components/ui/Button/button";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { RemoveIcon } from "@/components/Icons/index";
-import { EditIcon, Search, ShoppingCart, X } from "lucide-react";
+import { Calculator, EditIcon, Search, ShoppingCart, X } from "lucide-react";
 import { ProductDetails } from "./components";
 import { useAuthentication } from '@/contexts/AuthenticationContext';
 import { toast } from '@/components/ui/Toast/use-toast';
@@ -14,6 +14,7 @@ import SearchProductModal from '@/components/SearchProductModal';
 import { ConfirmSaleModal } from './components/confirmSaleModal';
 import { CancelSaleModal } from './components/cancelSaleModal';
 import { EditQuantityModal } from './components/editSaleModal';
+import CalculatorModal from './components/calculatorModal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
@@ -23,9 +24,15 @@ const CashierDashboard = () => {
   const [isConfirmSaleModalOpen, setConfirmSaleModalOpen] = useState(false);
   const [editProduct, setEditProduct] = useState<any | null>(null);
   const [isEditQuantityModalOpen, setEditQuantityModalOpen] = useState(false);
+  const [isCalculatorModalOpen, setCalculatorModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'k') {
+        event.preventDefault();
+        setCalculatorModalOpen(true);
+      }
+  
       if (event.key === 'F2') {
         setSearchModalOpen(true);
       } else if (event.key === 'F4') {
@@ -44,12 +51,13 @@ const CashierDashboard = () => {
         }
       }
     };
-
+  
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isCancelSaleModalOpen, isConfirmSaleModalOpen, isEditQuantityModalOpen, products.length]);
+  
 
   const addProduct = (product: any) => {
     setProducts((prevProducts) => {
@@ -178,6 +186,10 @@ const CashierDashboard = () => {
             Finalizar Venda - F9
           </Button>
           }
+          <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCalculatorModalOpen(true)}>
+            <Calculator className="size-5" />
+            Calculadora - CTRL + K
+          </Button>
         </div>
         <div className="h-[344px] overflow-auto bg-tertiary">
           <table className="table-fixed w-full mt-4 rounded-sm">
@@ -231,6 +243,10 @@ const CashierDashboard = () => {
           updateProductQuantity={updateProductQuantity}
         />
       )}
+      <CalculatorModal 
+        isOpen={isCalculatorModalOpen} 
+        setOpen={setCalculatorModalOpen} 
+      />
     </main>
   );
 };
