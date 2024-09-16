@@ -4,7 +4,7 @@ import { TableCell } from "@/components/Table/tableCell";
 import { Button } from "@/components/ui/Button/button";
 import { UserDropdown } from "@/components/UserDropdown/Dropdown";
 import { RemoveIcon } from "@/components/Icons/index";
-import { Calculator, EditIcon, Search, ShoppingCart, X } from "lucide-react";
+import { Calculator, CircleDollarSign, EditIcon, Search, ShoppingCart, X } from "lucide-react";
 import { ProductDetails } from "./components";
 import { useAuthentication } from '@/contexts/AuthenticationContext';
 import { toast } from '@/components/ui/Toast/use-toast';
@@ -15,6 +15,7 @@ import { ConfirmSaleModal } from './components/confirmSaleModal';
 import { CancelSaleModal } from './components/cancelSaleModal';
 import { EditQuantityModal } from './components/editSaleModal';
 import CalculatorModal from './components/calculatorModal';
+import { CashWithdrawalModal } from './cashWithdrawalsModal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
@@ -25,6 +26,7 @@ const CashierDashboard = () => {
   const [editProduct, setEditProduct] = useState<any | null>(null);
   const [isEditQuantityModalOpen, setEditQuantityModalOpen] = useState(false);
   const [isCalculatorModalOpen, setCalculatorModalOpen] = useState(false);
+  const [isCashWithdrawalModalOpen, setCashWithdrawalModalOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -190,27 +192,31 @@ const CashierDashboard = () => {
             <Calculator className="size-5" />
             Calculadora - CTRL + K
           </Button>
+          <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCashWithdrawalModalOpen(true)}>
+            <CircleDollarSign className="size-5" />
+            Sangria do Caixa - F10
+          </Button>
         </div>
         <div className="h-[344px] overflow-auto bg-tertiary">
-          <table className="table-fixed w-full mt-4 rounded-sm">
-            <CustomTHead fields={['Código', 'Produto', 'Qtd.', 'Valor Und/kg', 'Total']} />
-            <tbody>
-              {products.map(product => (
-                <tr key={product.code} className="min-w-full">
-                  <TableCell>{product.code}</TableCell>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
-                  <TableCell>{product.price}</TableCell>
-                  <TableCell>{product.total}</TableCell>
-                  <td className="font-light text-lg mt-3 flex justify-center gap-5">
-                    <EditIcon className="cursor-pointer" onClick={() => openEditQuantityModal(product)} />
-                    <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            <table className="w-full mt-4 table-auto rounded-sm">
+              <CustomTHead fields={['Código', 'Produto', 'Qtd.', 'Valor Und/kg', 'Total']} />
+              <tbody>
+                {products.map(product => (
+                  <tr key={product.code} className="">
+                    <TableCell className="w-1/6">{product.code}</TableCell>
+                    <TableCell className="w-2/6">{product.name}</TableCell>
+                    <TableCell className="w-1/6">{product.quantity}</TableCell>
+                    <TableCell className="w-1/6">{product.price}</TableCell>
+                    <TableCell className="w-1/6">{product.total}</TableCell>
+                    <td className="font-light text-lg mt-3 flex justify-center gap-5">
+                      <EditIcon className="cursor-pointer" onClick={() => openEditQuantityModal(product)} />
+                      <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         <div className="flex justify-between bg-primary py-4 items-center px-10 min-w-full">
           <h1 className="text-2xl text-neutral-100 font-semibold uppercase">Total:</h1>
           <h1 className="text-2xl text-neutral-100 font-semibold">R$ {calculateTotal()}</h1>
@@ -246,6 +252,10 @@ const CashierDashboard = () => {
       <CalculatorModal 
         isOpen={isCalculatorModalOpen} 
         setOpen={setCalculatorModalOpen} 
+      />
+      <CashWithdrawalModal 
+        isOpen={isCashWithdrawalModalOpen}
+        setOpen={setCashWithdrawalModalOpen}
       />
     </main>
   );
