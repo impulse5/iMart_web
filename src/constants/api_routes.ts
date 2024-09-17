@@ -55,3 +55,6 @@ export const PRODUCT_READ_BARCODE_ROUTE = (barcode: string) =>
 
 export const PACKAGE_SELLS_ROUTE = () => 
   `package_sells`;
+
+export const CASH_WITHDRAWAL_ROUTE = () => 
+  `cash_withdrawals`;
