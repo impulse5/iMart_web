@@ -47,7 +47,12 @@ const CashierDashboard = () => {
         } else if (isEditQuantityModalOpen) {
           setEditQuantityModalOpen(false);
         }
-      } else if (event.key === 'F9') {
+      } 
+      else if(event.key === 'F10') {
+        event.preventDefault();
+        setCashWithdrawalModalOpen(true)
+      }
+      else if (event.key === 'F9') {
         if (products.length > 0 && !isConfirmSaleModalOpen) {
           setConfirmSaleModalOpen(true);
         }
@@ -172,7 +177,7 @@ const CashierDashboard = () => {
           <UserDropdown />
           <h1 className="text-3xl text-neutral-400 font-bold">{user?.name || 'Nome do Caixa'}</h1>
         </div>
-        <div className="flex items-center justify-center gap-28 mt-4 mb-6 text-neutral-400">
+        <div className="grid grid-cols-3 gap-4 mt-4 mb-6 text-neutral-400">
         {products.length > 0 && 
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCancelSaleModalOpen(true)}>
             <X className="size-5" />

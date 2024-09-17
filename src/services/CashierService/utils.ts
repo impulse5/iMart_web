@@ -11,9 +11,10 @@ export const CashierService = () => {
         onSuccess: () => {
             notifySuccess('Sangria realizada', 'A sangria foi realizada com sucesso')
         },
-        onError: () => {
-            notifyError('Erro na sangria', 'Ocorreu um erro ao realizar a sangria')
-        }
+        onError: (error: any) => {
+            const errorMessage = error.message || 'Ocorreu um erro ao realizar a sangria';
+            notifyError('Erro na sangria', errorMessage);
+          }
     })
 
     return { 

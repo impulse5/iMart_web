@@ -39,9 +39,10 @@ export const cash_withdrawal = async ({ value, authorized_by }: CashData) => {
       }
     });
     return response.data;
-  } catch (error) {
-    console.error('Error creating cash withdrawal:', error);
-    throw error;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || 'Erro ao criar a sangria';
+    console.error('Error creating cash withdrawal:', errorMessage);
+    throw new Error(errorMessage);
   }
 }
 

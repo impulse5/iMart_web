@@ -16,6 +16,7 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
     const [isLoginModalOpen, setLoginModalOpen] = useState(false); 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmitValue = () => {
         setOpen(false); 
@@ -23,12 +24,16 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
     };
 
     const handleLoginAndSubmit = async () => {
+        setLoading(true);
         try {
             const userId = await getUserId(email, password);
             await cashWithdrawal({ value, authorized_by: userId }); 
             setLoginModalOpen(false);
         } catch (error) {
             console.error("Erro ao fazer a retirada de dinheiro:", error);
+        }
+        finally {
+            setLoading(false)
         }
     };
 
@@ -77,8 +82,17 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
                         <Button variant="secondary" onClick={() => setLoginModalOpen(false)}>
                             Cancelar
                         </Button>
-                        <Button onClick={handleLoginAndSubmit}>
-                            Autenticar e Confirmar
+                        <Button onClick={handleLoginAndSubmit} variant="default" disabled={loading}>
+                            {loading ? (
+                                <div className="flex items-center">
+                                    <svg className="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12a8 8 0 018-8v0a8 8 0 010 16v0a8 8 0 01-8-8z" />
+                                    </svg>
+                                    Autenticando...
+                                </div>
+                            ) : (
+                                'Autenticar e Confirmar'
+                            )}
                         </Button>
                     </div>
                 </DialogContent>
