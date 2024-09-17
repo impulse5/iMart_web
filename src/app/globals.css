@@ -19,6 +19,9 @@
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 4%;
 
+    --tertiary: 0 0% 9%;
+    --tertiary-foreground: 0 0% 98%;
+
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
 
@@ -53,6 +56,9 @@
 
     --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 4%;
+
+    --tertiary: 0 0% 9%;
+    --tertiary-foreground: 0 0% 98%;
 
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;

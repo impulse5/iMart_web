@@ -3,3 +3,4 @@ dist/
 .prettierrc.js
 *.test.*
 *.spec.* 
+src/components/ui/
