@@ -5,13 +5,13 @@ import { Input } from "@/components/ui/Input/input";
 import { getUserId } from "@/services/CashierService";
 import { toast } from '@/components/ui/Toast/use-toast';
 
-interface CancelSaleModalProps {
+interface RemoveProductModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   onConfirm: () => void;
 }
 
-export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalProps) => {
+export const RemoveProductModal = ({ isOpen, setOpen, onConfirm }: RemoveProductModalProps) => {
   const [isAuthRequired, setIsAuthRequired] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalP
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter' && isOpen) {
         if (isAuthRequired) {
-          handleLoginAndCancel();
+          handleLoginAndRemove();
         } else {
           setIsAuthRequired(true);
         }
@@ -34,14 +34,14 @@ export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalP
     };
   }, [isOpen, isAuthRequired]);
 
-  const handleLoginAndCancel = async () => {
+  const handleLoginAndRemove = async () => {
     setLoading(true);
     try {
       const userId = await getUserId(email, password);
       if (userId) {
         toast({
           title: 'Autenticação bem-sucedida',
-          description: 'Venda cancelada!',
+          description: 'Produto removido!',
           duration: 3000,
           variant: 'success',
         });
@@ -63,10 +63,10 @@ export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalP
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent className="bg-neutral-900 text-white p-6 w-96">
-        <h2 className="text-lg font-semibold mb-4">Cancelar Venda</h2>
+        <h2 className="text-lg font-semibold mb-4">Remover Produto</h2>
         {!isAuthRequired ? (
           <>
-            <p className="mb-4">Deseja realmente cancelar a venda? Todos os produtos adicionados serão removidos.</p>
+            <p className="mb-4">Deseja realmente remover o produto? Esta ação não pode ser desfeita.</p>
             <div className="flex justify-end gap-4">
               <Button variant="secondary" onClick={() => setOpen(false)}>Voltar</Button>
               <Button onClick={() => setIsAuthRequired(true)} color="red">Confirmar</Button>
@@ -94,7 +94,7 @@ export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalP
               <Button variant="secondary" onClick={() => setIsAuthRequired(false)}>
                 Voltar
               </Button>
-              <Button onClick={handleLoginAndCancel} variant="default" disabled={loading}>
+              <Button onClick={handleLoginAndRemove} variant="default" disabled={loading}>
                 {loading ? (
                   <div className="flex items-center">
                     <svg className="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -103,7 +103,7 @@ export const CancelSaleModal = ({ isOpen, setOpen, onConfirm }: CancelSaleModalP
                     Autenticando...
                   </div>
                 ) : (
-                  'Autenticar e Cancelar Venda'
+                  'Autenticar e Remover Produto'
                 )}
               </Button>
             </div>
