@@ -58,3 +58,6 @@ export const PACKAGE_SELLS_ROUTE = () =>
 
 export const CASH_WITHDRAWAL_ROUTE = () => 
   `cash_withdrawals`;
+
+export const GET_BALANCE = (cashierId: any) => 
+  `users/${cashierId}`;

@@ -1,22 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button/button";
 import { Dialog, DialogContent } from "@/components/ui/Dialog/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { getUserId } from "@/services/CashierService";
 import { CashierService } from "@/services/CashierService/utils";
-
+import { LoaderCircle } from "lucide-react"
+import { useAuthentication } from "@/contexts/AuthenticationContext";    
+import { getBalance } from "@/services/CashierService";
 interface CashWithdrawalModalProps {
     isOpen: boolean;
     setOpen: (open: boolean) => void;
 }
 
 export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProps) {
-    const { cashWithdrawal } = CashierService()
+    const { user } = useAuthentication()
+    const { cashWithdrawal, isLoading } = CashierService()
     const [value, setValue] = useState(0); 
     const [isLoginModalOpen, setLoginModalOpen] = useState(false); 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [loading, setLoading] = useState(false);
+    const [balance, setBalance] = useState<string>("");
+
+
+    const cashierId = user?.id;
+
+
+    useEffect(() => {
+        const getQuantityBalance = async () => {
+            try {
+                const response = await getBalance(cashierId);
+                setBalance(response.data.user.data.attributes.balance)
+            } catch(err) {
+                console.log(err)
+            }
+        }
+
+        getQuantityBalance()
+    }, [])
 
     const handleSubmitValue = () => {
         setOpen(false); 
@@ -24,16 +44,12 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
     };
 
     const handleLoginAndSubmit = async () => {
-        setLoading(true);
         try {
             const userId = await getUserId(email, password);
             await cashWithdrawal({ value, authorized_by: userId }); 
             setLoginModalOpen(false);
         } catch (error) {
             console.error("Erro ao fazer a retirada de dinheiro:", error);
-        }
-        finally {
-            setLoading(false)
         }
     };
 
@@ -82,19 +98,12 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
                         <Button variant="secondary" onClick={() => setLoginModalOpen(false)}>
                             Cancelar
                         </Button>
-                        <Button onClick={handleLoginAndSubmit} variant="default" disabled={loading}>
-                            {loading ? (
-                                <div className="flex items-center">
-                                    <svg className="animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12a8 8 0 018-8v0a8 8 0 010 16v0a8 8 0 01-8-8z" />
-                                    </svg>
-                                    Autenticando...
-                                </div>
-                            ) : (
-                                'Autenticar e Confirmar'
-                            )}
+                        <Button onClick={handleLoginAndSubmit} disabled={isLoading}>
+                        {isLoading ? <LoaderCircle className="animate-spin"/> : "Autenticar e Confirmar" 
+                        }
                         </Button>
                     </div>
+                <span>Balanço atual do caixa: {balance}</span>
                 </DialogContent>
             </Dialog>
         </>

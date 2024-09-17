@@ -6,7 +6,7 @@ import { useNotify } from "@/hooks/useNotify";
 export const CashierService = () => {
     const { notifySuccess, notifyError } = useNotify();
 
-    const { mutateAsync: cashWithdrawal } = useMutation({
+    const { mutateAsync: cashWithdrawal, isPending: isLoading } = useMutation({
         mutationFn: cash_withdrawal,
         onSuccess: () => {
             notifySuccess('Sangria realizada', 'A sangria foi realizada com sucesso')
@@ -18,6 +18,7 @@ export const CashierService = () => {
     })
 
     return { 
-        cashWithdrawal
+        cashWithdrawal,
+        isLoading
     }
 }

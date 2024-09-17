@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { POST_USER_LOGIN, PRODUCT_READ_BARCODE_ROUTE } from "@/constants/api_routes";
+import { GET_BALANCE, POST_USER_LOGIN, PRODUCT_READ_BARCODE_ROUTE } from "@/constants/api_routes";
 import { PACKAGE_SELLS_ROUTE } from "@/constants/api_routes";
 import { CASH_WITHDRAWAL_ROUTE } from "@/constants/api_routes";
 
@@ -17,6 +17,16 @@ export const productBarcodeService = async (barcode: string) => {
 export const createSale = async (saleData: any) => {
   try {
     const response = await api.post(PACKAGE_SELLS_ROUTE(), saleData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating sale:', error);
+    throw error;
+  }
+};
+
+export const getBalance = async (cashierId: any) => {
+  try {
+    const response = await api.get(GET_BALANCE(cashierId));
     return response.data;
   } catch (error) {
     console.error('Error creating sale:', error);
