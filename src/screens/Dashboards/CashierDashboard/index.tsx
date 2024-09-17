@@ -29,7 +29,10 @@ const CashierDashboard = () => {
   const [isCalculatorModalOpen, setCalculatorModalOpen] = useState(false);
   const [isCashWithdrawalModalOpen, setCashWithdrawalModalOpen] = useState(false);
   const [isRemoveProductModalOpen, setRemoveProductModalOpen] = useState(false);
-const [productToRemove, setProductToRemove] = useState<any | null>(null);
+  const [productToRemove, setProductToRemove] = useState<any | null>(null);
+
+
+  type PaymentMethod = "pix" | "credit" | "debit" | "money";
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -133,7 +136,7 @@ const [productToRemove, setProductToRemove] = useState<any | null>(null);
     setCancelSaleModalOpen(false);
   };
 
-  const handleCompleteSale = async (cpf: string) => {
+  const handleCompleteSale = async (cpf: string, paymentMethod: PaymentMethod) => {
     if (products.length === 0) {
       toast({
         title: 'Nenhum produto',
@@ -147,6 +150,7 @@ const [productToRemove, setProductToRemove] = useState<any | null>(null);
     const saleData = {
       package_sell: {
         client_cpf: cpf,
+        payment_method: paymentMethod,
         sells_attributes: products.map(product => ({
           product_id: product.code,
           amount: product.quantity
@@ -252,16 +256,16 @@ const [productToRemove, setProductToRemove] = useState<any | null>(null);
         onConfirm={handleCancelSale}
       />
       <RemoveProductModal
-  isOpen={isRemoveProductModalOpen}
-  setOpen={setRemoveProductModalOpen}
-  onConfirm={handleRemoveProduct}
-/>
-
+        isOpen={isRemoveProductModalOpen}
+        setOpen={setRemoveProductModalOpen}
+        onConfirm={handleRemoveProduct}
+      />
       <ConfirmSaleModal 
         isOpen={isConfirmSaleModalOpen}
         setOpen={setConfirmSaleModalOpen}
         onConfirm={handleCompleteSale}
       />
+
       {editProduct && (
         <EditQuantityModal 
           isOpen={isEditQuantityModalOpen}

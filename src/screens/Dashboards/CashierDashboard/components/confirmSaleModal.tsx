@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/Button/button";
 interface ConfirmSaleModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  onConfirm: (cpf: string) => void;
+  onConfirm: (cpf: string, paymentMethod: PaymentMethod) => void;
 }
+
+type PaymentMethod = "pix" | "credit" | "debit" | "money";
 
 const validateCPF = (cpf: string): boolean => {
   cpf = cpf.replace(/\D/g, '');
@@ -44,6 +46,7 @@ const formatCPF = (value: string): string => {
 
 export const ConfirmSaleModal = ({ isOpen, setOpen, onConfirm }: ConfirmSaleModalProps) => {
   const [cpf, setCpf] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export const ConfirmSaleModal = ({ isOpen, setOpen, onConfirm }: ConfirmSaleModa
 
   const handleConfirm = () => {
     if (validateCPF(cpf)) {
-      onConfirm(cpf);
+      onConfirm(cpf, paymentMethod);
       setOpen(false);
     } else {
       setError("CPF inválido. Por favor, insira um CPF válido no formato XXX.XXX.XXX-XX.");
@@ -73,11 +76,31 @@ export const ConfirmSaleModal = ({ isOpen, setOpen, onConfirm }: ConfirmSaleModa
     setCpf(formattedCpf);
   };
 
+  const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPaymentMethod(e.target.value as PaymentMethod);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent className="bg-neutral-900 text-white p-6">
         <h2 className="text-lg font-semibold mb-4">Confirmar Venda</h2>
-        <p className="mb-4">Por favor, insira o CPF do cliente para finalizar a venda.</p>
+        <p className="mb-4">Por favor, escolha a forma de pagamento e insira o CPF do cliente para finalizar a venda.</p>
+        
+        <div className="mb-4">
+          <label htmlFor="payment-method" className="block mb-2">Forma de Pagamento:</label>
+          <select
+            id="payment-method"
+            value={paymentMethod}
+            onChange={handlePaymentMethodChange}
+            className="w-full bg-neutral-800 text-white p-2 rounded"
+          >
+            <option value="pix">PIX</option>
+            <option value="credit">Crédito</option>
+            <option value="debit">Débito</option>
+            <option value="money">Dinheiro</option>
+          </select>
+        </div>
+        
         <Input
           type="text"
           value={cpf}
