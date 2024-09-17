@@ -16,6 +16,7 @@ import { CancelSaleModal } from './components/cancelSaleModal';
 import { EditQuantityModal } from './components/editSaleModal';
 import CalculatorModal from './components/calculatorModal';
 import { CashWithdrawalModal } from './cashWithdrawalsModal';
+import { RemoveProductModal } from './components/removeProductModal';
 
 const CashierDashboard = () => {
   const { user } = useAuthentication();
@@ -27,6 +28,8 @@ const CashierDashboard = () => {
   const [isEditQuantityModalOpen, setEditQuantityModalOpen] = useState(false);
   const [isCalculatorModalOpen, setCalculatorModalOpen] = useState(false);
   const [isCashWithdrawalModalOpen, setCashWithdrawalModalOpen] = useState(false);
+  const [isRemoveProductModalOpen, setRemoveProductModalOpen] = useState(false);
+const [productToRemove, setProductToRemove] = useState<any | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -37,7 +40,8 @@ const CashierDashboard = () => {
   
       if (event.key === 'F2') {
         setSearchModalOpen(true);
-      } else if (event.key === 'F4') {
+      } else if (event.key === 'Escape') {
+        event.preventDefault()
         setCancelSaleModalOpen(true);
       } else if (event.key === 'F6') {
         if (isCancelSaleModalOpen) {
@@ -82,6 +86,18 @@ const CashierDashboard = () => {
     });
   };
 
+  const handleRemoveProduct = () => {
+    if (productToRemove) {
+      removeProduct(productToRemove.code);
+      setRemoveProductModalOpen(false);
+    }
+  };
+  
+  const openRemoveProductModal = (product: any) => {
+    setProductToRemove(product);
+    setRemoveProductModalOpen(true);
+  };
+
   const removeProduct = (code: string) => {
     setProducts((prevProducts) => prevProducts.filter(product => product.code !== code));
     toast({
@@ -115,12 +131,6 @@ const CashierDashboard = () => {
   const handleCancelSale = () => {
     setProducts([]);
     setCancelSaleModalOpen(false);
-    toast({
-      title: 'Venda cancelada',
-      description: 'Todos os produtos foram removidos.',
-      duration: 3000,
-      variant: 'success'
-    });
   };
 
   const handleCompleteSale = async (cpf: string) => {
@@ -181,7 +191,7 @@ const CashierDashboard = () => {
         {products.length > 0 && 
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setCancelSaleModalOpen(true)}>
             <X className="size-5" />
-            Cancelar Venda - F4
+            Cancelar Venda - ESC
           </Button>}
           <Button variant="ghost" className="flex items-center gap-3 text-lg" onClick={() => setSearchModalOpen(true)}>
             <Search className="size-5" />
@@ -215,7 +225,7 @@ const CashierDashboard = () => {
                     <TableCell className="w-1/6">{product.total}</TableCell>
                     <td className="font-light text-lg mt-3 flex justify-center gap-5">
                       <EditIcon className="cursor-pointer" onClick={() => openEditQuantityModal(product)} />
-                      <RemoveIcon onClick={() => removeProduct(product.code)} className="cursor-pointer" />
+                      <RemoveIcon onClick={() => openRemoveProductModal(product)} className="cursor-pointer" />
                     </td>
                   </tr>
                 ))}
@@ -241,6 +251,12 @@ const CashierDashboard = () => {
         setOpen={setCancelSaleModalOpen}
         onConfirm={handleCancelSale}
       />
+      <RemoveProductModal
+  isOpen={isRemoveProductModalOpen}
+  setOpen={setRemoveProductModalOpen}
+  onConfirm={handleRemoveProduct}
+/>
+
       <ConfirmSaleModal 
         isOpen={isConfirmSaleModalOpen}
         setOpen={setConfirmSaleModalOpen}
