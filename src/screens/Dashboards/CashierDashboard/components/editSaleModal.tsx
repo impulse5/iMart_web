@@ -20,7 +20,7 @@ export const EditQuantityModal = ({ isOpen, setOpen, product, updateProductQuant
     try {
       const data = await productBarcodeService(barcode);
       console.log(data)
-      const stockQuantity = data.storage.data.attributes.quantity;
+      const stockQuantity = data.storage.total_quantity;
       setMaxQuantity(stockQuantity);
       console.log("Updated maxQuantity:", stockQuantity);        
     } catch (error) {

@@ -70,8 +70,9 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ addProduct }) =>
   
     try {
       const data = await productBarcodeService(code);
-      const storageData = data.storage.data.attributes;
-      const product = storageData.product;
+      const storageData = data.storage.product.data.attributes;
+      const product = storageData
+
       
       if (product) {
         const maxQuantity = storageData.quantity;
