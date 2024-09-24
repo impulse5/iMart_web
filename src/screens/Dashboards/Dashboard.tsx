@@ -1,6 +1,5 @@
-import { BarChartBig } from "lucide-react";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { Label, Pie, PieChart } from "recharts"
+import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, Rectangle, XAxis } from "recharts"
 import {
     ChartConfig,
     ChartContainer,
@@ -8,18 +7,25 @@ import {
     ChartTooltipContent,
   } from "@/components/ui/chart"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { BarChartBig } from "lucide-react";
 
-  const sellByProducts = [
-    { category: "Bebidas", sells: 10, fill: "#2563eb" },
-    { category: "Carnes", sells: 3, fill: "#AF57DB" },
-    { category: "Higiene Pessoal", sells: 5, fill: "#2EB88A" },
-    { category: "Laticínios", sells: 7, fill: "#ffbb00" },
-    { category: "Padaria", sells: 9, fill: "#E88C30" },
-    { category: "Verduras", sells: 6, fill: "#b20505" },
-];
+    const sellByProducts = [
+        { category: "Bebidas", sells: 10, fill: "#2563eb" },
+        { category: "Carnes", sells: 3, fill: "#AF57DB" },
+        { category: "Higiene Pessoal", sells: 5, fill: "#2EB88A" },
+        { category: "Laticínios", sells: 7, fill: "#ffbb00" },
+        { category: "Padaria", sells: 9, fill: "#E88C30" },
+        { category: "Verduras", sells: 6, fill: "#d20707" },
+    ];
+
+    const paymentMethodData = [
+        { paymentMethod: "Débito", sells: 25, fill: "#d20707" },
+        { paymentMethod: "Dinheiro", sells: 56, fill: "#2563eb" },
+        { paymentMethod: "Pix", sells: 44, fill: "#ffbb00" },
+    ];
 
     const chartData = [
-        { product: "Alface Americana", sells: 20, fill: "#b20505" },
+        { product: "Alface Americana", sells: 20, fill: "#d20707" },
         { product: "Carne Bovina Moída 500g", sells: 12, fill: "#AF57DB" },
         { product: "Coca-Cola 350ml", sells: 33, fill: "#2563eb" },
         { product: "Danone Yogurt Morango", sells: 24, fill: "#ffbb00" },
@@ -51,6 +57,22 @@ const chartConfigCategory = {
     },
   } satisfies ChartConfig;
 
+  const paymentMethodConfig = {
+    sells: {
+      label: "Vendas",
+    },
+    debito: {
+      label: "Débito",
+    },
+    dinheiro: {
+      label: "Dinheiro",
+    },
+    pix: {
+      label: "Pix",
+    },
+  } satisfies ChartConfig;
+
+
   const chartConfig = {
     sells: {
       label: "Vendas",
@@ -77,7 +99,7 @@ const chartConfigCategory = {
 
 export function Dashboard() {
   return (
-        <main className="px-10 pt-4 w-full h-screen bg-primary rounded-dashboard">
+        <main className="px-10 pt-4 w-full h-screen bg-primary rounded-dashboard overflow-y-auto">
             <DashboardHeader title="Dashboard"/>
             <section className="grid grid-cols-3 gap-4 mt-10">
                 <div className="bg-tertiary rounded-xl p-10 ">
@@ -212,6 +234,44 @@ export function Dashboard() {
                                     />
                                 </Pie>
                             </PieChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+               <Card className="bg-tertiary border-none">
+                    <CardHeader>
+                        <CardTitle className="text-white">Métodos de Pagamento</CardTitle>
+                        <CardDescription>Janeiro - Junho 2024</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={paymentMethodConfig}>
+                        <BarChart accessibilityLayer data={paymentMethodData}>
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="paymentMethod" 
+                                tickLine={false}
+                                tickMargin={10}
+                                axisLine={false}
+                            />
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent hideLabel />}
+                            />
+                            <Bar
+                                dataKey="sells" 
+                                strokeWidth={2}
+                                radius={8}
+                                activeIndex={2}
+                                activeBar={({ ...props }) => {
+                                    return (
+                                    <Rectangle
+                                        {...props}
+                                        strokeDasharray={4}
+                                        strokeDashoffset={4}
+                                    />
+                                    );
+                                }}
+                            />
+                        </BarChart>
                         </ChartContainer>
                     </CardContent>
                 </Card>
