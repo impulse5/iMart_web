@@ -1,4 +1,4 @@
-import { BarChartBig, TicketCheck, TrendingUp } from "lucide-react";
+import { BarChartBig } from "lucide-react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Label, Pie, PieChart } from "recharts"
 import {
