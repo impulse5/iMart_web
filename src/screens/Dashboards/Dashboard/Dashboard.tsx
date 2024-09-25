@@ -1,5 +1,5 @@
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, Rectangle, XAxis } from "recharts"
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Label, LabelList, Pie, PieChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, Rectangle, XAxis, YAxis } from "recharts"
 import {
     ChartConfig,
     ChartContainer,
@@ -7,7 +7,6 @@ import {
     ChartTooltipContent,
   } from "@/components/ui/chart"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { BarChartBig } from "lucide-react";
 
     const sellByProducts = [
         { category: "Bebidas", sells: 10, fill: "#2563eb" },
@@ -23,6 +22,31 @@ import { BarChartBig } from "lucide-react";
         { paymentMethod: "Dinheiro", sells: 56, fill: "#2563eb" },
         { paymentMethod: "Pix", sells: 44, fill: "#ffbb00" },
     ];
+    const sellsByWeekDayData = [
+        { weekDay: "Segunda", sells: 33 },
+        { weekDay: "Terça", sells: 67 },
+        { weekDay: "Quarta", sells: 46 },
+        { weekDay: "Quinta", sells: 45 },
+        { weekDay: "Sexta", sells: 99 },
+        { weekDay: "Sábado", sells: 108 },
+        { weekDay: "Domingo", sells: 55 },
+      ];
+      const sellsLastFiveDaysData = [
+        { day: "Segunda", sells: 53 },
+        { day: "Terça", sells: 67 },
+        { day: "Quarta", sells: 51 },
+        { day: "Quinta", sells: 61 },
+        { day: "Sexta", sells: 99 },
+      ]
+
+      const sellsByUserData = [
+        {user: "Beatriz Santos", sells: 20},
+        {user: "Carlos Silva", sells: 12},
+        {user: "João Souza", sells: 33},
+        {user: "Maria Oliveira", sells: 24},
+        {user: "Pedro Alves", sells: 17},
+        {user: "Rafaela Lima", sells: 10},
+      ]
 
     const chartData = [
         { product: "Alface Americana", sells: 20, fill: "#d20707" },
@@ -57,6 +81,16 @@ const chartConfigCategory = {
     },
   } satisfies ChartConfig;
 
+  const sellsLastFiveDaysConfig = {
+    day: {
+        label: "Dia",
+        color: "#2563eb",
+    },
+    sells: {
+        label: "Vendas",
+    },
+  } satisfies ChartConfig
+
   const paymentMethodConfig = {
     sells: {
       label: "Vendas",
@@ -72,6 +106,17 @@ const chartConfigCategory = {
     },
   } satisfies ChartConfig;
 
+  const sellsByUserConfig = {
+    sells: {
+      label: "Vendas",
+    },
+  } satisfies ChartConfig;
+
+  const sellsByWeekConfig = {
+    sells: {
+      label: "Vendas",
+    },
+  } satisfies ChartConfig
 
   const chartConfig = {
     sells: {
@@ -99,30 +144,9 @@ const chartConfigCategory = {
 
 export function Dashboard() {
   return (
-        <main className="px-10 pt-4 w-full h-screen bg-primary rounded-dashboard overflow-y-auto">
+        <main className="px-10 py-6 w-full h-screen bg-primary rounded-dashboard overflow-y-auto">
             <DashboardHeader title="Dashboard"/>
             <section className="grid grid-cols-3 gap-4 mt-10">
-                <div className="bg-tertiary rounded-xl p-10 ">
-                    <div className="flex gap-3 my-2 ">
-                        <BarChartBig className="text-neutral-400" />
-                        <h1 className="text-base font-semibold text-neutral-400">Renda</h1>
-                    </div>
-                    <p className="text-4xl text-secondary">R$ 900.00</p>
-                </div>
-                <div className="bg-tertiary rounded-xl p-10">
-                    <div className="flex gap-3 my-2">
-                        <BarChartBig className="text-neutral-400" />
-                        <h1 className="text-base font-semibold text-neutral-400">Saldo</h1>
-                    </div>
-                    <p className="text-4xl text-secondary">R$ 81.954.800</p>
-                </div>
-                <div className="bg-tertiary rounded-xl p-10">
-                    <div className="flex gap-3 my-2">
-                        <BarChartBig className="text-neutral-400" />
-                        <h1 className="text-base font-semibold text-neutral-400">Despesas</h1>
-                    </div>
-                    <p className="text-4xl text-secondary">R$ 900.00</p>
-                </div>
                 <Card className="flex flex-col bg-tertiary border-none">
                     <CardHeader className="items-center pb-0">
                         <CardTitle className="text-white">Vendas pro categoria</CardTitle>
@@ -275,6 +299,126 @@ export function Dashboard() {
                         </ChartContainer>
                     </CardContent>
                 </Card>
+                <Card className="bg-tertiary border-none">
+                    <CardHeader>
+                        <CardTitle className="text-white">Vendas na semana</CardTitle>
+                        <CardDescription>
+                            Showing total visitors for the last 6 months
+                        </CardDescription>
+                    </CardHeader>
+                <CardContent>
+                 <ChartContainer config={sellsByWeekConfig}>
+                        <AreaChart
+                        accessibilityLayer
+                        data={sellsByWeekDayData}
+                        margin={{
+                        left: 12,
+                        right: 12,
+                            }}
+                        >
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="weekDay"
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
+                            tickFormatter={(value) => value.slice(0, 3)}
+                        />
+                        <ChartTooltip
+                            cursor={false}
+                            content={<ChartTooltipContent indicator="line" />}
+                        />
+                        <Area
+                            dataKey="sells"
+                            type="natural"
+                            fill="#2563eb"
+                            fillOpacity={0.4}
+                            stroke="#88aeff"
+                        />
+                    </AreaChart>
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+            <Card className="bg-tertiary border-none">
+            <CardHeader>
+                <CardTitle className="text-white">Vendas por usuário</CardTitle>
+                <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={sellsByUserConfig}>
+                <BarChart
+                    accessibilityLayer
+                    data={sellsByUserData}
+                    layout="vertical"
+                    margin={{
+                    right: 16,
+                    }}
+                >
+                    <CartesianGrid horizontal={false} />
+                    <YAxis
+                        dataKey="user"
+                        type="category"
+                        tickLine={false}
+                        tickMargin={10}
+                        axisLine={false}
+                        tickFormatter={(value) => value.slice(0, 3)}
+                        hide
+                    />
+                    <XAxis dataKey="sells" type="number" hide />
+                    <ChartTooltip
+                        cursor={false}
+                        content={<ChartTooltipContent indicator="line" />}
+                    />
+                    <Bar
+                        dataKey="sells"
+                        layout="vertical"
+                        fill="#2563eb"
+                        radius={4}
+                    >
+                    <LabelList
+                        dataKey="user"
+                        position="insideLeft"
+                        offset={8}
+                        className="fill-tertiary font-semibold"
+                        fontSize={12}
+                    />
+                    <LabelList
+                        dataKey="sells"
+                        position="right"
+                        offset={8}
+                        className="fill-white"
+                        fontSize={12}
+                    />
+                    </Bar>
+                </BarChart>
+                </ChartContainer>
+            </CardContent>
+            </Card>
+            <Card className="bg-tertiary border-none">
+                <CardHeader className="items-center pb-4">
+                    <CardTitle className="text-white">Vendas nos últimos 5 dias </CardTitle>
+                    <CardDescription>
+                     Total de vendas nos últimos 5 dias
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="pb-0">
+                    <ChartContainer
+                        config={sellsLastFiveDaysConfig}
+                        className="mx-auto aspect-square max-h-[288px]"
+                    >
+                    <RadarChart data={sellsLastFiveDaysData}>
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <PolarAngleAxis dataKey="day" />
+                        <PolarGrid />
+                        <Radar
+                            dataKey="sells"
+                            fill="#2563eb"
+                            fillOpacity={0.8}
+                        />
+                    </RadarChart>
+                    </ChartContainer>
+                </CardContent>
+            </Card>
             </section>
         </main>
   );
