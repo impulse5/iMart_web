@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://imart-back.onrender.com/'
+export const API_BASE_URL = 'https://1eea-2804-29b8-504e-a00-cd63-b72-17d7-d255.ngrok-free.app/'
 
 export const GET_CITY_STATE_BY_CEP = (cep: string) =>
   `https://viacep.com.br/ws/${cep}/json/`

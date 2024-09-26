@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Sidebar } from '../screens/Dashboards/Sidebar'
-import { Dashboard } from '../screens/Dashboards/Dashboard'
+import { Dashboard } from '../screens/Dashboards/Dashboard/Dashboard'
 import { ProtectedRoutes } from './protected.routes'
 import CategoryDashboard from '@/screens/Dashboards/CategoryDashboard'
 import SupplierDashboard from '@/screens/Dashboards/SupplierDashboard'
