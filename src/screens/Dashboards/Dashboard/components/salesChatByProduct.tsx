@@ -1,61 +1,65 @@
+import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { RadialBarChart, RadialBar, LabelList } from "recharts";
-
-
-const SellByProductData = [
-    { product: "Alface Americana", sells: 20, fill: "#d20707" },
-    { product: "Carne Bovina Moída 500g", sells: 12, fill: "#AF57DB" },
-    { product: "Coca-Cola 350ml", sells: 33, fill: "#2563eb" },
-    { product: "Danone Yogurt Morango", sells: 24, fill: "#ffbb00" },
-    { product: "Pão Francês 100g", sells: 17, fill: "#04ea1b" },
-    { product: "Sabonete Dove 90g", sells: 10, fill: "#2EB88A" },
-];
+import { RadialBarChart, RadialBar } from "recharts";
+import cable from "@/cable";
 
 const sellByProductConfig = {
     sells: {
-      label: "Vendas",
+        label: "Vendas",
     },
-    alface: {
-      label: "Alface Americana",
-      color: "#d20707",
-    },
-    carne: {
-      label: "Carne Bovina Moída 500g",
-      color: "#AF57DB",
-    },
-    cocaCola: {
-      label: "Coca-Cola 350ml",
-      color: "#2563eb",
-    },
-    danone: {
-      label: "Danone Yogurt Morango",
-      color: "#ffbb00",
-    },
-    pao: {
-      label: "Pão Francês 100g",
-      color: "#04ea1b",
-    },
-    sabonete: {
-      label: "Sabonete Dove 90g",
-      color: "#2EB88A",
-    },
-  } satisfies ChartConfig;
+} satisfies ChartConfig;
 
 export const SalesChartByProduct = () => {
+    const [sellByProductData, setSellByProductData] = useState([]);
+
+    useEffect(() => {
+        const marketId = "a9f67a09-29eb-491d-8d9a-e4a1ad584b50"; 
+
+        const subscription = cable.subscriptions.create(
+            { channel: "MarketChannel", market_id: marketId }, 
+            {
+                received(data: any) {
+                    const sellsByProduct = data.sells_by_product;
+
+                    const updatedSellByProductData = Object.keys(sellsByProduct).map((product) => ({
+                        product,
+                        sells: sellsByProduct[product],
+                        fill: getRandomColor(),
+                    }));
+
+                    setSellByProductData(updatedSellByProductData as never);
+                },
+            }
+        );
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []);
+
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
     return (
         <Card className="flex flex-col bg-tertiary border-none">
-                <CardHeader className="items-center pb-0">
-                    <CardTitle className="text-white">Vendas por produto</CardTitle>
-                    <CardDescription>January - June 2024</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 pb-0">
-                    <ChartContainer
+            <CardHeader className="items-center pb-0">
+                <CardTitle className="text-white">Vendas por produto</CardTitle>
+                <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 pb-0">
+                <ChartContainer
                     config={sellByProductConfig}
                     className="mx-auto aspect-square max-h-[250px]"
-                    >
+                >
                     <RadialBarChart
-                        data={SellByProductData}
+                        data={sellByProductData}
                         startAngle={-90}
                         endAngle={380}
                         innerRadius={20}
@@ -65,17 +69,10 @@ export const SalesChartByProduct = () => {
                             cursor={false}
                             content={<ChartTooltipContent hideLabel nameKey="sells" />}
                         />
-                        <RadialBar dataKey="sells" >
-                        <LabelList
-                            position="insideStart"
-                            dataKey="product"
-                            className="fill-black font-semibold capitalize mix-blend-luminosity"
-                            fontSize={11}
-                        />
-                        </RadialBar>
-                        </RadialBarChart>
-                    </ChartContainer>
-                 </CardContent>
-                </Card>
-    )
-}
+                        <RadialBar dataKey="sells" fill="fill" />
+                    </RadialBarChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    );
+};
