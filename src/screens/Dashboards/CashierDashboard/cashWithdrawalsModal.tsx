@@ -29,7 +29,7 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
         const getQuantityBalance = async () => {
             try {
                 const response = await getBalance(cashierId);
-                setBalance(response.data.user.data.attributes.balance)
+                setBalance(response.user.data.attributes.balance)
             } catch(err) {
                 console.log(err)
             }
@@ -73,6 +73,7 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
                             Salvar e Autenticar
                         </Button>
                     </div>
+                    <span>Balanço atual do caixa: {balance}</span>
                 </DialogContent>
             </Dialog>
 
@@ -103,7 +104,6 @@ export function CashWithdrawalModal({ isOpen, setOpen }: CashWithdrawalModalProp
                         }
                         </Button>
                     </div>
-                <span>Balanço atual do caixa: {balance}</span>
                 </DialogContent>
             </Dialog>
         </>
