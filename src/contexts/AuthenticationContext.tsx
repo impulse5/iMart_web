@@ -12,6 +12,7 @@ export type AuthContextType = {
   loginSuccess: boolean;
   Login: (email: string, password: string) => Promise<void>;
   setLoginSuccess: (value: boolean) => void;
+  marketId: string | null;
   user: User | null;
   token: string | null;
   authenticate: () => boolean;
@@ -25,17 +26,24 @@ export const AuthenticationProvider = ({ children }: Props) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [marketId, setMarketId] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     const storedUser = localStorage.getItem('user');
-
+    const storedMarketId = localStorage.getItem('marketId'); // Recupera o marketId
+  
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
       api.defaults.headers.Authorization = `Bearer ${storedToken}`;
     }
+  
+    if (storedMarketId) {
+      setMarketId(storedMarketId);
+    }
   }, []);
+  
 
   const storageToken = (token: string) => {
     localStorage.setItem('authToken', token);
@@ -59,8 +67,13 @@ export const AuthenticationProvider = ({ children }: Props) => {
       });
       setLoginLoading(false);
       setLoginSuccess(true);
+  
       storageToken(response.data.token);
       storageUser(response.data.user.data.attributes);
+  
+      const marketId = response.data.user.data.attributes.market.id;
+      localStorage.setItem('marketId', marketId);
+      setMarketId(marketId);
     } catch (error) {
       setLoginLoading(false);
       setLoginError(true);
@@ -98,6 +111,7 @@ export const AuthenticationProvider = ({ children }: Props) => {
         Login,
         setLoginSuccess,
         user,
+        marketId,
         token,
         authenticate,
         logout,

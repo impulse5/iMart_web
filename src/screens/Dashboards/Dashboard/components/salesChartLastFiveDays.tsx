@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { RadarChart, PolarAngleAxis, PolarGrid, Radar } from "recharts";
 import cable from "@/cable";
+import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 const sellsLastFiveDaysConfig = {
     day: {
@@ -15,10 +16,10 @@ const sellsLastFiveDaysConfig = {
 } satisfies ChartConfig;
 
 export const SalesChartLastFiveDays = () => {
+    const { marketId } = useAuthentication();
     const [sellsLastFiveDaysData, setSellsLastFiveDaysData] = useState([]);
-
+    
     useEffect(() => {
-        const marketId = "a9f67a09-29eb-491d-8d9a-e4a1ad584b50";
 
         const subscription = cable.subscriptions.create(
             { channel: "MarketChannel", market_id: marketId },

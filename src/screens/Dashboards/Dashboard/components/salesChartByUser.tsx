@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts";
 import cable from "@/cable";
+import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 const sellsByUserConfig = {
     sells: {
@@ -11,10 +12,10 @@ const sellsByUserConfig = {
 } satisfies ChartConfig;
 
 export const SalesChartByUser = () => {
+    const { marketId } = useAuthentication();
     const [sellsByUserData, setSellsByUserData] = useState([]);
 
     useEffect(() => {
-        const marketId = "a9f67a09-29eb-491d-8d9a-e4a1ad584b50";
 
         const subscription = cable.subscriptions.create(
             { channel: "MarketChannel", market_id: marketId },

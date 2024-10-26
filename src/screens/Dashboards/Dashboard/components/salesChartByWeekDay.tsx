@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { CartesianGrid, XAxis, Area, AreaChart } from "recharts";
 import cable from "@/cable";
+import { useAuthentication } from "@/contexts/AuthenticationContext";
 
 const sellsByWeekConfig = {
     sells: {
@@ -11,10 +12,10 @@ const sellsByWeekConfig = {
 } satisfies ChartConfig;
 
 export const SalesChartByWeekDay = () => {
+    const { marketId } = useAuthentication();
     const [sellsByWeekDayData, setSellsByWeekDayData] = useState([]);
 
     useEffect(() => {
-        const marketId = "a9f67a09-29eb-491d-8d9a-e4a1ad584b50";
 
         const subscription = cable.subscriptions.create(
             { channel: "MarketChannel", market_id: marketId },
