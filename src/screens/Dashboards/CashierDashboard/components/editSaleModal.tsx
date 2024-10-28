@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/Dialog/dialog";
 import { Input } from "@/components/ui/Input/input";
 import { Button } from "@/components/ui/Button/button";
-
+import { productBarcodeService } from "@/services/CashierService";
 interface EditQuantityModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
@@ -12,7 +12,27 @@ interface EditQuantityModalProps {
 
 export const EditQuantityModal = ({ isOpen, setOpen, product, updateProductQuantity }: EditQuantityModalProps) => {
   const [quantity, setQuantity] = useState<number>(product.quantity);
-  const maxQuantity = product.maxQuantity;
+  const [maxQuantity, setMaxQuantity] = useState<number>(0);
+
+ 
+
+  const fetchMaxQuantity = async (barcode: string) => {
+    try {
+      const data = await productBarcodeService(barcode);
+      console.log(data)
+      const stockQuantity = data.storage.total_quantity;
+      setMaxQuantity(stockQuantity);
+      console.log("Updated maxQuantity:", stockQuantity);        
+    } catch (error) {
+      console.error("Erro ao buscar a quantidade do produto:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchMaxQuantity(product.code);
+    }
+  }, [isOpen, product.barcode]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
@@ -37,6 +57,7 @@ export const EditQuantityModal = ({ isOpen, setOpen, product, updateProductQuant
           max={maxQuantity}
           className="mb-4"
         />
+        <p className="text-sm text-gray-400 mb-4">Máximo disponível: {maxQuantity}</p>
         <div className="flex justify-end gap-4">
           <Button variant="secondary" onClick={() => setOpen(false)}>Cancelar</Button>
           <Button onClick={handleSave}>Salvar</Button>

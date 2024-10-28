@@ -18,7 +18,7 @@ export const utils = () => {
             const response = await api.get(STORAGE_MEMBER_ROUTE(storageId));
             return response.data.storage.data;
         } catch (error) {
-            console.error('Error fetching storageaaaaaa:', error);
+            console.error('Error fetching storage:', error);
             throw error;
         }
     }

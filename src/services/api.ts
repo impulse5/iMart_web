@@ -6,10 +6,19 @@ export const api: any = axios.create({
   baseURL: API_BASE_URL,
 });
 
-api.interceptors.response.use(
-  (response: any) => {
-    return response;
+
+api.interceptors.request.use(
+  (config: any) => {
+    config.headers["ngrok-skip-browser-warning"] = "true";
+    return config;
   },
+  (error: any) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response: any) => response,
   (error: any) => {
     if (error.response && error.response.status === 401) {
       logout();

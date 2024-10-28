@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://imart-back.onrender.com/'
+export const API_BASE_URL = 'https://b1a6-177-37-184-213.ngrok-free.app/'
 
 export const GET_CITY_STATE_BY_CEP = (cep: string) =>
   `https://viacep.com.br/ws/${cep}/json/`
@@ -58,3 +58,6 @@ export const PACKAGE_SELLS_ROUTE = () =>
 
 export const CASH_WITHDRAWAL_ROUTE = () => 
   `cash_withdrawals`;
+
+export const GET_BALANCE = (cashierId: any) => 
+  `users/${cashierId}`;
